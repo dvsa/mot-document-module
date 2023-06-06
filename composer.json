@@ -1,0 +1,40 @@
+{
+    "name": "dvsa/mot-document-module",
+    "description": "Shared Document and Report Generation Module",
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "doctrine/doctrine-module": "^4.4.0",
+        "doctrine/doctrine-orm-module": "^4.2.1",
+        "laminas/laminas-mvc": "^3.3.0",
+        "laminas/laminas-http": "^2.14",
+        "laminas/laminas-servicemanager": "3.10.0",
+        "laminas/laminas-dependency-plugin": "^2.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5.9",
+        "captainhook/captainhook": "^5.16",
+        "captainhook/plugin-composer": "^5.3"
+    },
+    "autoload": {
+        "psr-0": {
+            "DvsaDocument\\": "module",
+            "DvsaReport\\": "module",
+            "DvsaCommon\\": "module"
+        }
+    },
+    "scripts": {
+        "test": [
+            "phpunit"
+        ]
+    },
+    "config": {
+        "platform": {
+            "php": "8.0"
+        },
+        "allow-plugins": {
+            "laminas/laminas-dependency-plugin": false,
+            "captainhook/plugin-composer": true
+        }
+    }
+}
