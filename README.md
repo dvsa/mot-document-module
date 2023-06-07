@@ -136,6 +136,6 @@ This will return a Report model which is simply a business layer
 representation of the original response. It will throw a
 ReportNotFoundException if the response was not successful.
 
-Contributing
-------------
-Please refer to our [Contribution Guide](/CONTRIBUTING.md) and [Contributor Code of Conduct](/CODE_OF_CONDUCT.md).
+## Contributing
+
+Please refer to our [Contribution Guide](/CONTRIBUTING.md).
