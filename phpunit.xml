@@ -1,0 +1,24 @@
+<phpunit bootstrap="./test/bootstrap.php"
+         colors="true" stopOnFailure="false"
+         convertErrorsToExceptions="true"
+         convertWarningsToExceptions="true"
+         convertNoticesToExceptions="true">
+
+    <testsuites>
+        <testsuite name="DvsaDocument Modules Test Suite">
+            <directory>./test</directory>
+        </testsuite>
+    </testsuites>
+
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">./module</directory>
+        </include>
+        <exclude>
+            <directory>./test</directory>
+        </exclude>
+        <report>
+            <html outputDirectory="coverage/"/>
+        </report>
+    </coverage>
+</phpunit>
