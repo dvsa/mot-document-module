@@ -191,15 +191,15 @@ class PdfService
      */
     private function removeUnwantedStuff($html)
     {
-        $html = preg_replace('/\<script([^>]+)?\>([^<]+)?\<\/script\>/', '', $html);
+        $html = preg_replace('/\<script([^>]+)?\>([^<]+)?\<\/script\>/', '', $html ?? '');
 
-        $html = preg_replace('/\<link([^>]+)?rel="shortcut icon"(\ [^>]+)\>/', '', $html);
+        $html = preg_replace('/\<link([^>]+)?rel="shortcut icon"(\ [^>]+)\>/', '', $html ?? '');
 
-        $html = preg_replace('/\<link([^>]+)?href="([^"]+)?font([^"]+)?"(\ [^>]+)\>/', '', $html);
+        $html = preg_replace('/\<link([^>]+)?href="([^"]+)?font([^"]+)?"(\ [^>]+)\>/', '', $html ?? '');
 
         $removals = array('£');
 
-        $html = str_replace($removals, '', $html);
+        $html = str_replace($removals, '', $html ?? '');
 
         return $html;
     }
@@ -212,7 +212,7 @@ class PdfService
      */
     public function replaceWebRoot($html, $root)
     {
-        $count = preg_match_all('/(\<[a-zA-Z]+\ ([^>]+)?[src|href]=")(\/[^"]+)("([^>]+)?\>)/', $html, $matches);
+        $count = preg_match_all('/(\<[a-zA-Z]+\ ([^>]+)?[src|href]=")(\/[^"]+)("([^>]+)?\>)/', $html ?? '', $matches);
 
         if (!$count) {
             return $html;
