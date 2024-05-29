@@ -5,7 +5,6 @@
  */
 namespace DvsaReportModuleTest\DvsaReport\Service\Report;
 
-use DvsaReport\Service\HttpClient\LambdaHttpClientService;
 use DvsaReport\Service\HttpClient\EnhancedLambdaHttpClientService;
 use DvsaReport\Service\Report\LambdaReportService;
 use Laminas\Http\Response as ZendResponse;
@@ -13,6 +12,7 @@ use DvsaReport\Service\Pdf\PdfRenderer;
 use DvsaReport\Exceptions\ReportNotFoundException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+
 /**
  * LambdaReportService Test
  */
@@ -28,6 +28,7 @@ class LambdaReportServiceTest extends TestCase
      * @var PdfRenderer
      */
     protected $stubPdfRenderer;
+    protected $logger;
 
     public function setUp(): void
     {

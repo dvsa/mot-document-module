@@ -2,12 +2,12 @@
     "name": "dvsa/mot-document-module",
     "description": "Shared Document and Report Generation Module",
     "require": {
-        "php": "8.1",
+        "php": "^8.2",
         "ext-json": "*",
         "laminas/laminas-mvc": "^3.3.0",
         "laminas/laminas-http": "^2.14",
         "laminas/laminas-servicemanager": "^3.10.0",
-        "laminas/laminas-dependency-plugin": "^2.2",
+        "laminas/laminas-dependency-plugin": "^2.6.0",
         "doctrine/doctrine-module": "^5.3",
         "doctrine/doctrine-orm-module": "^5.3"
     },
@@ -30,7 +30,7 @@
     },
     "config": {
         "platform": {
-            "php": "8.1"
+            "php": "8.2"
         },
         "allow-plugins": {
             "laminas/laminas-dependency-plugin": false,
