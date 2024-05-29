@@ -15,6 +15,7 @@ use DvsaDocument\Exceptions\EmptyDocumentException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use DvsaDocument\Entity\Document;
+use Laminas\ServiceManager\ServiceManager;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -31,12 +32,12 @@ class DocumentServiceTest extends TestCase
     /** @var MockObject&EntityManager */
     protected $em;
 
-    /** @var \Laminas\ServiceManager\ServiceManager */
+    /** @var ServiceManager */
     protected $sm;
 
     public function setUp(): void
     {
-        /** @var MockObject&EntityManagerInterface */
+        /** @var MockObject&EntityManagerInterface $entityManager */
         $entityManager = $this->getMockBuilder(EntityManagerInterface::class)->getMock();
         $this->service = new DocumentService($entityManager);
     }
