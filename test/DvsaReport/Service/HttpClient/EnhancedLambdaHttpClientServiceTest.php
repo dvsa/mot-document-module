@@ -13,13 +13,15 @@ use DvsaReport\Service\HttpClient\EnhancedLambdaHttpClientService;
 use Laminas\Http\Response;
 use PHPUnit\Framework\TestCase;
 
-
 class EnhancedLambdaHttpClientServiceTest extends TestCase
 {
     /** @var EnhancedLambdaHttpClientService  */
     protected $wrapper;
     protected $client;
     protected $maxAttemptCount;
+    protected $request;
+    protected $response;
+    protected $logger;
 
     public function setUp(): void
     {

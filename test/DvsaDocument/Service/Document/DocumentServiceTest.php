@@ -25,6 +25,7 @@ class DocumentServiceTest extends TestCase
 {
     /** @var DocumentService    */
     protected $service;
+    protected $em;
 
     public function setUp(): void
     {
