@@ -7,6 +7,7 @@
  *
  * @author Rob Caiger <rob@clocal.co.uk>
  */
+
 namespace DvsaDocument\Mapper;
 
 /**
@@ -21,7 +22,7 @@ abstract class AbstractMapper
     /**
      * Holds the date format (currently defined in GDS guidlines)
      */
-    const FORMAT_DATE = 'j F Y';
+    public const FORMAT_DATE = 'j F Y';
 
     /**
      * Holds the mapped data
@@ -55,9 +56,9 @@ abstract class AbstractMapper
      * Adds a data source
      *
      * @param string $name
-     * @param mixed $data
+     * @param array  $data
      */
-    public function addDataSource($name, $data)
+    public function addDataSource($name, $data): void
     {
         $reset = false;
 
@@ -95,14 +96,12 @@ abstract class AbstractMapper
      * @param array $mapConfig contains Strings or an array containing the source
      *                         data-key and a transformation callback to be applied.
      */
-    protected function mapOneToOne($mapConfig)
+    protected function mapOneToOne($mapConfig): void
     {
         $data = $this->getData();
 
         foreach ($mapConfig as $mapKey => $dataKey) {
-
             if (is_array($dataKey)) {
-
                 //  extended: transformation required before writing
                 $key = $dataKey['key'];
 
@@ -111,7 +110,6 @@ abstract class AbstractMapper
                     (isset($data[$key]) ? $data[$key] : ''),
                     $dataKey['format']
                 );
-
             } else {
                 $this->setValue(
                     $mapKey,
@@ -129,7 +127,7 @@ abstract class AbstractMapper
      * @param string $formatter
      * @param array $params
      */
-    protected function setValue($key, $value, $formatter = null, $params = array())
+    protected function setValue($key, $value, $formatter = null, $params = array()): void
     {
         if (isset($this->mapTemplate[$key])) {
             $this->mappedData[$key] = $this->formatValue($value, $formatter, $params);
@@ -139,7 +137,7 @@ abstract class AbstractMapper
     /**
      * Format a value
      *
-     * @param string $value
+     * @param mixed  $value
      * @param string $formatter
      * @param array  $params
      *
@@ -148,6 +146,7 @@ abstract class AbstractMapper
     protected function formatValue($value, $formatter = null, $params = array())
     {
         if (!is_null($formatter) && method_exists($this, 'format' . $formatter)) {
+            // @phpstan-ignore-next-line
             return call_user_func([$this, 'format' . $formatter], $value, $params);
         }
 
@@ -162,7 +161,7 @@ abstract class AbstractMapper
      * Formats a country of origin: they contain strings of the form "XXX - YYY" or just "XXX".
      * For display purposes we want "YYY" if available, falling back to "XXX" otherwise.
      *
-     * @param       $value
+     * @param string $value
      * @param array $params
      *
      * @return string
@@ -179,7 +178,9 @@ abstract class AbstractMapper
     /**
      * Format date
      *
-     * @param \DateTime $value
+     * @param mixed  $value
+     * @param array $params
+     *
      * @return string
      */
     protected function formatDate($value, $params = array())
@@ -224,20 +225,9 @@ abstract class AbstractMapper
     }
 
     /**
-     * Convert objects to assoc array
-     *
-     * @param mixed $objects
-     * @return array
-     */
-    private function convertObjectsToArray($objects)
-    {
-        return json_decode(json_encode($objects), true);
-    }
-
-    /**
      * Reset data array
      */
-    private function resetData()
+    private function resetData(): void
     {
         $this->data = array();
 

@@ -67,7 +67,7 @@ abstract class Entity
     }
 
     /**
-     * @return \DateTime
+     * @return \DateTime|null
      */
     public function getCreatedOn()
     {
@@ -107,7 +107,7 @@ abstract class Entity
     }
 
     /**
-     * @return \DateTime
+     * @return \DateTime|null
      */
     public function getLastUpdatedOn()
     {
@@ -158,6 +158,6 @@ abstract class Entity
     {
         $modifiedBy = $this->lastUpdatedBy ? $this->lastUpdatedBy : $this->createdBy;
 
-        return $modifiedBy === null || $userId === $modifiedBy;
+        return $userId === $modifiedBy;
     }
 }

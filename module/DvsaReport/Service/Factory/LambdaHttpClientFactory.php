@@ -22,12 +22,14 @@ class LambdaHttpClientFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $named, array $args = null)
     {
+        /** @var array */
         $config = $container->get('Config');
 
         if (!isset($config['certificate_generation'])) {
             throw new RuntimeException('Missing required certificate_generation configuration');
         }
 
+        /** @var array */
         $config = $config['certificate_generation'];
 
         if (!isset($config['headers'])) {
@@ -44,19 +46,32 @@ class LambdaHttpClientFactory implements FactoryInterface
 
         $service = new LambdaHttpClientService();
 
+        /** @var string */
+        $xApiKey = $config['x-api-key'];
+        /** @var array */
+        $configHeaders = $config['headers'];
+
         $request = new Request();
-        $headers = $request->getHeaders()
-            ->addHeaderLine('x-api-key', $config['x-api-key'])
-            ->addHeaders($config['headers']);
+        /** @var \Laminas\Http\Headers $headers */
+        $headers = $request->getHeaders();
+        $headers ->addHeaderLine('x-api-key', $xApiKey)
+                    ->addHeaders($configHeaders);
         $request = $request->setHeaders($headers);
+
+        /** @var string */
+        $clientAdapter = $config['adapter'];
+        /** @var string */
+        $clientUri = $config['uri'];
 
         $service->setClient(new Client())
             ->setRequest($request)
-            ->setAdapter($config['adapter'])
-            ->setDomainUrl($config['uri']);
+            ->setAdapter($clientAdapter)
+            ->setDomainUrl($clientUri);
 
         if (isset($config['client_options'])) {
-            $service->setOptions($config['client_options']);
+            /** @var array */
+            $clientOptions = $config['client_options'];
+            $service->setOptions($clientOptions);
         }
 
         return $service;

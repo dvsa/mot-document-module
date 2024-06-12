@@ -5,6 +5,7 @@
  *
  * @author Rob Caiger <rob@clocal.co.uk>
  */
+
 namespace DvsaReport\Exceptions;
 
 /**
@@ -14,5 +15,4 @@ namespace DvsaReport\Exceptions;
  */
 class ReportNotFoundException extends \Exception
 {
-
 }

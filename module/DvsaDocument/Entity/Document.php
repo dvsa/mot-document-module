@@ -19,7 +19,7 @@ class Document extends Entity
     use CommonIdentityTrait;
 
     /**
-     * @var \DvsaDocument\Entity\Template
+     * @var integer
      *
      * @ORM\ManyToOne(targetEntity="Template", inversedBy="documents")
      * @ORM\Column(name="template_id", type="integer", nullable=false)
@@ -27,12 +27,16 @@ class Document extends Entity
     private $template;
 
     /**
-     * @var string
+     * @var string|array
      *
      * @ORM\Column(name="document_content", type="json_array")
      */
     private $documentContent;
 
+    /**
+     * @param integer $template
+     * @return $this
+     */
     public function setTemplate($template)
     {
         $this->template = $template;
@@ -40,13 +44,16 @@ class Document extends Entity
         return $this;
     }
 
+    /**
+     * @return integer
+     */
     public function getTemplate()
     {
         return $this->template;
     }
 
     /**
-     * @return string
+     * @return string|array
      */
     public function getDocumentContent()
     {
@@ -54,13 +61,17 @@ class Document extends Entity
     }
 
     /**
-     * @param string $documentContent
+     * @param array|string|null $documentContent
      *
      * @return $this
      */
     public function setDocumentContent($documentContent)
     {
-        if(!empty($documentContent)) {
+        if (null === $documentContent) {
+            return $this;
+        }
+
+        if (!empty($documentContent)) {
             $this->documentContent = $documentContent;
         }
 

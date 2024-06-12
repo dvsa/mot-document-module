@@ -5,6 +5,7 @@
  *
  * @author Rob Caiger <rob@clocal.co.uk>
  */
+
 namespace DvsaReportModuleTest\DvsaReport\Service\Csv;
 
 use DvsaReport\Service\Csv\CsvService;
@@ -21,6 +22,11 @@ class CsvServiceTest extends TestCase
      * Test generate content from setData
      *
      * @dataProvider dataProvider
+     *
+     * @param array $data
+     * @param mixed $expected
+     *
+     * @return void
      */
     public function testGenerateCsvFromSetData($data, $expected)
     {
@@ -39,6 +45,8 @@ class CsvServiceTest extends TestCase
 
     /**
      * Data provider
+     *
+     * @return array
      */
     public function dataProvider()
     {

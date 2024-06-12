@@ -5,6 +5,7 @@
  *
  * @author Rob Caiger <rob@clocal.co.uk>
  */
+
 namespace DvsaDocumentModuleTest\DvsaReport\Model;
 
 /**
@@ -17,12 +18,14 @@ class ReportTest extends AbstractModelTester
     /**
      * Holds the model class name
      *
-     * @var string
+     * @var class-string
      */
-    protected $modelClass = '\DvsaReport\Model\Report';
+    protected $modelClass = \DvsaReport\Model\Report::class;
 
     /**
      * Test setName replaces slashes
+     *
+     * @return void
      */
     public function testSetNameReplacesSlashes()
     {

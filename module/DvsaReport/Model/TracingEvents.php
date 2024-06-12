@@ -2,9 +2,8 @@
 
 namespace DvsaReport\Model;
 
-
 class TracingEvents
 {
-    const CLIENT_SENT = "cs";
-    const CLIENT_RECEIVED = "cr";
+    public const CLIENT_SENT = "cs";
+    public const CLIENT_RECEIVED = "cr";
 }

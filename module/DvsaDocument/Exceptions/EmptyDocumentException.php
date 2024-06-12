@@ -5,6 +5,7 @@
  *
  * @author Nick Payne <nick.payne@valtech.co.uk>
  */
+
 namespace DvsaDocument\Exceptions;
 
 /**
@@ -14,5 +15,4 @@ namespace DvsaDocument\Exceptions;
  */
 class EmptyDocumentException extends \Exception
 {
-
 }

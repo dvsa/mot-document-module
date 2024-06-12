@@ -11,6 +11,11 @@ class ParamsEncoderTest extends TestCase
      * Test ParamsEncoder data handling
      *
      * @dataProvider dataProvider
+     *
+     * @param array $data
+     * @param mixed $expected
+     *
+     * @return void
      */
     public function testEncodingProvidedData($data, $expected)
     {
@@ -23,6 +28,8 @@ class ParamsEncoderTest extends TestCase
 
     /**
      * Data provider
+     *
+     * @return array
      */
     public function dataProvider()
     {

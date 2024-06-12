@@ -1,4 +1,5 @@
 <?php
+// phpcs:ignoreFile
 
 namespace DvsaDocumentModuleTest;
 
@@ -13,8 +14,12 @@ chdir(dirname(__DIR__));
  */
 class Bootstrap
 {
+    /** @var ServiceManager */
     protected static $serviceManager;
 
+    /**
+     * @return void
+     */
     public static function init()
     {
         // Setup the autloader
@@ -33,17 +38,26 @@ class Bootstrap
             )
         );
 
+        /** @psalm-suppress ArgumentTypeCoercion */
         $serviceManager = new ServiceManager((new ServiceManagerConfig())->toArray());
         $serviceManager->setService('ApplicationConfig', $config);
-        $serviceManager->get('ModuleManager')->loadModules();
+        /** @var \Laminas\ModuleManager\ModuleManager */
+        $moduleManager = $serviceManager->get('ModuleManager');
+        $moduleManager->loadModules();
         static::$serviceManager = $serviceManager;
     }
 
+    /**
+     * @return ServiceManager
+     */
     public static function getServiceManager()
     {
         return static::$serviceManager;
     }
 
+    /**
+     * @return void
+     */
     protected static function initAutoloader()
     {
         $loader = require('vendor/autoload.php');

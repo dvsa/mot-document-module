@@ -5,10 +5,12 @@
  *
  * @author Rob Caiger <rob@clocal.co.uk>
  */
+
 namespace DvsaReportModuleTest\DvsaReport\Service\Pdf;
 
 use DvsaReport\Service\Pdf\PdfService;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * PdfService Test
@@ -17,13 +19,15 @@ use PHPUnit\Framework\TestCase;
  */
 class PdfServiceTest extends TestCase
 {
-
     /**
      * Test generate document
+     *
+     * @return void
      */
     public function testGenerateDocument()
     {
-        $pdf = $this->getMockBuilder('\DvsaReport\Service\Pdf\PdfService')->disableOriginalConstructor()->setMethods(array('generateUsingWkHtmlToPdf'))->getMock();
+        /** @var MockObject&\DvsaReport\Service\Pdf\PdfService */
+        $pdf = $this->getMockBuilder(\DvsaReport\Service\Pdf\PdfService::class)->disableOriginalConstructor()->onlyMethods(array('generateUsingWkHtmlToPdf'))->getMock();
 
         $pdf->setTmpDir(__DIR__);
 
@@ -41,11 +45,14 @@ class PdfServiceTest extends TestCase
 
         $response = $pdf->generateDocument('test.pdf');
 
-        $this->assertInstanceOf('\Laminas\Http\Response', $response);
+        $this->assertInstanceOf(\Laminas\Http\Response::class, $response);
 
         $this->assertEquals('PDF CONTENT', $response->getContent());
     }
 
+    /**
+     * @return void
+     */
     public function testGenerateDocumentCantWrite()
     {
         $this->expectException(\Exception::class);
@@ -65,6 +72,12 @@ class PdfServiceTest extends TestCase
      * Test replaceWebRoot
      *
      * @dataProvider dataProviderForReplaceWebRoot
+     *
+     * @param null|string $input
+     * @param string $base
+     * @param mixed $expected
+     *
+     * @return void
      */
     public function testReplaceWebRoot($input, $base, $expected)
     {
@@ -75,6 +88,9 @@ class PdfServiceTest extends TestCase
         $this->assertEquals($expected, $output);
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderForReplaceWebRoot()
     {
         return array(

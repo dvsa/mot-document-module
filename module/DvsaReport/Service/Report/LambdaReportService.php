@@ -15,12 +15,12 @@ use DvsaReport\Model\ReportNames;
 
 class LambdaReportService
 {
-    const CONTENT_TYPE_JSON = 'application/json; charset=utf-8';
-    const CONTENT_TYPE_PDF = 'application/pdf';
-    const HTTP_ATTR_ID = 'ID';
-    const HTTP_ATTR_SNAPSHOT = 'DATA';
-    const HTTP_ATTR_FAIL_SNAPSHOT = 'FAIL_DATA';
-    const REPORTS_FOR_FAIL_SNAPSHOT_DATA = [
+    public const CONTENT_TYPE_JSON = 'application/json; charset=utf-8';
+    public const CONTENT_TYPE_PDF = 'application/pdf';
+    public const HTTP_ATTR_ID = 'ID';
+    public const HTTP_ATTR_SNAPSHOT = 'DATA';
+    public const HTTP_ATTR_FAIL_SNAPSHOT = 'FAIL_DATA';
+    public const REPORTS_FOR_FAIL_SNAPSHOT_DATA = [
         ReportNames::VT30, ReportNames::VT30W, ReportNames::VT32VE, ReportNames::VT32VEW, ReportNames::EU_VT32VE,
         ReportNames::EU_VT32VEW
     ];
@@ -42,8 +42,6 @@ class LambdaReportService
 
     /** @var ParamsEncoder */
     private $encoder;
-
-    protected $wrapper;
 
     /**
      * @param PdfRenderer $pdfRenderer
@@ -82,13 +80,23 @@ class LambdaReportService
         return $this->generatePdfContent($report);
     }
 
-    private function setupSnapshotData(& $runtimeParams = []) {
-        $this->convertSnapshotDataToJson('snapshotData', self::HTTP_ATTR_SNAPSHOT, $runtimeParams );
+    /**
+     * @param array $runtimeParams
+     */
+    private function setupSnapshotData(&$runtimeParams = []): void
+    {
+        $this->convertSnapshotDataToJson('snapshotData', self::HTTP_ATTR_SNAPSHOT, $runtimeParams);
         $this->convertSnapshotDataToJson('snapshotFailData', self::HTTP_ATTR_FAIL_SNAPSHOT, $runtimeParams);
     }
 
-    private function convertSnapshotDataToJson($sourceSnapshotDataKey, $destSnapshotDataKey, & $runtimeParams = []) {
-        if(isset($runtimeParams[$sourceSnapshotDataKey])) {
+    /**
+     * @param string $sourceSnapshotDataKey
+     * @param string $destSnapshotDataKey
+     * @param array $runtimeParams
+     */
+    private function convertSnapshotDataToJson($sourceSnapshotDataKey, $destSnapshotDataKey, &$runtimeParams = []): void
+    {
+        if (isset($runtimeParams[$sourceSnapshotDataKey])) {
             $runtimeParams[$destSnapshotDataKey] = json_encode($this->pdfRenderer->buildPdfParameters(
                 $runtimeParams[$sourceSnapshotDataKey]
             ));
@@ -97,15 +105,17 @@ class LambdaReportService
         }
     }
 
-    private function generatePdfContent(Response $response) : Response
+    private function generatePdfContent(Response $response): Response
     {
-        $content = base64_decode($response->getContent());
+        /** @var string */
+        $responseContent = $response->getContent();
+        $content = base64_decode($responseContent);
 
         $response = new Response();
 
         $headers = $response->getHeaders();
         $headers->addHeaderLine("Content-Type", self::CONTENT_TYPE_PDF);
-        $headers->addHeaderLine("Content-Length", strlen($content));
+        $headers->addHeaderLine("Content-Length", strval(strlen($content)));
         $response->setHeaders($headers);
 
         $response->setContent($content);
@@ -127,7 +137,7 @@ class LambdaReportService
     {
         $runtimeParams[self::HTTP_ATTR_ID] = $documentId;
 
-        if(in_array($reportName, self::REPORTS_FOR_FAIL_SNAPSHOT_DATA)) {
+        if (in_array($reportName, self::REPORTS_FOR_FAIL_SNAPSHOT_DATA)) {
             $runtimeParams["snapshotFailData"] = $runtimeParams["snapshotData"];
             $this->convertSnapshotDataToJson('snapshotFailData', self::HTTP_ATTR_FAIL_SNAPSHOT, $runtimeParams);
             unset($runtimeParams['snapshotData']);
@@ -142,6 +152,7 @@ class LambdaReportService
     /**
      * Wrapper function to retrieve individual reports all merged into a single PDF
      *
+     * @param bool   $isPrs
      * @param array  $argList
      *
      * @return \Laminas\Http\Response
@@ -151,11 +162,11 @@ class LambdaReportService
         $reportName = $this->resolveReportName($isPrs, $argList);
 
         $runtimeParams = $argList[0]["runtimeParams"];
-        foreach($argList as $argument) {
-            if(in_array($argument['reportName'], self::REPORTS_FOR_FAIL_SNAPSHOT_DATA)) {
+        foreach ($argList as $argument) {
+            if (in_array($argument['reportName'], self::REPORTS_FOR_FAIL_SNAPSHOT_DATA)) {
                 $runtimeParams["snapshotFailData"] = $argument["runtimeParams"]["snapshotData"];
 
-                if(count($argList) === 1) {
+                if (count($argList) === 1) {
                     unset($runtimeParams["snapshotData"]);
                 }
             } else {
@@ -168,15 +179,28 @@ class LambdaReportService
         return $this->getReport($reportName, $runtimeParams);
     }
 
-    private function resolveReportName($isPrs, $reports = []) {
+    /**
+     * @param bool $isPrs
+     * @param array $reports
+     *
+     * @return string
+     */
+    private function resolveReportName($isPrs, $reports = [])
+    {
         return $isPrs ? $this->resolvePrsReportName($reports) : $this->resolveNonPrsReportName($reports);
     }
 
-    private function resolvePrsReportName($reports) {
+    /**
+     * @param array $reports
+     *
+     * @return string
+     */
+    private function resolvePrsReportName($reports)
+    {
         $reportName = ReportNames::PRS;
 
-        foreach($reports as $report) {
-            if($report["reportName"] === ReportNames::VT20W) {
+        foreach ($reports as $report) {
+            if ($report["reportName"] === ReportNames::VT20W) {
                 $reportName = ReportNames::PRSW;
             }
         }
@@ -184,15 +208,21 @@ class LambdaReportService
         return $reportName;
     }
 
-    private function resolveNonPrsReportName($reports) {
+    /**
+     * @param array $reports
+     *
+     * @return string
+     */
+    private function resolveNonPrsReportName($reports)
+    {
         $reportName = "";
-        if(count($reports) === 1) {
+        if (count($reports) === 1) {
             $reportName = $reports[0]["reportName"];
         } else {
-            foreach($reports as $report) {
-                if($report["reportName"] === ReportNames::VT20W) {
+            foreach ($reports as $report) {
+                if ($report["reportName"] === ReportNames::VT20W) {
                     $reportName = ReportNames::VT20W;
-                } elseif($report["reportName"] === ReportNames::VT30W) {
+                } elseif ($report["reportName"] === ReportNames::VT30W) {
                     $reportName = ReportNames::VT30W;
                 }
             }
@@ -204,11 +234,10 @@ class LambdaReportService
 
     /**
      * Transform a previously returned response into a friendly Report model
-     * @param \Laminas\Http\Response $response
      *
-     * @return \DvsaReport\Model\Report;
+     * @param \Laminas\Http\Response $response
      */
-    public function getReportFromResponse(Response $response)
+    public function getReportFromResponse(Response $response): Report
     {
         if (!$response->isSuccess()) {
             throw new ReportNotFoundException($response->getReasonPhrase());
@@ -216,15 +245,21 @@ class LambdaReportService
 
         $headers = $response->getHeaders();
 
+        /** @var \Laminas\Http\Header\HeaderInterface */
+        $contentType = $headers->get('Content-Type');
+
+        /** @var \Laminas\Http\Header\HeaderInterface */
+        $contentLength = $headers->get('Content-Length');
+
         $report = new Report();
 
         $report->setData($response->getBody());
 
         $report->setMimeType(
-            $headers->get('Content-Type')->getFieldValue()
+            $contentType->getFieldValue()
         );
         $report->setSize(
-            $headers->get('Content-Length')->getFieldValue()
+            intval($contentLength->getFieldValue())
         );
 
         return $report;
@@ -241,38 +276,8 @@ class LambdaReportService
     /**
      * @param HttpClientServiceInterface $httpClient
      */
-    public function setHttpClient(HttpClientServiceInterface $httpClient)
+    public function setHttpClient(HttpClientServiceInterface $httpClient): void
     {
         $this->httpClient = $httpClient;
-    }
-
-    /**
-     * Issue a request to the Lambda API to render a given report with ad-hoc
-     * parameters; not necessarily bound to a document (and by extension, DB query)
-     *
-     * @param HttpClientServiceInterface $httpClient
-     * @param array $params
-     *
-     * @return \Laminas\Http\Response
-     */
-    private function dispatchRequest()
-    {
-        try {
-            $this->httpClient->dispatch();
-        } catch (\Exception $e) {
-            $response = new Response();
-            $response->getHeaders()->addHeaderLine('Content-Type', self::CONTENT_TYPE_JSON);
-            $response->setStatusCode(Response::STATUS_CODE_503);
-            $response->setContent(json_encode([
-                'errors' => [
-                    '0' => [
-                        'code'    => $e->getCode(),
-                        'message' => $e->getMessage(),
-                    ],
-                ]
-            ]));
-        }
-
-        return $response;
     }
 }

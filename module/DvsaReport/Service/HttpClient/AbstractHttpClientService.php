@@ -9,6 +9,7 @@ namespace DvsaReport\Service\HttpClient;
 use Laminas\Http\Client;
 use Laminas\Http\Request;
 use Laminas\Log\Logger;
+use Traversable;
 
 /**
  * Http Client service
@@ -27,9 +28,14 @@ class AbstractHttpClientService
 
     /**
      * Holds the logger object
+     *
+     * @var \Laminas\Log\Logger
      */
     protected $logger;
 
+    /**
+     * @var string
+     */
     protected $domainUrl;
 
     /**
@@ -47,7 +53,7 @@ class AbstractHttpClientService
     /**
      * Set the logger
      *
-     * @param \Laminas\Log\Logger
+     * @param \Laminas\Log\Logger $logger
      * @return $this
      */
     public function setLogger(Logger $logger)
@@ -71,7 +77,7 @@ class AbstractHttpClientService
     /**
      * @return \Laminas\Http\Client
      */
-    public function getClient() : Client
+    public function getClient(): Client
     {
         return $this->client;
     }
@@ -79,7 +85,7 @@ class AbstractHttpClientService
     /**
      * @return \Laminas\Log\Logger
      */
-    public function getLogger() : Logger
+    public function getLogger(): Logger
     {
         return $this->logger;
     }
@@ -87,13 +93,17 @@ class AbstractHttpClientService
     /**
      * @return \Laminas\Http\Request
      */
-    public function getRequest() : Request
+    public function getRequest(): Request
     {
         return $this->request;
     }
 
     /**
      * Wrapper method to set the request URI
+     *
+     * @param string|\Laminas\Uri\Http $uri
+     *
+     * @return $this
      */
     public function setUri($uri)
     {
@@ -103,6 +113,10 @@ class AbstractHttpClientService
 
     /**
      * Wrapper method to set the request URI
+     *
+     * @param mixed $content
+     *
+     * @return $this
      */
     public function setContent($content)
     {
@@ -112,6 +126,9 @@ class AbstractHttpClientService
 
     /**
      * Wrapper method to set any client options
+     *
+     * @param array|Traversable $options
+     * @return $this
      */
     public function setOptions($options)
     {

@@ -5,6 +5,7 @@
  *
  * @author Rob Caiger <rob@clocal.co.uk>
  */
+
 namespace DvsaDocument\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -24,8 +25,8 @@ class Template extends Entity
 {
     use CommonIdentityTrait;
 
-    const ENTITY_NAME = 'Template';
-    const CLASS_PATH = __CLASS__;
+    public const ENTITY_NAME = 'Template';
+    public const CLASS_PATH = __CLASS__;
 
     /**
      * @var \DvsaDocument\Entity\TemplateType
@@ -68,6 +69,9 @@ class Template extends Entity
         $this->documents = new ArrayCollection();
     }
 
+    /**
+     * @return $this
+     */
     public function setTemplateType(\DvsaDocument\Entity\TemplateType $templateType)
     {
         $this->templateType = $templateType;
@@ -75,35 +79,53 @@ class Template extends Entity
         return $this;
     }
 
+    /**
+     * @return TemplateType
+     */
     public function getTemplateType()
     {
         return $this->templateType;
     }
 
-    public function setJasperReportName($jasperReportName)
+    /**
+     * @return $this
+     */
+    public function setJasperReportName(string $jasperReportName)
     {
         $this->jasperReportName = $jasperReportName;
 
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getJasperReportName()
     {
         return $this->jasperReportName;
     }
 
-    public function setIsActive($isActive)
+    /**
+     * @return $this
+     */
+    public function setIsActive(bool $isActive)
     {
         $this->isActive = $isActive;
 
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     public function getIsActive()
     {
         return $this->isActive;
     }
 
+    /**
+     * @return $this
+     */
     public function setDocuments(\Doctrine\Common\Collections\ArrayCollection $documents)
     {
         $this->documents = $documents;
@@ -111,11 +133,17 @@ class Template extends Entity
         return $this;
     }
 
+    /**
+     * @return ArrayCollection
+     */
     public function getDocuments()
     {
         return $this->documents;
     }
 
+    /**
+     * @return $this
+     */
     public function setVariations(\Doctrine\Common\Collections\ArrayCollection $variations)
     {
         $this->variations = $variations;
@@ -123,6 +151,9 @@ class Template extends Entity
         return $this;
     }
 
+    /**
+     * @return ArrayCollection
+     */
     public function getVariations()
     {
         return $this->variations;

@@ -5,8 +5,8 @@
  *
  * @author Rob Caiger <rob@clocal.co.uk>
  */
-namespace DvsaDocumentModuleTest\DvsaDocument\Entity;
 
+namespace DvsaDocumentModuleTest\DvsaDocument\Entity;
 
 use DvsaDocument\Entity\Document;
 
@@ -20,7 +20,7 @@ class DocumentTest extends AbstractEntityTester
     /**
      * Holds the entity class name
      *
-     * @var string
+     * @var class-string
      */
     protected $entityClass = Document::class;
 

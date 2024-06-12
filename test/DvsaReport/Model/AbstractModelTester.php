@@ -5,6 +5,7 @@
  *
  * @author Rob Caiger <rob@clocal.co.uk>
  */
+
 namespace DvsaDocumentModuleTest\DvsaReport\Model;
 
 use PHPUnit\Framework\TestCase;
@@ -26,7 +27,7 @@ abstract class AbstractModelTester extends TestCase
     /**
      * Holds the model class name
      *
-     * @var string
+     * @var class-string
      */
     protected $modelClass;
 
@@ -35,6 +36,9 @@ abstract class AbstractModelTester extends TestCase
      */
     protected $testMethods = [];
 
+    /**
+     * @return class-string
+     */
     public function getClassToTestName()
     {
         return $this->modelClass;
@@ -42,6 +46,11 @@ abstract class AbstractModelTester extends TestCase
 
     /**
      * @dataProvider providerGettersAndSetters
+     *
+     * @param string $methodName
+     * @param mixed  $testValue
+     *
+     * @return void
      */
     public function testGettersAndSetters($methodName, $testValue)
     {
@@ -66,7 +75,8 @@ abstract class AbstractModelTester extends TestCase
             if (substr($method->getName(), 0, 3) == 'set') {
                 $methodName = substr($method->getName(), 3);
 
-                if ((ltrim($method->getDeclaringClass()->getName(), "\\") == ltrim($classToTestName, "\\")) &&
+                if (
+                    (ltrim($method->getDeclaringClass()->getName(), "\\") == ltrim($classToTestName, "\\")) &&
                     $method->isPublic() &&
                     $reflection->hasProperty(lcfirst($methodName)) &&
                     $reflection->hasMethod('get' . $methodName)

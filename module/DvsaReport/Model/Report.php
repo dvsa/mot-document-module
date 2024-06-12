@@ -6,6 +6,7 @@
  * @author Rob Caiger <rob@clocal.co.uk>
  * @author Nick Payne <nick.payne@valtech.co.uk>
  */
+
 namespace DvsaReport\Model;
 
 /**
@@ -48,7 +49,8 @@ class Report
      * Setter for name
      *
      * @param string $name
-     * @return \DvsaDocument\Model\Document
+     *
+     * @return $this
      */
     public function setName($name)
     {
@@ -71,7 +73,8 @@ class Report
      * Setter for data
      *
      * @param string $data
-     * @return \DvsaDocument\Model\Document
+     *
+     * @return $this
      */
     public function setData($data)
     {
@@ -94,7 +97,8 @@ class Report
      * Setter for mime type
      *
      * @param string $mimeType
-     * @return \DvsaDocument\Model\Document
+     *
+     * @return $this
      */
     public function setMimeType($mimeType)
     {
@@ -117,7 +121,8 @@ class Report
      * Setter for size
      *
      * @param int $size
-     * @return \DvsaDocument\Model\Document
+     *
+     * @return $this
      */
     public function setSize($size)
     {

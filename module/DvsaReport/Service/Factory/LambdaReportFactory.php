@@ -18,8 +18,10 @@ class LambdaReportFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $name, array $args = null)
     {
+        /** @var PdfRenderer */
         $pdfRenderer = $container->get(PdfRenderer::class);
 
+        /** @var EnhancedLambdaHttpClientService */
         $client = $container->get(EnhancedLambdaHttpClientService::class);
 
         $service = new LambdaReportService($pdfRenderer, $client);

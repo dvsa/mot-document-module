@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: radoslawl
@@ -6,27 +7,39 @@
  * Time: 14:47
  */
 
-
 namespace DvsaReportModuleTest\DvsaReport\Service\HttpClient;
 
 use DvsaReport\Service\HttpClient\EnhancedLambdaHttpClientService;
 use Laminas\Http\Response;
 use PHPUnit\Framework\TestCase;
-
+use PHPUnit\Framework\MockObject\MockObject;
 
 class EnhancedLambdaHttpClientServiceTest extends TestCase
 {
     /** @var EnhancedLambdaHttpClientService  */
     protected $wrapper;
+
+    /** @var MockObject&\Laminas\Http\Client */
     protected $client;
+
+    /** @var MockObject&\Laminas\Http\Request */
+    protected $request;
+
+    /** @var MockObject&\Laminas\Http\Response */
+    protected $response;
+
+    /** @var MockObject&\Laminas\Log\Logger */
+    protected $logger;
+
+    /** @var int */
     protected $maxAttemptCount;
 
     public function setUp(): void
     {
-        $this->client = $this->getMockBuilder('\Laminas\Http\Client')->disableOriginalConstructor()->setMethods(['setAuth', 'setOptions', 'dispatch'])->getMock();
-        $this->request = $this->getMockBuilder('\Laminas\Http\Request')->disableOriginalConstructor()->setMethods(['setUri', 'getUriString'])->getMock();
-        $this->response = $this->getMockBuilder('\Laminas\Http\Response')->disableOriginalConstructor()->setMethods(['getStatusCode', 'getBody', '__toString'])->getMock();
-        $this->logger = $this->getMockBuilder('\Laminas\Log\Logger')->disableOriginalConstructor()->setMethods(['info', 'warn'])->getMock();
+        $this->client = $this->getMockBuilder(\Laminas\Http\Client::class)->disableOriginalConstructor()->onlyMethods(['setAuth', 'setOptions', 'dispatch'])->getMock();
+        $this->request = $this->getMockBuilder(\Laminas\Http\Request::class)->disableOriginalConstructor()->onlyMethods(['setUri', 'getUriString'])->getMock();
+        $this->response = $this->getMockBuilder(\Laminas\Http\Response::class)->disableOriginalConstructor()->onlyMethods(['getStatusCode', 'getBody', '__toString'])->getMock();
+        $this->logger = $this->getMockBuilder(\Laminas\Log\Logger::class)->disableOriginalConstructor()->onlyMethods(['info', 'warn'])->getMock();
 
         $this->maxAttemptCount = 3;
         $this->wrapper = new EnhancedLambdaHttpClientService($this->maxAttemptCount, 0);
@@ -35,6 +48,9 @@ class EnhancedLambdaHttpClientServiceTest extends TestCase
         $this->wrapper->setLogger($this->logger);
     }
 
+    /**
+     * @return void
+     */
     public function test200Response()
     {
         $this->response->method('getStatusCode')
@@ -51,6 +67,10 @@ class EnhancedLambdaHttpClientServiceTest extends TestCase
 
     /**
      * @dataProvider providerUnretriableCodes
+     *
+     * @param int $statusCode
+     *
+     * @return void
      */
     public function testUnretriableCodes($statusCode)
     {
@@ -65,7 +85,11 @@ class EnhancedLambdaHttpClientServiceTest extends TestCase
         $this->wrapper->dispatch();
     }
 
-    public function providerUnretriableCodes() {
+    /**
+     * @return array
+     */
+    public function providerUnretriableCodes()
+    {
         // test with this values
         return array(
             array(Response::STATUS_CODE_400),
@@ -75,6 +99,10 @@ class EnhancedLambdaHttpClientServiceTest extends TestCase
 
     /**
      * @dataProvider providerRetriableCodes
+     *
+     * @param int $statusCode
+     *
+     * @return void
      */
     public function testRetriableCodes($statusCode)
     {
@@ -87,12 +115,16 @@ class EnhancedLambdaHttpClientServiceTest extends TestCase
 
         try {
             $this->wrapper->dispatch();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->assertStringContainsString('Getting report failed after 3 attempts', $e->getMessage());
         }
     }
 
-    public function providerRetriableCodes() {
+    /**
+     * @return array
+     */
+    public function providerRetriableCodes()
+    {
         // test with this values
         return array(
             array(Response::STATUS_CODE_429),
@@ -101,6 +133,9 @@ class EnhancedLambdaHttpClientServiceTest extends TestCase
         );
     }
 
+    /**
+     * @return void
+     */
     public function test200After429()
     {
         $this->response->method('getStatusCode')
@@ -115,6 +150,9 @@ class EnhancedLambdaHttpClientServiceTest extends TestCase
         $this->wrapper->dispatch();
     }
 
+    /**
+     * @return void
+     */
     public function test200After429and429()
     {
         $this->response->method('getStatusCode')
@@ -131,6 +169,9 @@ class EnhancedLambdaHttpClientServiceTest extends TestCase
         $this->assertEquals("third", $r);
     }
 
+    /**
+     * @return void
+     */
     public function test500After429()
     {
         $this->response->method('getStatusCode')
@@ -144,7 +185,7 @@ class EnhancedLambdaHttpClientServiceTest extends TestCase
 
         try {
             $this->wrapper->dispatch();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->assertStringContainsString("second", $e->getMessage());
         }
     }

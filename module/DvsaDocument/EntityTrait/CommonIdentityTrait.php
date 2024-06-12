@@ -5,6 +5,7 @@
  *
  * @author Rob Caiger <rob@clocal.co.uk>
  */
+
 namespace DvsaDocument\EntityTrait;
 
 /**
@@ -22,7 +23,7 @@ trait CommonIdentityTrait
     protected $id;
 
     /**
-     * @param $id
+     * @param mixed $id
      *
      * @return $this
      *
@@ -31,9 +32,10 @@ trait CommonIdentityTrait
     public function setId($id)
     {
         if (null != $id && !is_numeric($id)) {
+            /** @var string $id */
             throw new \InvalidArgumentException("Expected numeric id, got [$id]");
         }
-        $this->id =(int)$id;
+        $this->id = (int)$id;
 
         return $this;
     }
