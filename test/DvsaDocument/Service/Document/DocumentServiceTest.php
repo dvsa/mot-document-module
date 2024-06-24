@@ -176,8 +176,10 @@ class DocumentServiceTest extends TestCase
         $this->mockEntityServiceWithQueryBuilder($qb);
 
         try {
-            // this is intentional
             /**
+             * This test intentionally passes an argument of the wrong type
+             * to the function and checks that it throws an exception
+             *
              * @psalm-suppress InvalidArgument
              * @phpstan-ignore-next-line
              */
