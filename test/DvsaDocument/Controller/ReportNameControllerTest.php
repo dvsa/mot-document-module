@@ -11,7 +11,7 @@ namespace DvsaDocumentModuleTest\DvsaDocument\Controller;
 use DvsaDocument\Factory\Controller\ReportNameControllerFactory;
 use DvsaDocument\Service\Document\DocumentService;
 use PHPUnit\Framework\TestCase;
-use DvsaDocumentModuleTest\Bootstrap;
+use DvsaDocumentModuleTest\TestBootstrap as Bootstrap;
 use DvsaDocument\Controller\ReportNameController;
 use Laminas\Http\Request;
 use Laminas\Http\Response;

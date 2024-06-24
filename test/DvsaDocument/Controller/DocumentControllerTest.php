@@ -10,7 +10,7 @@ namespace DvsaDocumentModuleTest\DvsaDocument\Controller;
 
 use DvsaDocument\Service\Document\DocumentService;
 use PHPUnit\Framework\TestCase;
-use DvsaDocumentModuleTest\Bootstrap;
+use DvsaDocumentModuleTest\TestBootstrap as Bootstrap;
 use DvsaDocument\Controller\DocumentController;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
