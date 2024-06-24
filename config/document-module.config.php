@@ -28,7 +28,7 @@ return [
         'invokables' => [
         ],
         'factories' => [
-            \DvsaDocument\Controller\DocumentController::class =>\DvsaDocument\Factory\Controller\DocumentControllerFactory::class,
+            \DvsaDocument\Controller\DocumentController::class => \DvsaDocument\Factory\Controller\DocumentControllerFactory::class,
             \DvsaDocument\Controller\ReportNameController::class => \DvsaDocument\Factory\Controller\ReportNameControllerFactory::class,
         ],
     ],

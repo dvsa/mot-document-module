@@ -30,7 +30,11 @@
     "scripts": {
         "test": [
             "phpunit"
-        ]
+        ],
+        "phpcs": "./vendor/bin/phpcs .",
+        "phpcs-fix": "./vendor/bin/phpcbf .",
+        "psalm": "./vendor/bin/psalm",
+        "phpstan": "./vendor/bin/phpstan analyse"
     },
     "config": {
         "platform": {
