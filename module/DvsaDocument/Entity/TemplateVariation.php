@@ -52,7 +52,7 @@ class TemplateVariation extends Entity
     /**
      * @return $this
      */
-    public function setTemplate(\DvsaDocument\Entity\Template $template)
+    public function setTemplate(Template $template)
     {
         $this->template = $template;
 
@@ -60,7 +60,7 @@ class TemplateVariation extends Entity
     }
 
     /**
-     * @return \DvsaDocument\Entity\Template
+     * @return Template
      */
     public function getTemplate()
     {

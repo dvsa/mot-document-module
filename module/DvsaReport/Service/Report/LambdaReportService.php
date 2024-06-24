@@ -2,7 +2,6 @@
 
 namespace DvsaReport\Service\Report;
 
-use Dvsa\Mot\ApiClient\Request\Validator\Exception;
 use DvsaReport\Exceptions\ReportNotFoundException;
 use DvsaReport\Model\Report;
 use DvsaReport\Service\Encoder\ParamsEncoder;
@@ -11,7 +10,6 @@ use DvsaReport\Service\Pdf\PdfRenderer;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
 use Laminas\Http\Header\HeaderInterface;
-use DvsaApplicationLogger\Log\Logger;
 use DvsaReport\Model\ReportNames;
 
 class LambdaReportService
@@ -62,7 +60,7 @@ class LambdaReportService
      * @param string $reportName
      * @param array $params
      *
-     * @return \Laminas\Http\Response
+     * @return Response
      */
     public function getReport($reportName, $params = [])
     {
@@ -132,7 +130,7 @@ class LambdaReportService
      * @param string $reportName
      * @param array  $runtimeParams
      *
-     * @return \Laminas\Http\Response
+     * @return Response
      */
     public function getReportById($documentId, $reportName, $runtimeParams = [])
     {
@@ -156,7 +154,7 @@ class LambdaReportService
      * @param bool   $isPrs
      * @param array  $argList
      *
-     * @return \Laminas\Http\Response
+     * @return Response
      */
     public function getMergedPdfReports($isPrs, $argList = [])
     {

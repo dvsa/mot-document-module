@@ -63,7 +63,7 @@ class DocumentController extends AbstractDocumentController
     /**
      * Delete document by ID
      *
-     * @return Response|\Laminas\View\Model\JsonModel
+     * @return Response|JsonModel
      */
     public function deleteAction()
     {
