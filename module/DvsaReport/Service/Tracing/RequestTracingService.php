@@ -4,6 +4,7 @@ namespace DvsaReport\Service\Tracing;
 
 use Laminas\Http\Request;
 use Laminas\Http\Headers;
+use Laminas\Log\Logger;
 
 /**
  * Created by PhpStorm.
@@ -20,14 +21,14 @@ class RequestTracingService
     public const TRACING_HEADERS = [self::TRACE_ID_HEADER, self::PARENT_ID_HEADER, self::SPAN_ID_HEADER];
 
     /**
-     * @var \Laminas\Log\Logger
+     * @var Logger
      */
     private $logger;
 
     /**
      * RequestTracingService constructor.
      *
-     * @param \Laminas\Log\Logger $logger
+     * @param Logger $logger
      */
     public function __construct($logger)
     {

@@ -15,8 +15,10 @@ use RuntimeException;
 use DvsaReport\Service\HttpClient\TraceableHttpClient;
 use Laminas\Http\Request;
 use Laminas\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use DvsaReport\Service\HttpClient\EnhancedLambdaHttpClientService;
 use Laminas\Http\Headers;
+use Laminas\Log\Logger;
 
 class EnhancedLambdaHttpClientServiceFactory implements FactoryInterface
 {
@@ -107,20 +109,20 @@ class EnhancedLambdaHttpClientServiceFactory implements FactoryInterface
     }
 
     /**
-     * @param \Psr\Container\ContainerInterface $serviceLocator
+     * @param ContainerInterface $serviceLocator
      *
-     * @return \Laminas\Log\Logger
+     * @return Logger
      */
     protected function obtainLogger($serviceLocator): object
     {
-        /** @var \Laminas\Log\Logger|null */
+        /** @var Logger|null */
         $logger = null;
         try {
             $logger = $serviceLocator->get('Application\Logger');
-        } catch (\Laminas\ServiceManager\Exception\ServiceNotFoundException $e) {
+        } catch (ServiceNotFoundException $e) {
         }
 
-        if (!is_callable(array($logger, 'log'), true) || !($logger instanceof \Laminas\Log\Logger)) {
+        if (!is_callable(array($logger, 'log'), true) || !($logger instanceof Logger)) {
             throw new RuntimeException('\Laminas\Log\Logger instance expected in ServiceLocator under Application\Logger');
         }
 

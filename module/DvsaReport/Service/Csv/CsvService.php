@@ -88,7 +88,7 @@ class CsvService
      *
      * @param string $fileName
      *
-     * @return \Laminas\Http\Response
+     * @return Response
      */
     public function generateDocument($fileName)
     {

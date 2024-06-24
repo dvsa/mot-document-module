@@ -7,6 +7,7 @@ use RuntimeException;
 use DvsaReport\Service\HttpClient\LambdaHttpClientService;
 use Laminas\Http\Client;
 use Laminas\Http\Request;
+use Laminas\Http\Headers;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
 /**
@@ -52,7 +53,7 @@ class LambdaHttpClientFactory implements FactoryInterface
         $configHeaders = $config['headers'];
 
         $request = new Request();
-        /** @var \Laminas\Http\Headers $headers */
+        /** @var Headers $headers */
         $headers = $request->getHeaders();
         $headers ->addHeaderLine('x-api-key', $xApiKey)
                     ->addHeaders($configHeaders);

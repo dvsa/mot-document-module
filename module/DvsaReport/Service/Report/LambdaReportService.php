@@ -10,6 +10,7 @@ use DvsaReport\Service\HttpClient\HttpClientServiceInterface;
 use DvsaReport\Service\Pdf\PdfRenderer;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
+use Laminas\Http\Header\HeaderInterface;
 use DvsaApplicationLogger\Log\Logger;
 use DvsaReport\Model\ReportNames;
 
@@ -235,7 +236,7 @@ class LambdaReportService
     /**
      * Transform a previously returned response into a friendly Report model
      *
-     * @param \Laminas\Http\Response $response
+     * @param Response $response
      */
     public function getReportFromResponse(Response $response): Report
     {
@@ -245,10 +246,10 @@ class LambdaReportService
 
         $headers = $response->getHeaders();
 
-        /** @var \Laminas\Http\Header\HeaderInterface */
+        /** @var HeaderInterface */
         $contentType = $headers->get('Content-Type');
 
-        /** @var \Laminas\Http\Header\HeaderInterface */
+        /** @var HeaderInterface */
         $contentLength = $headers->get('Content-Length');
 
         $report = new Report();

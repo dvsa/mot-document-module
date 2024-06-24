@@ -13,22 +13,26 @@ use DvsaReport\Service\HttpClient\EnhancedLambdaHttpClientService;
 use Laminas\Http\Response;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use Laminas\Http\Client;
+use Laminas\Http\Request;
+use Laminas\Http\Resopnse;
+use Laminas\Log\Logger;
 
 class EnhancedLambdaHttpClientServiceTest extends TestCase
 {
     /** @var EnhancedLambdaHttpClientService  */
     protected $wrapper;
 
-    /** @var MockObject&\Laminas\Http\Client */
+    /** @var MockObject&Client */
     protected $client;
 
-    /** @var MockObject&\Laminas\Http\Request */
+    /** @var MockObject&Request */
     protected $request;
 
-    /** @var MockObject&\Laminas\Http\Response */
+    /** @var MockObject&Response */
     protected $response;
 
-    /** @var MockObject&\Laminas\Log\Logger */
+    /** @var MockObject&Logger */
     protected $logger;
 
     /** @var int */
@@ -36,10 +40,10 @@ class EnhancedLambdaHttpClientServiceTest extends TestCase
 
     public function setUp(): void
     {
-        $this->client = $this->getMockBuilder(\Laminas\Http\Client::class)->disableOriginalConstructor()->onlyMethods(['setAuth', 'setOptions', 'dispatch'])->getMock();
-        $this->request = $this->getMockBuilder(\Laminas\Http\Request::class)->disableOriginalConstructor()->onlyMethods(['setUri', 'getUriString'])->getMock();
-        $this->response = $this->getMockBuilder(\Laminas\Http\Response::class)->disableOriginalConstructor()->onlyMethods(['getStatusCode', 'getBody', '__toString'])->getMock();
-        $this->logger = $this->getMockBuilder(\Laminas\Log\Logger::class)->disableOriginalConstructor()->onlyMethods(['info', 'warn'])->getMock();
+        $this->client = $this->getMockBuilder(Client::class)->disableOriginalConstructor()->onlyMethods(['setAuth', 'setOptions', 'dispatch'])->getMock();
+        $this->request = $this->getMockBuilder(Request::class)->disableOriginalConstructor()->onlyMethods(['setUri', 'getUriString'])->getMock();
+        $this->response = $this->getMockBuilder(Response::class)->disableOriginalConstructor()->onlyMethods(['getStatusCode', 'getBody', '__toString'])->getMock();
+        $this->logger = $this->getMockBuilder(Logger::class)->disableOriginalConstructor()->onlyMethods(['info', 'warn'])->getMock();
 
         $this->maxAttemptCount = 3;
         $this->wrapper = new EnhancedLambdaHttpClientService($this->maxAttemptCount, 0);

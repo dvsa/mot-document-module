@@ -30,7 +30,7 @@ class DocumentService
     /**
      * Get entity manager
      *
-     * @return \Doctrine\ORM\EntityManagerInterface
+     * @return EntityManagerInterface
      */
     protected function getEntityManager()
     {

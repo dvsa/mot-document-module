@@ -18,7 +18,7 @@ use DvsaReport\Model\TracingEvents;
 
 class TraceableHttpClient extends Client
 {
-    /** @var \DvsaReport\Service\Tracing\RequestTracingService */
+    /** @var RequestTracingService */
     protected $requestTracingService;
 
     /** @var string */

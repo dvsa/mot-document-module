@@ -28,7 +28,7 @@ class TemplateVariation extends Entity
     public const CLASS_PATH = __CLASS__;
 
     /**
-     * @var \DvsaDocument\Entity\Template
+     * @var Template
      *
      * @ORM\ManyToOne(targetEntity="Template", inversedBy="variations")
      * @ORM\Column(name="template_id", type="integer", nullable=false)

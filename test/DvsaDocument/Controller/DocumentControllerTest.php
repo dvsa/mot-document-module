@@ -229,7 +229,7 @@ class DocumentControllerTest extends TestCase
         );
         $response = $controller->createAction();
 
-        $this->assertInstanceOf(\Laminas\View\Model\JsonModel::class, $response);
+        $this->assertInstanceOf(JsonModel::class, $response);
         /** @var array */
         $decoded = $response->getVariables();
         $this->assertEquals($decoded['id'], 1);

@@ -9,6 +9,7 @@ namespace DvsaReport\Service\HttpClient;
 use Laminas\Http\Client;
 use Laminas\Http\Request;
 use Laminas\Log\Logger;
+use Laminas\Uri\Http;
 use Traversable;
 
 /**
@@ -29,7 +30,7 @@ class AbstractHttpClientService
     /**
      * Holds the logger object
      *
-     * @var \Laminas\Log\Logger
+     * @var Logger
      */
     protected $logger;
 
@@ -41,7 +42,7 @@ class AbstractHttpClientService
     /**
      * Set the client object
      *
-     * @param \Laminas\Http\Client $client
+     * @param Client $client
      * @return $this
      */
     public function setClient(Client $client)
@@ -53,7 +54,7 @@ class AbstractHttpClientService
     /**
      * Set the logger
      *
-     * @param \Laminas\Log\Logger $logger
+     * @param Logger $logger
      * @return $this
      */
     public function setLogger(Logger $logger)
@@ -65,7 +66,7 @@ class AbstractHttpClientService
     /**
      * Set the request object
      *
-     * @param \Laminas\Http\Request $request
+     * @param Request $request
      * @return $this
      */
     public function setRequest(Request $request)
@@ -75,7 +76,7 @@ class AbstractHttpClientService
     }
 
     /**
-     * @return \Laminas\Http\Client
+     * @return Client
      */
     public function getClient(): Client
     {
@@ -83,7 +84,7 @@ class AbstractHttpClientService
     }
 
     /**
-     * @return \Laminas\Log\Logger
+     * @return Logger
      */
     public function getLogger(): Logger
     {
@@ -91,7 +92,7 @@ class AbstractHttpClientService
     }
 
     /**
-     * @return \Laminas\Http\Request
+     * @return Request
      */
     public function getRequest(): Request
     {
@@ -101,7 +102,7 @@ class AbstractHttpClientService
     /**
      * Wrapper method to set the request URI
      *
-     * @param string|\Laminas\Uri\Http $uri
+     * @param string|Http $uri
      *
      * @return $this
      */

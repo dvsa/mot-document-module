@@ -12,6 +12,7 @@ namespace DvsaDocument\Controller;
 use DvsaDocument\Exceptions\TemplateNotFoundException;
 use Laminas\Mvc\Controller\Plugin\Params;
 use Laminas\Http\Response;
+use Laminas\View\Model\JsonModel;
 
 /**
  * Document Controller
@@ -24,7 +25,7 @@ class DocumentController extends AbstractDocumentController
     /**
      * Create new document and return ID
      *
-     * @return Response|\Laminas\View\Model\JsonModel
+     * @return Response|JsonModel
      */
     public function createAction()
     {

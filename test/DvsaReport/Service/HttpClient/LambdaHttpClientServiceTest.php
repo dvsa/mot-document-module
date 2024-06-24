@@ -3,7 +3,10 @@
 namespace DvsaReportModuleTest\DvsaReport\Service\HttpClient;
 
 use DvsaReport\Service\HttpClient\LambdaHttpClientService;
+use Laminas\Http\Client;
+use Laminas\Http\Request;
 use Laminas\Http\Response;
+use Laminas\Log\Logger;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -16,24 +19,24 @@ class LambdaHttpClientServiceTest extends TestCase
     /** @var LambdaHttpClientService  */
     protected $service;
 
-    /** @var MockObject&\Laminas\Http\Client */
+    /** @var MockObject&Client */
     protected $client;
 
-    /** @var MockObject&\Laminas\Http\Request */
+    /** @var MockObject&Request */
     protected $request;
 
-    /** @var MockObject&\Laminas\Http\Response */
+    /** @var MockObject&Response */
     protected $response;
 
-    /** @var MockObject&\Laminas\Log\Logger */
+    /** @var MockObject&Logger */
     protected $logger;
 
 
     public function setUp(): void
     {
-        $this->client = $this->getMockBuilder(\Laminas\Http\Client::class)->disableOriginalConstructor()->onlyMethods(['setAuth', 'setOptions', 'dispatch'])->getMock();
-        $this->request = $this->getMockBuilder(\Laminas\Http\Request::class)->disableOriginalConstructor()->onlyMethods(['setUri', 'getUriString'])->getMock();
-        $this->logger = $this->getMockBuilder(\Laminas\Log\Logger::class)->disableOriginalConstructor()->onlyMethods(['info'])->getMock();
+        $this->client = $this->getMockBuilder(Client::class)->disableOriginalConstructor()->onlyMethods(['setAuth', 'setOptions', 'dispatch'])->getMock();
+        $this->request = $this->getMockBuilder(Request::class)->disableOriginalConstructor()->onlyMethods(['setUri', 'getUriString'])->getMock();
+        $this->logger = $this->getMockBuilder(Logger::class)->disableOriginalConstructor()->onlyMethods(['info'])->getMock();
         $this->service = new LambdaHttpClientService();
 
         $this->service->setClient($this->client);

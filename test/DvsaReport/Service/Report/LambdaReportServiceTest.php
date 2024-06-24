@@ -6,14 +6,17 @@
 
 namespace DvsaReportModuleTest\DvsaReport\Service\Report;
 
-use DvsaReport\Service\HttpClient\LambdaHttpClientService;
+use DvsaDocument\Entity\Document;
 use DvsaReport\Service\HttpClient\EnhancedLambdaHttpClientService;
 use DvsaReport\Service\Report\LambdaReportService;
-use Laminas\Http\Response as ZendResponse;
+use DvsaReport\Model\Report;
+use Laminas\Http\Response;
+use Laminas\Http\Headers;
 use DvsaReport\Service\Pdf\PdfRenderer;
 use DvsaReport\Exceptions\ReportNotFoundException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Laminas\Log\Logger;
 
 /**
  * LambdaReportService Test
@@ -23,7 +26,7 @@ class LambdaReportServiceTest extends TestCase
     /** @var LambdaReportService */
     protected $service;
 
-    /** @var \DvsaReport\Service\HttpClient\EnhancedLambdaHttpClientService&MockObject   */
+    /** @var EnhancedLambdaHttpClientService&MockObject   */
     protected $client;
 
     /**
@@ -31,7 +34,7 @@ class LambdaReportServiceTest extends TestCase
      */
     protected $stubPdfRenderer;
 
-    /** @var MockObject&\Laminas\Log\Logger */
+    /** @var MockObject&Logger */
     protected $logger;
 
     public function setUp(): void
@@ -41,7 +44,7 @@ class LambdaReportServiceTest extends TestCase
 
         $this->client = $this->getMockBuilder(EnhancedLambdaHttpClientService::class)->disableOriginalConstructor()->getMock();
 
-        $this->logger = $this->getMockBuilder(\Laminas\Log\Logger::class)->getMock();
+        $this->logger = $this->getMockBuilder(Logger::class)->getMock();
 
         $this->service = new LambdaReportService($this->stubPdfRenderer, $this->client);
     }
@@ -59,8 +62,8 @@ class LambdaReportServiceTest extends TestCase
      */
     public function testGetDocumentThrowsExpectedExceptionWithFailedResponse()
     {
-        /** @var MockObject&\Laminas\Http\Response */
-        $response = $this->getMockBuilder(\Laminas\Http\Response::class)->disableOriginalConstructor()->onlyMethods(['isSuccess', 'getReasonPhrase'])->getMock();
+        /** @var MockObject&Response */
+        $response = $this->getMockBuilder(Response::class)->disableOriginalConstructor()->onlyMethods(['isSuccess', 'getReasonPhrase'])->getMock();
 
         $response->expects($this->once())
             ->method('isSuccess')
@@ -85,8 +88,8 @@ class LambdaReportServiceTest extends TestCase
      */
     public function testGetDocumentWhenSuccessful()
     {
-        /** @var MockObject&\Laminas\Http\Response */
-        $response = $this->getMockBuilder(\Laminas\Http\Response::class)->disableOriginalConstructor()->onlyMethods(['isSuccess', 'getHeaders', 'getBody'])->getMock();
+        /** @var MockObject&Response */
+        $response = $this->getMockBuilder(Response::class)->disableOriginalConstructor()->onlyMethods(['isSuccess', 'getHeaders', 'getBody'])->getMock();
         $headers = $this->getMockBuilder(\stdClass::class)->disableOriginalConstructor()->addmethods(['get'])->getMock();
 
         $response->expects($this->once())
@@ -111,7 +114,7 @@ class LambdaReportServiceTest extends TestCase
             ->will($this->returnValueMap($headerMap));
 
         $document = $this->service->getReportFromResponse($response);
-        $this->assertInstanceOf(\DvsaReport\Model\Report::class, $document);
+        $this->assertInstanceOf(Report::class, $document);
 
         $this->assertEquals('body content of pdf', $document->getData());
         $this->assertEquals('application/pdf', $document->getMimeType());
@@ -131,8 +134,8 @@ class LambdaReportServiceTest extends TestCase
             ->onlyMethods(['getReport'])
             ->getMock();
 
-        /** @var \DvsaDocument\Entity\Document&MockObject */
-        $mockSnap = $this->getMockBuilder(\DvsaDocument\Entity\Document::class)->disableOriginalConstructor()->onlyMethods(['getDocumentContent'])->getMock();
+        /** @var Document&MockObject */
+        $mockSnap = $this->getMockBuilder(Document::class)->disableOriginalConstructor()->onlyMethods(['getDocumentContent'])->getMock();
         $mockSnap->expects($this->any())
             ->method('getDocumentContent')
             ->will($this->returnValue(["TestNumber" => "numberVT20W"]));
@@ -172,7 +175,7 @@ class LambdaReportServiceTest extends TestCase
             ->onlyMethods(['getReport'])
             ->getMock();
 
-        $mockSnap = $this->getMockBuilder(\DvsaDocument\Entity\Document::class)->disableOriginalConstructor()->onlyMethods(['getDocumentContent'])->getMock();
+        $mockSnap = $this->getMockBuilder(Document::class)->disableOriginalConstructor()->onlyMethods(['getDocumentContent'])->getMock();
         $mockSnap->expects($this->any())
             ->method('getDocumentContent')
             ->will($this->returnValue(["TestNumber" => "numberVT30W"]));
@@ -211,12 +214,12 @@ class LambdaReportServiceTest extends TestCase
             ->onlyMethods(['getReport'])
             ->getMock();
 
-        $mockSnapVT20 = $this->getMockBuilder(\DvsaDocument\Entity\Document::class)->disableOriginalConstructor()->onlyMethods(['getDocumentContent'])->getMock();
+        $mockSnapVT20 = $this->getMockBuilder(Document::class)->disableOriginalConstructor()->onlyMethods(['getDocumentContent'])->getMock();
         $mockSnapVT20->expects($this->any())
             ->method('getDocumentContent')
             ->will($this->returnValue(["TestNumber" => "numberVT20"]));
 
-        $mockSnapVT30 = $this->getMockBuilder(\DvsaDocument\Entity\Document::class)->disableOriginalConstructor()->onlyMethods(['getDocumentContent'])->getMock();
+        $mockSnapVT30 = $this->getMockBuilder(Document::class)->disableOriginalConstructor()->onlyMethods(['getDocumentContent'])->getMock();
         $mockSnapVT30->expects($this->any())
             ->method('getDocumentContent')
             ->will($this->returnValue(["TestNumber" => "numberVT30"]));
@@ -262,7 +265,7 @@ class LambdaReportServiceTest extends TestCase
             ->method('buildPdfParameters')
             ->will($this->returnValue(["TestNumber" => "number"]));
 
-        $mockSnap = $this->getMockBuilder(\DvsaDocument\Entity\Document::class)->disableOriginalConstructor()->onlyMethods(['getDocumentContent'])->getMock();
+        $mockSnap = $this->getMockBuilder(Document::class)->disableOriginalConstructor()->onlyMethods(['getDocumentContent'])->getMock();
         $mockSnap->expects($this->any())
             ->method('getDocumentContent')
             ->will($this->returnValue(["TestNumber" => "number"]));
@@ -306,16 +309,16 @@ class LambdaReportServiceTest extends TestCase
     /**
      * @param string $resourceName
      *
-     * @return MockObject&ZendResponse
+     * @return MockObject&Response
      */
     protected function getMockReport($resourceName)
     {
-        $headerMock = $this->getMockBuilder(\Laminas\Http\Headers::class)->disableOriginalConstructor()->onlyMethods(['toString'])->getMock();
+        $headerMock = $this->getMockBuilder(Headers::class)->disableOriginalConstructor()->onlyMethods(['toString'])->getMock();
         $headerMock->expects($this->any())
             ->method('toString')
             ->will($this->returnValue('Content-Type: 1234'));
 
-        $mock = $this->getMockBuilder(ZendResponse::class)->disableOriginalConstructor()->onlyMethods(['getHeaders', 'getContent', 'getStatusCode'])->getMock();
+        $mock = $this->getMockBuilder(Response::class)->disableOriginalConstructor()->onlyMethods(['getHeaders', 'getContent', 'getStatusCode'])->getMock();
         $mock->expects($this->once())
             ->method('getContent')
             ->will($this->returnValue(file_get_contents(__DIR__ . '/../../Resources/' . $resourceName)));
