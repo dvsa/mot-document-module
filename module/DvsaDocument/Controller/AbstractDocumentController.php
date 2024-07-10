@@ -1,16 +1,21 @@
 <?php
+
 /**
  * Abstract Document Controller
  *
  * @author Rob Caiger <rob@clocal.co.uk>
  * @author Alex Peshkov <alex.peshkov@valtech.co.uk>
  */
+
 namespace DvsaDocument\Controller;
 
 use DvsaDocument\Service\Document\DocumentService;
 use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\Mvc\Controller\Plugin\Params;
 use Laminas\Http\Response;
 use Laminas\View\Model\JsonModel;
+use ArrayAccess;
+use Traversable;
 
 /**
  * Abstract Document Controller
@@ -29,7 +34,8 @@ class AbstractDocumentController extends AbstractActionController
     protected $documentService;
 
     /**
-     * @param $data
+     * @param null|array|Traversable|ArrayAccess $data
+     *
      * @return JsonModel
      */
     public function respondWithJson($data)
@@ -56,14 +62,18 @@ class AbstractDocumentController extends AbstractActionController
     /**
      * Get the id from route or the query
      *
-     * @return int
+     * @return int|null
      */
     public function getId()
     {
-        $id = $this->params()->fromRoute('id');
+        /** @var Params $params */
+        $params = $this->params();
+        /** @var int|null */
+        $id = $params->fromRoute('id');
 
         if (is_null($id)) {
-            $id = $this->params()->fromQuery('id');
+        /** @var int|null */
+            $id = $params->fromQuery('id');
         }
 
         return $id;
@@ -86,6 +96,4 @@ class AbstractDocumentController extends AbstractActionController
         $this->documentService = $documentService;
         return $this;
     }
-
-
 }

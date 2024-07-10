@@ -4,10 +4,14 @@ namespace DvsaReport\Service\Encoder;
 
 class ParamsEncoder
 {
+    /**
+     * @param array $params
+     *
+     * @return false|string
+     */
     public function arrayToJson($params)
     {
-        foreach ($params as $key => $value)
-        {
+        foreach ($params as $key => $value) {
             if (is_string($value) && !is_numeric($value)) {
                 try {
                     $decodedValue = json_decode($value, flags: \JSON_THROW_ON_ERROR);

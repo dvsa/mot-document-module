@@ -5,6 +5,7 @@
  *
  * @author Rob Caiger <rob@clocal.co.uk>
  */
+
 namespace DvsaDocument\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -23,11 +24,11 @@ class TemplateVariation extends Entity
 {
     use CommonIdentityTrait;
 
-    const ENTITY_NAME = 'TemplateVariation';
-    const CLASS_PATH = __CLASS__;
+    public const ENTITY_NAME = 'TemplateVariation';
+    public const CLASS_PATH = __CLASS__;
 
     /**
-     * @var \DvsaDocument\Entity\Template
+     * @var Template
      *
      * @ORM\ManyToOne(targetEntity="Template", inversedBy="variations")
      * @ORM\Column(name="template_id", type="integer", nullable=false)
@@ -48,37 +49,55 @@ class TemplateVariation extends Entity
      */
     private $jasperReportName;
 
-    public function setTemplate(\DvsaDocument\Entity\Template $template)
+    /**
+     * @return $this
+     */
+    public function setTemplate(Template $template)
     {
         $this->template = $template;
 
         return $this;
     }
 
+    /**
+     * @return Template
+     */
     public function getTemplate()
     {
         return $this->template;
     }
 
-    public function setName($name)
+    /**
+     * @return $this
+     */
+    public function setName(string $name)
     {
         $this->name = $name;
 
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
-    public function setJasperReportName($jasperReportName)
+    /**
+     * @return $this
+     */
+    public function setJasperReportName(string $jasperReportName)
     {
         $this->jasperReportName = $jasperReportName;
 
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getJasperReportName()
     {
         return $this->jasperReportName;

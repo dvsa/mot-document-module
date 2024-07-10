@@ -5,12 +5,13 @@
  *
  * @author Rob Caiger <rob@clocal.co.uk>
  */
+
 namespace DvsaDocumentModuleTest\DvsaDocument\Controller;
 
 use DvsaDocument\Factory\Controller\ReportNameControllerFactory;
 use DvsaDocument\Service\Document\DocumentService;
 use PHPUnit\Framework\TestCase;
-use DvsaDocumentModuleTest\Bootstrap;
+use DvsaDocumentModuleTest\TestBootstrap as Bootstrap;
 use DvsaDocument\Controller\ReportNameController;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
@@ -27,6 +28,13 @@ use Laminas\View\Model\JsonModel;
  */
 class ReportNameControllerTest extends TestCase
 {
+    /**
+     * @param \PHPUnit\Framework\MockObject\MockObject&DocumentService $documentServiceMock
+     * @param int|null $id
+     * @param mixed $variation
+     *
+     * @return ReportNameController
+     */
     private function setUpController($documentServiceMock, $id, $variation)
     {
         $controller = new ReportNameController($documentServiceMock);
@@ -44,7 +52,9 @@ class ReportNameControllerTest extends TestCase
         );
 
         $event = new MvcEvent();
+        /** @var array */
         $config = $serviceManager->get('Config');
+        /** @var array */
         $routerConfig = isset($config['router']) ? $config['router'] : array();
         $router = HttpRouter::factory($routerConfig);
 
@@ -60,12 +70,14 @@ class ReportNameControllerTest extends TestCase
 
     /**
      * Test get action Without ID
+     *
+     * @return void
      */
     public function testGetActionWithoutId()
     {
         $id = null;
         $variation = null;
-        $documentServiceMock = $this->getMockBuilder(DocumentService::class)->disableOriginalConstructor()->setMethods(array('getReportName'))->getMock();
+        $documentServiceMock = $this->getMockBuilder(DocumentService::class)->disableOriginalConstructor()->onlyMethods(array('getReportName'))->getMock();
 
         $controller = $this->setUpController($documentServiceMock, $id, $variation);
         $response = $controller->getAction();
@@ -76,12 +88,14 @@ class ReportNameControllerTest extends TestCase
 
     /**
      * Test get action With Missing Template
+     *
+     * @return void
      */
     public function testGetActionWithMissingTemplate()
     {
         $id = 1;
         $variation = null;
-        $documentServiceMock = $this->getMockBuilder(DocumentService::class)->disableOriginalConstructor()->setMethods(array('getReportName'))->getMock();
+        $documentServiceMock = $this->getMockBuilder(DocumentService::class)->disableOriginalConstructor()->onlyMethods(array('getReportName'))->getMock();
         $documentServiceMock->expects($this->once())
             ->method('getReportName')
             ->will($this->throwException(new TemplateNotFoundException('Template not found')));
@@ -95,12 +109,14 @@ class ReportNameControllerTest extends TestCase
 
     /**
      * Test get action With unexpected Exception Being Thrown
+     *
+     * @return void
      */
     public function testGetActionWithUnexpectedExceptionBeingThrown()
     {
         $id = 1;
         $variation = null;
-        $documentServiceMock = $this->getMockBuilder(DocumentService::class)->disableOriginalConstructor()->setMethods(array('getReportName'))->getMock();
+        $documentServiceMock = $this->getMockBuilder(DocumentService::class)->disableOriginalConstructor()->onlyMethods(array('getReportName'))->getMock();
         $documentServiceMock->expects($this->once())
             ->method('getReportName')
             ->will($this->throwException(new \Exception('Oh no, something went wrong')));
@@ -114,12 +130,14 @@ class ReportNameControllerTest extends TestCase
 
     /**
      * Test get action
+     *
+     * @return void
      */
     public function testGetActionHappyPath()
     {
         $id = 1;
         $variation = null;
-        $documentServiceMock = $this->getMockBuilder(DocumentService::class)->disableOriginalConstructor()->setMethods(array('getReportName'))->getMock();
+        $documentServiceMock = $this->getMockBuilder(DocumentService::class)->disableOriginalConstructor()->onlyMethods(array('getReportName'))->getMock();
         $documentServiceMock->expects($this->once())
             ->method('getReportName')
             ->will($this->returnValue('ReportName.pdf'));

@@ -5,6 +5,7 @@
  *
  * @author Nick Payne <nick.payne@valtech.co.uk>
  */
+
 namespace DvsaDocumentModuleTest\DvsaDocument\Service\Document;
 
 use Doctrine\ORM\NoResultException;
@@ -14,7 +15,9 @@ use DvsaDocument\Exceptions\EmptyDocumentException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use DvsaDocument\Entity\Document;
+use Laminas\ServiceManager\ServiceManager;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * DocumentService Test
@@ -26,15 +29,25 @@ class DocumentServiceTest extends TestCase
     /** @var DocumentService    */
     protected $service;
 
+    /** @var MockObject&EntityManager */
+    protected $em;
+
+    /** @var ServiceManager */
+    protected $sm;
+
     public function setUp(): void
     {
+        /** @var MockObject&EntityManagerInterface $entityManager */
         $entityManager = $this->getMockBuilder(EntityManagerInterface::class)->getMock();
         $this->service = new DocumentService($entityManager);
     }
 
+    /**
+     * @return void
+     */
     public function testGetReportNameWithInvalidIdThrowsExpectedException()
     {
-        $query = $this->getMockBuilder('\stdClass')->disableOriginalConstructor()->setMethods(['getSingleResult'])->getMock();
+        $query = $this->getMockBuilder(\stdClass::class)->disableOriginalConstructor()->addMethods(['getSingleResult'])->getMock();
         $query->expects($this->once())
             ->method('getSingleResult')
             ->will($this->throwException(new NoResultException()));
@@ -64,6 +77,9 @@ class DocumentServiceTest extends TestCase
         $this->fail('Expected exception not raised');
     }
 
+    /**
+     * @return void
+     */
     public function testGetReportNameWithVariationSetsCorrectParameters()
     {
         /*
@@ -72,7 +88,7 @@ class DocumentServiceTest extends TestCase
          * Unfortunately due to the small public interface we have to exercise
          * the whole method
          */
-        $query = $this->getMockBuilder('\stdClass')->disableOriginalConstructor()->setMethods(['getSingleResult'])->getMock();
+        $query = $this->getMockBuilder(\stdClass::class)->disableOriginalConstructor()->addMethods(['getSingleResult'])->getMock();
         $query->expects($this->once())
             ->method('getSingleResult')
             ->will($this->throwException(new NoResultException()));
@@ -106,9 +122,12 @@ class DocumentServiceTest extends TestCase
         $this->fail('Expected exception not raised');
     }
 
+    /**
+     * @return void
+     */
     public function testGetReportNameWhenSuccessful()
     {
-        $query = $this->getMockBuilder('\stdClass')->disableOriginalConstructor()->setMethods(['getSingleResult'])->getMock();
+        $query = $this->getMockBuilder(\stdClass::class)->disableOriginalConstructor()->addMethods(['getSingleResult'])->getMock();
         $query->expects($this->once())
             ->method('getSingleResult')
             ->will($this->returnValue(['jasperReportName' => 'a-test-report']));
@@ -131,9 +150,12 @@ class DocumentServiceTest extends TestCase
         $this->assertEquals('a-test-report', $this->service->getReportName(1));
     }
 
+    /**
+     * @return void
+     */
     public function testCreateSnapshotWithInvalidTemplateThrowsExpectedException()
     {
-        $query = $this->getMockBuilder(EntityManager::class)->disableOriginalConstructor()->setMethods(['getSingleResult'])->getMock();
+        $query = $this->getMockBuilder(EntityManager::class)->disableOriginalConstructor()->addMethods(['getSingleResult'])->getMock();
         $query->expects($this->once())
             ->method('getSingleResult')
             ->will($this->throwException(new NoResultException()));
@@ -155,6 +177,13 @@ class DocumentServiceTest extends TestCase
         $this->mockEntityServiceWithQueryBuilder($qb);
 
         try {
+            /**
+             * This test intentionally passes an argument of the wrong type
+             * to the function and checks that it throws an exception
+             *
+             * @psalm-suppress InvalidArgument
+             * @phpstan-ignore-next-line
+             */
             $this->service->createSnapshot('a-template', ['foo' => 'bar'], 1);
         } catch (TemplateNotFoundException $e) {
             $this->assertEquals('Template \'a-template\' not found', $e->getMessage());
@@ -164,6 +193,9 @@ class DocumentServiceTest extends TestCase
         $this->fail('Expected exception not raised');
     }
 
+    /**
+     * @return void
+     */
     public function testCreateSnapshotWithEmptyDocumentThrowsExpectedException()
     {
         try {
@@ -176,9 +208,12 @@ class DocumentServiceTest extends TestCase
         $this->fail('Expected exception not raised');
     }
 
+    /**
+     * @return void
+     */
     public function testCreateSnapshotWithValidDataReturnsIdentifier()
     {
-        $query = $this->getMockBuilder(EntityManager::class)->disableOriginalConstructor()->setMethods(['getSingleResult'])->getMock();
+        $query = $this->getMockBuilder(EntityManager::class)->disableOriginalConstructor()->addMethods(['getSingleResult'])->getMock();
         $query->expects($this->once())
             ->method('getSingleResult')
             ->will($this->returnValue(['id' => 1234]));
@@ -198,7 +233,7 @@ class DocumentServiceTest extends TestCase
             ->will($this->returnValue($query));
 
         $methods = ['createQueryBuilder', 'flush', 'persist'];
-        $em = $this->getMockBuilder(EntityManager::class)->disableOriginalConstructor()->setMethods($methods)->getMock();
+        $em = $this->getMockBuilder(EntityManager::class)->disableOriginalConstructor()->onlyMethods($methods)->getMock();
         $em->expects($this->any())
             ->method('persist')
             ->will($this->returnCallback([$this, 'mockPersist']));
@@ -218,14 +253,27 @@ class DocumentServiceTest extends TestCase
             'repeatable' => ['1', '2']
         ];
 
+        /**
+         * This test intentionally passes an argument of the wrong type
+         * to the function and checks that it throws an exception
+         *
+         * @psalm-suppress InvalidArgument
+         * @phpstan-ignore-next-line
+         */
         $actualDocumentId =  $this->service->createSnapshot('a-template', $data, 1);
 
         $this->assertEquals(4321, $actualDocumentId);
     }
 
+    /**
+     * @param array $selfMethods
+     * @param array $extraMethods
+     *
+     * @return MockObject
+     */
     protected function getQueryBuilderMock($selfMethods, $extraMethods)
     {
-        $qb = $this->getMockBuilder('\stdClass')->disableOriginalConstructor()->setMethods(array_merge($selfMethods, $extraMethods))->getMock();
+        $qb = $this->getMockBuilder(\stdClass::class)->disableOriginalConstructor()->addMethods(array_merge($selfMethods, $extraMethods))->getMock();
         foreach ($selfMethods as $method) {
             $qb->expects($this->once())
                 ->method($method)
@@ -235,6 +283,13 @@ class DocumentServiceTest extends TestCase
         return $qb;
     }
 
+    /**
+     * @param mixed $qb
+     * @param array $methods
+     * @param EntityManager|null $em
+     *
+     * @return void
+     */
     protected function mockEntityServiceWithQueryBuilder($qb, $methods = ['createQueryBuilder'], $em = null)
     {
         if (!empty($em)) {
@@ -242,7 +297,7 @@ class DocumentServiceTest extends TestCase
             return;
         }
 
-        $this->em = $this->getMockBuilder(EntityManager::class)->disableOriginalConstructor()->setMethods($methods)->getMock();
+        $this->em = $this->getMockBuilder(EntityManager::class)->disableOriginalConstructor()->onlyMethods($methods)->getMock();
 
         $this->em->expects($this->once())
             ->method('createQueryBuilder')
@@ -251,14 +306,25 @@ class DocumentServiceTest extends TestCase
         $this->service = new DocumentService($this->em);
     }
 
+    /**
+     * @param array $config
+     *
+     * @return void
+     */
     protected function setConfig($config)
     {
         $this->sm->setService('Config', $config);
     }
 
+    /**
+     * @param mixed $key
+     * @param mixed $value
+     *
+     * @return array
+     */
     protected function mockFieldValue($key, $value)
     {
-        $field = $this->getMockBuilder('\stdClass')->disableOriginalConstructor()->setMethods(['getFieldValue'])->getMock();
+        $field = $this->getMockBuilder(\stdClass::class)->disableOriginalConstructor()->addMethods(['getFieldValue'])->getMock();
         $field->expects($this->once())
             ->method('getFieldValue')
             ->will($this->returnValue($value));
@@ -266,6 +332,11 @@ class DocumentServiceTest extends TestCase
         return [$key, $field];
     }
 
+    /**
+     * @param mixed $entity
+     *
+     * @return void
+     */
     public function mockPersist($entity)
     {
         if ($entity instanceof Document) {
@@ -277,12 +348,15 @@ class DocumentServiceTest extends TestCase
     /**
      * Test delete snapshot service with no document found
      * @group current
+     *
+     * @return void
      */
     public function testDeleteSnapshotWithEmptyDocument()
     {
         $this->expectException(EmptyDocumentException::class);
+            /** @var MockObject&EntityManager */
             $entityManager = $this->getMockBuilder(EntityManager::class)
-                ->disableOriginalConstructor()->setMethods(array('find', 'remove', 'flush'))->getMock();
+                ->disableOriginalConstructor()->onlyMethods(array('find', 'remove', 'flush'))->getMock();
             $documentService = new DocumentService($entityManager);
             $documentService->deleteSnapshot(-1);
     }
@@ -290,11 +364,13 @@ class DocumentServiceTest extends TestCase
     /**
      * Test delete snapshot service
      * @group current
+     *
+     * @return void
      */
-
     public function testDeleteSnapshot()
     {
-        $entityManager = $this->getMockBuilder(EntityManager::class)->disableOriginalConstructor()->setMethods(array('find', 'remove', 'flush'))->getMock();
+        /** @var MockObject&EntityManager */
+        $entityManager = $this->getMockBuilder(EntityManager::class)->disableOriginalConstructor()->onlyMethods(array('find', 'remove', 'flush'))->getMock();
 
         $entityManager->expects($this->once())
                 ->method('find')

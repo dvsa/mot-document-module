@@ -10,12 +10,15 @@ use Laminas\Mvc\MvcEvent;
  */
 class Module
 {
-    public function getConfig()
+    /**
+     * @return (int|string|string[])[][]
+     */
+    public function getConfig(): array
     {
         return include __DIR__ . '/../../config/report-module.config.php';
     }
 
-    public function onBootstrap(MvcEvent $e)
+    public function onBootstrap(MvcEvent $e): void
     {
         // You may not need to do this if you're doing it elsewhere in your
         // application

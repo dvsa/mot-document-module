@@ -8,7 +8,6 @@ use DvsaDocument\Entity\Document as SnapshotDocument;
 
 class PdfRendererTest extends TestCase
 {
-
     /** @var  PdfRenderer */
     protected $renderer;
 
@@ -19,6 +18,10 @@ class PdfRendererTest extends TestCase
 
     /**
      * @dataProvider getJasperParameters
+     *
+     * @param array $snapshotData
+     *
+     * @return void
      */
     public function testEmptyJasperParams($snapshotData)
     {
@@ -32,6 +35,10 @@ class PdfRendererTest extends TestCase
      * Test generate document
      *
      * @dataProvider getJasperParameters
+     *
+     * @param array $snapshotData
+     *
+     * @return void
      */
     public function testBuildJasperParameters($snapshotData)
     {
@@ -40,7 +47,6 @@ class PdfRendererTest extends TestCase
         $parameterResult = $this->renderer->buildPdfParameters($snapshot);
 
         $this->assertEquals($parameterResult, $snapshotData);
-
     }
 
     /**

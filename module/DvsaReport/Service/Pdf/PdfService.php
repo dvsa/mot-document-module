@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Pdf service
  *
@@ -17,11 +18,10 @@ use Laminas\Http\Response;
  */
 class PdfService
 {
-
     /**
      * Holds the html
      *
-     * @var array
+     * @var string
      */
     private $html;
 
@@ -34,11 +34,13 @@ class PdfService
 
     /**
      * Holds the tmp directory
+     *
+     * @var string
      */
     private $tmpDir = '/tmp/';
 
     /**
-     * @var Zend/Config/Config
+     * @var Config|null
      */
     private $report_config;
 
@@ -56,7 +58,8 @@ class PdfService
      * Set HTML
      *
      * @param string $html
-     * @return \DvsaDocument\Service\Pdf\PdfService
+     *
+     * @return $this
      */
     public function setHtml($html)
     {
@@ -68,7 +71,7 @@ class PdfService
     /**
      * Get response
      *
-     * @return Response;
+     * @return Response
      */
     public function getResponse()
     {
@@ -80,7 +83,7 @@ class PdfService
      *
      * @param Response $response
      */
-    public function setResponse(Response $response)
+    public function setResponse($response): void
     {
         $this->response = $response;
     }
@@ -99,7 +102,8 @@ class PdfService
      * Set tmpDir
      *
      * @param string $tmpDir
-     * @return \DvsaDocument\Service\Pdf\PdfService
+     *
+     * @return $this
      */
     public function setTmpDir($tmpDir)
     {
@@ -112,7 +116,7 @@ class PdfService
      * Generate the Pdf content
      *
      * @param string $fileName
-     * @return string
+     * @return Response
      */
     public function generateDocument($fileName)
     {
@@ -125,7 +129,7 @@ class PdfService
         $headers = $response->getHeaders();
         $headers->addHeaderLine('Content-Type', 'application/pdf')
             ->addHeaderLine('Content-Disposition', 'inline; filename="' . $fileName . '"')
-            ->addHeaderLine('Content-Length', strlen($content));
+            ->addHeaderLine('Content-Length', strval(strlen($content)));
 
         $response->setContent($content);
 
@@ -134,10 +138,8 @@ class PdfService
 
     /**
      * Generate a PDF
-     *
-     * @return type
      */
-    public function generatePdf()
+    public function generatePdf(): string
     {
         $this->setHtml($this->removeUnwantedStuff($this->getHtml()));
 
@@ -155,7 +157,11 @@ class PdfService
         // Need to create a tmp html file
         $tmpFilePrefix = realpath($this->getTmpDir()) . '/' . time() . uniqid();
 
-        $binary = $this->getConfig()->get('report_builder')->get('html_to_pdf_binary');
+        /** @var Config */
+        $reportBuilderConfig = $this->getConfig()->get('report_builder');
+
+        /** @var string */
+        $binary = $reportBuilderConfig->get('html_to_pdf_binary');
 
         $tmpHtmlFile = $tmpFilePrefix . '.html';
         $tmpPdfFile = $tmpFilePrefix . '.pdf';
@@ -168,6 +174,7 @@ class PdfService
             throw new \Exception('Failed to create temporary html file');
         }
 
+        /** @psalm-suppress ForbiddenCode */
         $result = shell_exec($command);
 
         if (!file_exists($tmpPdfFile)) {
@@ -180,13 +187,17 @@ class PdfService
         unlink($tmpHtmlFile);
         unlink($tmpPdfFile);
 
+        if (false === $content) {
+            throw new \Exception("Failed to read converted pdf");
+        }
+
         return $content;
     }
 
     /**
      * Remove unwanted stuff
      *
-     * @param string $html
+     * @param string|null $html
      * @return string
      */
     private function removeUnwantedStuff($html)
@@ -207,19 +218,21 @@ class PdfService
     /**
      * Replace web roots within the html
      *
-     * @param string $html
+     * @param string|null $html
      * @param string $root
+     *
+     * @return string
      */
     public function replaceWebRoot($html, $root)
     {
-        $count = preg_match_all('/(\<[a-zA-Z]+\ ([^>]+)?[src|href]=")(\/[^"]+)("([^>]+)?\>)/', $html ?? '', $matches);
+        $html = $html ?? '';
+        $count = preg_match_all('/(\<[a-zA-Z]+\ ([^>]+)?[src|href]=")(\/[^"]+)("([^>]+)?\>)/', $html, $matches);
 
-        if (!$count) {
+        if (false === $count) {
             return $html;
         }
 
         foreach ($matches[0] as $key => $oldTag) {
-
             $replacement = rtrim($root, '/') . '/' . ltrim($matches[3][$key], '/');
 
             $newTag = str_replace($matches[3][$key], $replacement, $oldTag);
@@ -230,6 +243,9 @@ class PdfService
         return $html;
     }
 
+    /**
+     * @return Config
+     */
     private function getConfig()
     {
         if (is_null($this->report_config)) {

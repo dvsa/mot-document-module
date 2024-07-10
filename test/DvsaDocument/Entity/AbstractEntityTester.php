@@ -5,7 +5,9 @@
  *
  * @author Rob Caiger <rob@clocal.co.uk>
  */
+
 namespace DvsaDocumentModuleTest\DvsaDocument\Entity;
+
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 
@@ -26,7 +28,7 @@ abstract class AbstractEntityTester extends TestCase
     /**
      * Holds the entity class name
      *
-     * @var string
+     * @var class-string
      */
     protected $entityClass;
 
@@ -35,6 +37,9 @@ abstract class AbstractEntityTester extends TestCase
      */
     protected $testMethods = [];
 
+    /**
+     * @return class-string
+     */
     public function getClassToTestName()
     {
         return $this->entityClass;
@@ -42,6 +47,12 @@ abstract class AbstractEntityTester extends TestCase
 
     /**
      * @dataProvider providerGettersAndSetters
+     *
+     * @param string $methodName
+     * @param mixed $testValue
+     * @param mixed $defValue
+     *
+     * @return void
      */
     public function testGettersAndSetters($methodName, $testValue, $defValue = null)
     {
@@ -72,12 +83,12 @@ abstract class AbstractEntityTester extends TestCase
         $methods = $reflection->getMethods();
 
         //  --  common Entity methods  --
-        $this->testMethods= [
+        $this->testMethods = [
             ['CreatedBy', 1],
             ['CreatedOn', new \DateTime()],
             ['LastUpdatedBy', 2],
             ['LastUpdatedOn', new \DateTime()],
-            ['Version', rand(1, 1E5), 1],
+            ['Version', rand(1, 100000), 1],
         ];
 
         //  --  class methods   --
@@ -85,7 +96,8 @@ abstract class AbstractEntityTester extends TestCase
             if (substr($method->getName(), 0, 3) == 'set') {
                 $methodName = substr($method->getName(), 3);
 
-                if ((ltrim($method->getDeclaringClass()->getName(), "\\") == ltrim($classToTestName, "\\"))
+                if (
+                    (ltrim($method->getDeclaringClass()->getName(), "\\") == ltrim($classToTestName, "\\"))
                     && $method->isPublic()
                     && $reflection->hasProperty(lcfirst($methodName))
                     && $reflection->hasMethod('get' . $methodName)

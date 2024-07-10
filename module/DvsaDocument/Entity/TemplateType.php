@@ -5,6 +5,7 @@
  *
  * @author Rob Caiger <rob@clocal.co.uk>
  */
+
 namespace DvsaDocument\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -23,8 +24,8 @@ class TemplateType extends Entity
 {
     use CommonIdentityTrait;
 
-    const ENTITY_NAME = 'TemplateType';
-    const CLASS_PATH = __CLASS__;
+    public const ENTITY_NAME = 'TemplateType';
+    public const CLASS_PATH = __CLASS__;
 
     /**
      * @var string
@@ -33,13 +34,19 @@ class TemplateType extends Entity
      */
     private $name;
 
-    public function setName($name)
+    /**
+     * @return $this
+     */
+    public function setName(string $name)
     {
         $this->name = $name;
 
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return $this->name;

@@ -9,18 +9,18 @@ use DvsaDocument\Entity\Document;
  */
 class PdfRenderer
 {
-
     /**
-     * @param DvsaDocument\Entity\Document $snapshotData
+     * @param Document $snapshotData
      *
      * @return array
      */
     public function buildPdfParameters(Document $snapshotData)
     {
         $assembled = [];
+        /** @var array $parameters */
         $parameters = $snapshotData->getDocumentContent();
 
-        if(empty($parameters)) {
+        if (empty($parameters)) {
             return $assembled;
         }
 
@@ -32,9 +32,9 @@ class PdfRenderer
     }
 
     /**
-     * @param string $value
+     * @param mixed $value
      *
-     * @return string
+     * @return mixed
      */
     protected function buildParameterValue($value)
     {

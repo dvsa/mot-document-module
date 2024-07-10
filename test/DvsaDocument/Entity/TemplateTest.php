@@ -5,6 +5,7 @@
  *
  * @author Rob Caiger <rob@clocal.co.uk>
  */
+
 namespace DvsaDocumentModuleTest\DvsaDocument\Entity;
 
 use DvsaDocument\Entity\Template;
@@ -19,7 +20,7 @@ class TemplateTest extends AbstractEntityTester
     /**
      * Holds the entity class name
      *
-     * @var string
+     * @var class-string
      */
     protected $entityClass = Template::class;
 

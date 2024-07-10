@@ -9,6 +9,8 @@ namespace DvsaReport\Service\HttpClient;
 use Laminas\Http\Client;
 use Laminas\Http\Request;
 use Laminas\Log\Logger;
+use Laminas\Uri\Http;
+use Traversable;
 
 /**
  * Http Client service
@@ -27,15 +29,20 @@ class AbstractHttpClientService
 
     /**
      * Holds the logger object
+     *
+     * @var Logger
      */
     protected $logger;
 
+    /**
+     * @var string
+     */
     protected $domainUrl;
 
     /**
      * Set the client object
      *
-     * @param \Laminas\Http\Client $client
+     * @param Client $client
      * @return $this
      */
     public function setClient(Client $client)
@@ -47,7 +54,7 @@ class AbstractHttpClientService
     /**
      * Set the logger
      *
-     * @param \Laminas\Log\Logger
+     * @param Logger $logger
      * @return $this
      */
     public function setLogger(Logger $logger)
@@ -59,7 +66,7 @@ class AbstractHttpClientService
     /**
      * Set the request object
      *
-     * @param \Laminas\Http\Request $request
+     * @param Request $request
      * @return $this
      */
     public function setRequest(Request $request)
@@ -69,31 +76,35 @@ class AbstractHttpClientService
     }
 
     /**
-     * @return \Laminas\Http\Client
+     * @return Client
      */
-    public function getClient() : Client
+    public function getClient(): Client
     {
         return $this->client;
     }
 
     /**
-     * @return \Laminas\Log\Logger
+     * @return Logger
      */
-    public function getLogger() : Logger
+    public function getLogger(): Logger
     {
         return $this->logger;
     }
 
     /**
-     * @return \Laminas\Http\Request
+     * @return Request
      */
-    public function getRequest() : Request
+    public function getRequest(): Request
     {
         return $this->request;
     }
 
     /**
      * Wrapper method to set the request URI
+     *
+     * @param string|Http $uri
+     *
+     * @return $this
      */
     public function setUri($uri)
     {
@@ -103,6 +114,10 @@ class AbstractHttpClientService
 
     /**
      * Wrapper method to set the request URI
+     *
+     * @param mixed $content
+     *
+     * @return $this
      */
     public function setContent($content)
     {
@@ -112,6 +127,9 @@ class AbstractHttpClientService
 
     /**
      * Wrapper method to set any client options
+     *
+     * @param array|Traversable $options
+     * @return $this
      */
     public function setOptions($options)
     {

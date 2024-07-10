@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: radoslawl
@@ -15,11 +16,12 @@ use Laminas\Stdlib\ArrayUtils;
 use Laminas\Stdlib\ErrorHandler;
 use DvsaReport\Model\TracingEvents;
 
-
 class TraceableHttpClient extends Client
 {
-
+    /** @var RequestTracingService */
     protected $requestTracingService;
+
+    /** @var string */
     protected $currentStageSpanId;
     /**
      * TraceableHttpClient constructor.
@@ -40,19 +42,26 @@ class TraceableHttpClient extends Client
      */
     public function dispatch(Stdlib\RequestInterface $request, Stdlib\ResponseInterface $response = null)
     {
+        if (!($request instanceof \Laminas\Http\Request)) {
+            throw new \Exception("Request is not instance of \Laminas\Http\Request");
+        }
         $request = $this->requestTracingService->addAbsentTracingHeaders($request);
 
-        if($this->currentStageSpanId == false) {
+        if ($this->currentStageSpanId == false) {
             $this->currentStageSpanId = $this->requestTracingService->create64BitIdAsHex();
         }
 
-        $request = $this->requestTracingService->updateTracingHeader($request,
+        $request = $this->requestTracingService->updateTracingHeader(
+            $request,
             RequestTracingService::PARENT_ID_HEADER,
-            $this->currentStageSpanId);
+            $this->currentStageSpanId
+        );
 
-        $request = $this->requestTracingService->updateTracingHeader($request,
+        $request = $this->requestTracingService->updateTracingHeader(
+            $request,
             RequestTracingService::SPAN_ID_HEADER,
-            $this->requestTracingService->create64BitIdAsHex());
+            $this->requestTracingService->create64BitIdAsHex()
+        );
 
         $this->requestTracingService->log($request, TracingEvents::CLIENT_SENT);
         $response = parent::dispatch($request);
@@ -60,5 +69,4 @@ class TraceableHttpClient extends Client
 
         return $response;
     }
-
 }

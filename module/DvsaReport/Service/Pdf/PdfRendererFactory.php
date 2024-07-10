@@ -18,7 +18,7 @@ class PdfRendererFactory implements FactoryInterface
      *
      * @return PdfRenderer
      */
-    public function __invoke(ContainerInterface $container, $name, array $args = null)
+    public function __invoke(ContainerInterface $container, mixed $name, array $args = null)
     {
         $renderer = new PdfRenderer();
         return $renderer;

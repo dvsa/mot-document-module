@@ -3,6 +3,7 @@
 namespace DvsaReport\Service\HttpClient;
 
 use Laminas\Http\Response;
+use Laminas\Log\Logger;
 
 /**
  * Created by PhpStorm.
@@ -12,19 +13,24 @@ use Laminas\Http\Response;
  */
 class EnhancedLambdaHttpClientService extends LambdaHttpClientService
 {
-
-    const RETRIABLE_STATUS_CODES = array(
+    public const RETRIABLE_STATUS_CODES = array(
         Response::STATUS_CODE_429,
         Response::STATUS_CODE_503,
         Response::STATUS_CODE_504);
 
+    /** @var integer */
     protected $MAX_ATTEMPT_COUNT;
+    /** @var integer */
     protected $RETRY_DELAY_IN_SECONDS;
 
+    /** @var Logger */
     protected $logger;
 
     /**
      * LambdaHttpClientWrapper constructor.
+     *
+     * @param int $maxAttemptCount
+     * @param int $retryDelayInSeconds
      */
     public function __construct($maxAttemptCount, $retryDelayInSeconds)
     {
@@ -32,18 +38,15 @@ class EnhancedLambdaHttpClientService extends LambdaHttpClientService
         $this->RETRY_DELAY_IN_SECONDS = $retryDelayInSeconds;
     }
 
-    /**
-     * @param HttpClientServiceInterface $httpClient
-     */
-    public function dispatch() : Response
+    public function dispatch(): Response
     {
         $attempt = 0;
 
         $response = null;
-        while($attempt < $this->MAX_ATTEMPT_COUNT) {
-
+        while ($attempt < $this->MAX_ATTEMPT_COUNT) {
             $this->delayNextRequest($attempt);
 
+            /** @var Response */
             $response = $this->client->dispatch($this->request);
 
             $statusCode = $response->getStatusCode();
@@ -51,20 +54,31 @@ class EnhancedLambdaHttpClientService extends LambdaHttpClientService
                 $this->logger->info("Lambda service call successful!");
                 return $response;
             } elseif (in_array($statusCode, self::RETRIABLE_STATUS_CODES)) {
-                $this->logger->warn(sprintf("Attempt nr: %s of Lambda service call failed with response: \n %s",
-                    ($attempt + 1), $response));
+                $this->logger->warn(sprintf(
+                    "Attempt nr: %s of Lambda service call failed with response: \n %s",
+                    ($attempt + 1),
+                    $response
+                ));
                 $attempt++;
             } else {
-                throw new \Exception($response);
+                throw new \Exception((string) $response);
             }
+        }
+
+        if (is_null($response)) {
+            throw new \Exception("Getting report failed after 3 attempts");
         }
 
         throw new \Exception(sprintf("Getting report failed after 3 attempts:\n %s", $response));
     }
 
-    private function delayNextRequest($attempt) {
+    /**
+     * @param int $attempt
+     */
+    private function delayNextRequest($attempt): void
+    {
         $secondsToSleep = $attempt * $this->RETRY_DELAY_IN_SECONDS;
         set_time_limit(15);
-        sleep($secondsToSleep);
+        sleep(max(0, $secondsToSleep));
     }
 }

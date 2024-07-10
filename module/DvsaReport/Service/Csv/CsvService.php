@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Csv service
  *
@@ -51,7 +52,8 @@ class CsvService
      * Set data
      *
      * @param array $data
-     * @return \DvsaDocument\Service\Csv\CsvService
+     *
+     * @return $this
      */
     public function setData(array $data = array())
     {
@@ -63,7 +65,7 @@ class CsvService
     /**
      * Get response
      *
-     * @return Response;
+     * @return Response
      */
     public function getResponse()
     {
@@ -75,7 +77,7 @@ class CsvService
      *
      * @param Response $response
      */
-    public function setResponse(Response $response)
+    public function setResponse(Response $response): void
     {
         $this->response = $response;
     }
@@ -84,7 +86,9 @@ class CsvService
     /**
      * Generate the CSV content
      *
-     * @return string
+     * @param string $fileName
+     *
+     * @return Response
      */
     public function generateDocument($fileName)
     {
@@ -97,7 +101,7 @@ class CsvService
         $headers = $response->getHeaders();
         $headers->addHeaderLine('Content-Type', 'text/csv')
             ->addHeaderLine('Content-Disposition', 'attachment; filename="' . $fileName . '"')
-            ->addHeaderLine('Content-Length', strlen($content));
+            ->addHeaderLine('Content-Length', strval(strlen($content)));
 
         $response->setContent($content);
 
@@ -117,7 +121,6 @@ class CsvService
             $first = true;
 
             foreach ($this->getData() as $row) {
-
                 $row = $this->cleanRow($row);
 
                 if ($first == true) {

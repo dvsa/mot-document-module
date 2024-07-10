@@ -30,7 +30,7 @@ class DocumentService
     /**
      * Get entity manager
      *
-     * @return \Doctrine\ORM\EntityManager
+     * @return EntityManagerInterface
      */
     protected function getEntityManager()
     {
@@ -41,10 +41,12 @@ class DocumentService
      * Create a new snapshot based on an array of key/value tuples of document data,
      * a template name, and any optional variations of the template to store
      *
-     * @param $templateName
+     * @param string $templateName
+     * @param int $userId
      * @param array $data
-     * @param $userId
+     *
      * @return int
+     *
      * @throws EmptyDocumentException
      * @throws TemplateNotFoundException
      * @throws \Doctrine\ORM\NoResultException
@@ -70,13 +72,17 @@ class DocumentService
             ->getQuery();
 
         try {
+            /** @var array */
             $template = $query->getSingleResult();
         } catch (NoResultException $ex) {
             throw new TemplateNotFoundException('Template \'' . $templateName . '\' not found');
         }
 
+        /** @var integer */
+        $templateId = $template['id'];
+
         $document = new Document();
-        $document->setTemplate($template['id']);
+        $document->setTemplate($templateId);
         $document->setDocumentContent($data);
         $document->setCreatedBy($userId)->setCreatedOn((new \DateTime()));
 
@@ -86,11 +92,11 @@ class DocumentService
         return $document->getId();
     }
 
-    public function updateSnapshot(Document $document)
+    public function updateSnapshot(Document $document): void
     {
         $em = $this->getEntityManager();
         $em->persist($document);
-        $em->flush($document);
+        $em->flush();
     }
 
     /**
@@ -130,27 +136,34 @@ class DocumentService
         $query = $qb->getQuery();
 
         try {
+            /** @var array */
             $result = $query->getSingleResult();
         } catch (NoResultException $ex) {
             throw new TemplateNotFoundException('Template not found');
         }
 
-        return $result['jasperReportName'];
+        /** @var string */
+        $jasperReportName = $result['jasperReportName'];
+
+        return $jasperReportName;
     }
 
     /**
      * Delete document by id
      *
-     * @param $id
+     * @param int $id
+     *
      * @throws EmptyDocumentException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Doctrine\ORM\TransactionRequiredException
+     *
+     * @return void
      */
     public function deleteSnapshot($id)
     {
         $em = $this->getEntityManager();
-        $document = $em->find('DvsaDocument\Entity\Document', $id);
+        $document = $em->find(\DvsaDocument\Entity\Document::class, $id);
 
         if (!$document) {
             /** @BUG Clearly the problem is not that the document is empty */
@@ -171,13 +184,12 @@ class DocumentService
      */
     public function getSnapshotById($id)
     {
-        $document = $this->getEntityManager()->find('DvsaDocument\Entity\Document', $id);
+        $document = $this->getEntityManager()->find(\DvsaDocument\Entity\Document::class, $id);
 
         if (!$document) {
             throw new EmptyDocumentException('Unable to locate cert document data by id: ' . $id);
         }
 
         return $document;
-
     }
 }
