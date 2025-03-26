@@ -8,8 +8,9 @@
 
 namespace DvsaReport\Service\Pdf;
 
-use Laminas\Config\Config;
+use Exception;
 use Laminas\Http\Response;
+use Dompdf\Dompdf;
 
 /**
  * Pdf service
@@ -31,18 +32,6 @@ class PdfService
      * @var Response
      */
     private $response;
-
-    /**
-     * Holds the tmp directory
-     *
-     * @var string
-     */
-    private $tmpDir = '/tmp/';
-
-    /**
-     * @var Config|null
-     */
-    private $report_config;
 
     /**
      * Get html
@@ -89,30 +78,6 @@ class PdfService
     }
 
     /**
-     * Get tmpDir
-     *
-     * @return string
-     */
-    public function getTmpDir()
-    {
-        return $this->tmpDir;
-    }
-
-    /**
-     * Set tmpDir
-     *
-     * @param string $tmpDir
-     *
-     * @return $this
-     */
-    public function setTmpDir($tmpDir)
-    {
-        $this->tmpDir = $tmpDir;
-
-        return $this;
-    }
-
-    /**
      * Generate the Pdf content
      *
      * @param string $fileName
@@ -138,60 +103,40 @@ class PdfService
 
     /**
      * Generate a PDF
+     *
+     * @return string
+     * @throws Exception
      */
     public function generatePdf(): string
     {
         $this->setHtml($this->removeUnwantedStuff($this->getHtml()));
 
-        return $this->generateUsingWkHtmlToPdf();
+        $return = $this->generateUsingDompdf();
+
+        if ($return != null) {
+            return $return;
+        } else {
+            throw new Exception('Failed to generate PDF');
+        }
     }
 
     /**
-     * Generate the PDF using WkHtmlToPdf
+     * Generate the PDF using dompdf
      *
-     * @return string
+     * @return string | null
      * @throws \Exception
      */
-    public function generateUsingWkHtmlToPdf()
+    public function generateUsingDompdf(): string | null
     {
-        // Need to create a tmp html file
-        $tmpFilePrefix = realpath($this->getTmpDir()) . '/' . time() . uniqid();
+        $dompdf = new Dompdf();
 
-        /** @var Config */
-        $reportBuilderConfig = $this->getConfig()->get('report_builder');
+        $dompdf->loadHtml($this->getHtml());
 
-        /** @var string */
-        $binary = $reportBuilderConfig->get('html_to_pdf_binary');
+        $dompdf->setPaper('A4', 'portrait');
 
-        $tmpHtmlFile = $tmpFilePrefix . '.html';
-        $tmpPdfFile = $tmpFilePrefix . '.pdf';
+        $dompdf->render();
 
-        $command =  $binary . ' -q --disable-internal-links --disable-external-links ' . $tmpHtmlFile . ' ' . $tmpPdfFile . ' 2>&1';
-
-        try {
-            file_put_contents($tmpHtmlFile, $this->getHtml());
-        } catch (\Exception $ex) {
-            throw new \Exception('Failed to create temporary html file');
-        }
-
-        /** @psalm-suppress ForbiddenCode */
-        $result = shell_exec($command);
-
-        if (!file_exists($tmpPdfFile)) {
-            unlink($tmpHtmlFile);
-            throw new \Exception("Failed to convert web page to Pdf; wkhtmltopdf result was [$result]");
-        }
-
-        $content = file_get_contents($tmpPdfFile);
-
-        unlink($tmpHtmlFile);
-        unlink($tmpPdfFile);
-
-        if (false === $content) {
-            throw new \Exception("Failed to read converted pdf");
-        }
-
-        return $content;
+        return $dompdf->output();
     }
 
     /**
@@ -241,17 +186,5 @@ class PdfService
         }
 
         return $html;
-    }
-
-    /**
-     * @return Config
-     */
-    private function getConfig()
-    {
-        if (is_null($this->report_config)) {
-            $this->report_config = new Config(include __DIR__ . '/../../../../config/report-module.config.php');
-        }
-
-        return $this->report_config;
     }
 }

@@ -9,6 +9,8 @@
 namespace DvsaReportModuleTest\DvsaReport\Service\Pdf;
 
 use DvsaReport\Service\Pdf\PdfService;
+use Exception;
+use Laminas\Http\Response;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -20,24 +22,19 @@ use PHPUnit\Framework\MockObject\MockObject;
 class PdfServiceTest extends TestCase
 {
     /**
-     * Test generate document
+     * Test generate document using dompdf
      *
      * @return void
      */
-    public function testGenerateDocument()
+    public function testGenerateDocumentUsingDompdf()
     {
-        /** @var MockObject&\DvsaReport\Service\Pdf\PdfService */
-        $pdf = $this->getMockBuilder(\DvsaReport\Service\Pdf\PdfService::class)->disableOriginalConstructor()->onlyMethods(array('generateUsingWkHtmlToPdf'))->getMock();
-
-        $pdf->setTmpDir(__DIR__);
-
-        $this->assertEquals(__DIR__, $pdf->getTmpDir());
+        $pdf = $this->getMockBuilder(PdfService::class)->disableOriginalConstructor()->onlyMethods(array('generateUsingDompdf'))->getMock();
 
         $pdf->expects($this->once())
-            ->method('generateUsingWkHtmlToPdf')
+            ->method('generateUsingDompdf')
             ->will($this->returnValue('PDF CONTENT'));
 
-        $pdf->setResponse(new \Laminas\Http\Response());
+        $pdf->setResponse(new Response());
 
         $pdf->setHtml('<h1>Test</h1>');
 
@@ -45,25 +42,32 @@ class PdfServiceTest extends TestCase
 
         $response = $pdf->generateDocument('test.pdf');
 
-        $this->assertInstanceOf(\Laminas\Http\Response::class, $response);
+        $this->assertInstanceOf(Response::class, $response);
 
         $this->assertEquals('PDF CONTENT', $response->getContent());
     }
 
     /**
+     * Test generate document using dompdf
+     *
      * @return void
      */
-    public function testGenerateDocumentCantWrite()
+    public function testGenerateDocumentExceptionUsingDompdf()
     {
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage("Failed to create temporary html file");
-        $pdf = new PdfService();
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Failed to generate PDF');
 
-        $pdf->setTmpDir('/some/fake/dir');
+        $pdf = $this->getMockBuilder(PdfService::class)->disableOriginalConstructor()->onlyMethods(array('generateUsingDompdf'))->getMock();
 
-        $pdf->setResponse(new \Laminas\Http\Response());
+        $pdf->expects($this->once())
+            ->method('generateUsingDompdf')
+            ->will($this->returnValue(null));
+
+        $pdf->setResponse(new Response());
 
         $pdf->setHtml('<h1>Test</h1>');
+
+        $this->assertEquals('<h1>Test</h1>', $pdf->getHtml());
 
         $pdf->generateDocument('test.pdf');
     }
