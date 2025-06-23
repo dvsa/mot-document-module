@@ -11,6 +11,8 @@ namespace DvsaReport\Service\Pdf;
 use Exception;
 use Laminas\Http\Response;
 use Dompdf\Dompdf;
+use Dompdf\Options;
+
 
 /**
  * Pdf service
@@ -128,7 +130,10 @@ class PdfService
      */
     public function generateUsingDompdf(): string | null
     {
-        $dompdf = new Dompdf();
+        $options = new Options();
+        $options->set('defaultFont', 'Helvetica'); // Set your desired default font
+
+        $dompdf = new Dompdf($options);
 
         $dompdf->loadHtml($this->getHtml());
 
