@@ -16,7 +16,12 @@
     </projectFiles>
     <issueHandlers>
         <PropertyNotSetInConstructor errorLevel="suppress" /> 
-        <MissingConstructor errorLevel="suppress" /> 
-        <RedundantPropertyInitializationCheck errorLevel="suppress" /> 
+        <MissingConstructor errorLevel="suppress" />
+        <RedundantPropertyInitializationCheck errorLevel="suppress" />
+        <UnusedClass>
+            <errorLevel type="suppress">
+                <directory name="test" />
+            </errorLevel>
+        </UnusedClass>
     </issueHandlers>
 </psalm>

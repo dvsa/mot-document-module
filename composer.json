@@ -40,7 +40,7 @@
         "phpcs": "./vendor/bin/phpcs .",
         "phpcs-fix": "./vendor/bin/phpcbf .",
         "psalm": "./vendor/bin/psalm",
-        "phpstan": "./vendor/bin/phpstan analyse"
+        "phpstan": "./vendor/bin/phpstan analyse --memory-limit=512M"
     },
     "config": {
         "platform": {

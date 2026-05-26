@@ -10,6 +10,7 @@ namespace DvsaDocumentModuleTest\DvsaDocument\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 
 /**
  * Abstract entity tester
@@ -18,13 +19,6 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class AbstractEntityTester extends TestCase
 {
-    /**
-     * Holds the entity
-     *
-     * @var object
-     */
-    protected $entity;
-
     /**
      * Holds the entity class name
      *
@@ -40,7 +34,7 @@ abstract class AbstractEntityTester extends TestCase
     /**
      * @return class-string
      */
-    public function getClassToTestName()
+    public function getClassToTestName(): string
     {
         return $this->entityClass;
     }
@@ -74,11 +68,12 @@ abstract class AbstractEntityTester extends TestCase
 
     /**
      * @return array
+     * @throws \ReflectionException
      */
-    public function providerGettersAndSetters()
+    public function providerGettersAndSetters(): array
     {
         $classToTestName = $this->getClassToTestName();
-        $reflection = new \ReflectionClass($classToTestName);
+        $reflection = new ReflectionClass($classToTestName);
 
         $methods = $reflection->getMethods();
 

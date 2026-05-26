@@ -18,7 +18,7 @@ use Laminas\Http\Request;
 use Laminas\Http\Resopnse;
 use Laminas\Log\Logger;
 
-class EnhancedLambdaHttpClientServiceTest extends TestCase
+final class EnhancedLambdaHttpClientServiceTest extends TestCase
 {
     /** @var EnhancedLambdaHttpClientService  */
     protected $wrapper;
@@ -38,6 +38,7 @@ class EnhancedLambdaHttpClientServiceTest extends TestCase
     /** @var int */
     protected $maxAttemptCount;
 
+    #[\Override]
     public function setUp(): void
     {
         $this->client = $this->getMockBuilder(Client::class)->disableOriginalConstructor()->onlyMethods(['setAuth', 'setOptions', 'dispatch'])->getMock();
@@ -140,7 +141,7 @@ class EnhancedLambdaHttpClientServiceTest extends TestCase
     /**
      * @return void
      */
-    public function test200After429()
+    public function test200After429(): void
     {
         $this->response->method('getStatusCode')
             ->will($this->onConsecutiveCalls(Response::STATUS_CODE_429, Response::STATUS_CODE_200));
@@ -157,7 +158,7 @@ class EnhancedLambdaHttpClientServiceTest extends TestCase
     /**
      * @return void
      */
-    public function test200After429and429()
+    public function test200After429and429(): void
     {
         $this->response->method('getStatusCode')
             ->will($this->onConsecutiveCalls(Response::STATUS_CODE_429, Response::STATUS_CODE_429, Response::STATUS_CODE_200));
@@ -176,7 +177,7 @@ class EnhancedLambdaHttpClientServiceTest extends TestCase
     /**
      * @return void
      */
-    public function test500After429()
+    public function test500After429(): void
     {
         $this->response->method('getStatusCode')
             ->will($this->onConsecutiveCalls(Response::STATUS_CODE_429, Response::STATUS_CODE_500));

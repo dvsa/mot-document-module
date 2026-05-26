@@ -9,7 +9,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * Test for CommonIdentityTrait
  */
-class CommonIdentityTraitTest extends TestCase
+final class CommonIdentityTraitTest extends TestCase
 {
     /**
      * @return void

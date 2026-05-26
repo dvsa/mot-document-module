@@ -9,6 +9,7 @@
 namespace DvsaReportModuleTest\DvsaReport\Service\Csv;
 
 use DvsaReport\Service\Csv\CsvService;
+use Laminas\Http\Response;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -16,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @author Rob Caiger <rob@clocal.co.uk>
  */
-class CsvServiceTest extends TestCase
+final class CsvServiceTest extends TestCase
 {
     /**
      * Test generate content from setData
@@ -28,11 +29,11 @@ class CsvServiceTest extends TestCase
      *
      * @return void
      */
-    public function testGenerateCsvFromSetData($data, $expected)
+    public function testGenerateCsvFromSetData($data, $expected): void
     {
         $csv = new CsvService();
 
-        $csv->setResponse(new \Laminas\Http\Response());
+        $csv->setResponse(new Response());
 
         $csv->setData($data);
 

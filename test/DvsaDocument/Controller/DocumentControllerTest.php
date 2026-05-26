@@ -60,10 +60,8 @@ class DocumentControllerTest extends TestCase
         }
 
         $event = new MvcEvent();
-        /** @var array */
         $config = $serviceManager->get('Config');
-        /** @var array */
-        $routerConfig = isset($config['router']) ? $config['router'] : array();
+        $routerConfig = $config['router'] ?? array();
         $router = HttpRouter::factory($routerConfig);
 
         $event->setRouter($router);
@@ -81,7 +79,7 @@ class DocumentControllerTest extends TestCase
      *
      * @return void
      */
-    public function testDeleteActionWithoutId()
+    public function testDeleteActionWithoutId(): void
     {
         $id = null;
         $documentServiceMock = $this->getMockBuilder(DocumentService::class)->disableOriginalConstructor()->onlyMethods(array('deleteSnapshot'))->getMock();
@@ -98,7 +96,7 @@ class DocumentControllerTest extends TestCase
      *
      * @return void
      */
-    public function testDeleteActionWithId()
+    public function testDeleteActionWithId(): void
     {
         $id = -1;
         $documentServiceMock = $this->getMockBuilder(DocumentService::class)->disableOriginalConstructor()->onlyMethods(array('deleteSnapshot'))->getMock();
@@ -107,7 +105,6 @@ class DocumentControllerTest extends TestCase
         $response = $controller->deleteAction();
 
         $this->assertInstanceOf(JsonModel::class, $response);
-        /** @var array */
         $decoded = $response->getVariables();
         $this->assertEquals($id, $decoded['id']);
     }
@@ -117,7 +114,7 @@ class DocumentControllerTest extends TestCase
      *
      * @return void
      */
-    public function testDeleteActionWithUnexpectedExceptionBeingThrown()
+    public function testDeleteActionWithUnexpectedExceptionBeingThrown(): void
     {
         $id = -1;
         $documentServiceMock = $this->getMockBuilder(DocumentService::class)->disableOriginalConstructor()->onlyMethods(array('deleteSnapshot'))->getMock();
@@ -138,7 +135,7 @@ class DocumentControllerTest extends TestCase
      *
      * @return void
      */
-    public function testCreateActionWithMissingTemplateName()
+    public function testCreateActionWithMissingTemplateName(): void
     {
         $documentServiceMock = $this->getMockBuilder(DocumentService::class)->disableOriginalConstructor()->onlyMethods(array('createSnapshot'))->getMock();
         $controller = $this->setUpController($documentServiceMock, null, array('data' => array('foo' => 'foo')));
@@ -153,7 +150,7 @@ class DocumentControllerTest extends TestCase
      *
      * @return void
      */
-    public function testCreateActionWithMissingDocument()
+    public function testCreateActionWithMissingDocument(): void
     {
         $documentServiceMock = $this->getMockBuilder(DocumentService::class)->disableOriginalConstructor()->onlyMethods(array('createSnapshot'))->getMock();
         $controller = $this->setUpController($documentServiceMock, null, array('template' => 'name'));
@@ -168,7 +165,7 @@ class DocumentControllerTest extends TestCase
      *
      * @return void
      */
-    public function testCreateActionWithTemplateNotFound()
+    public function testCreateActionWithTemplateNotFound(): void
     {
         $templateName = 'not found';
         $documentServiceMock = $this->getMockBuilder(DocumentService::class)->disableOriginalConstructor()->onlyMethods(array('createSnapshot'))->getMock();
@@ -192,7 +189,7 @@ class DocumentControllerTest extends TestCase
      *
      * @return void
      */
-    public function testCreateActionWithUnexpectedExceptionBeingThrown()
+    public function testCreateActionWithUnexpectedExceptionBeingThrown(): void
     {
         $documentServiceMock = $this->getMockBuilder(DocumentService::class)->disableOriginalConstructor()->onlyMethods(array('createSnapshot'))->getMock();
         $documentServiceMock->expects($this->once())
@@ -215,7 +212,7 @@ class DocumentControllerTest extends TestCase
      *
      * @return void
      */
-    public function testCreateAction()
+    public function testCreateAction(): void
     {
         $documentServiceMock = $this->getMockBuilder(DocumentService::class)->disableOriginalConstructor()->onlyMethods(array('createSnapshot'))->getMock();
         $documentServiceMock->expects($this->once())
@@ -230,8 +227,7 @@ class DocumentControllerTest extends TestCase
         $response = $controller->createAction();
 
         $this->assertInstanceOf(JsonModel::class, $response);
-        /** @var array */
         $decoded = $response->getVariables();
-        $this->assertEquals($decoded['id'], 1);
+        $this->assertEquals(1, $decoded['id']);
     }
 }

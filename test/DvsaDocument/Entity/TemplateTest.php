@@ -8,23 +8,18 @@
 
 namespace DvsaDocumentModuleTest\DvsaDocument\Entity;
 
-use DvsaDocument\Entity\Template;
 use Doctrine\Common\Collections\ArrayCollection;
+use DvsaDocument\Entity\Template;
 
 /**
  * Template Entity Test
  *
  */
-class TemplateTest extends AbstractEntityTester
+final class TemplateTest extends AbstractEntityTester
 {
-    /**
-     * Holds the entity class name
-     *
-     * @var class-string
-     */
     protected $entityClass = Template::class;
-
-    public function providerGettersAndSetters()
+    #[\Override]
+    public function providerGettersAndSetters(): array
     {
         $testMethods = parent::providerGettersAndSetters();
 

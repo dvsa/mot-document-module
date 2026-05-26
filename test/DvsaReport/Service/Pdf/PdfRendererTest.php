@@ -6,11 +6,12 @@ use DvsaReport\Service\Pdf\PdfRenderer;
 use PHPUnit\Framework\TestCase;
 use DvsaDocument\Entity\Document as SnapshotDocument;
 
-class PdfRendererTest extends TestCase
+final class PdfRendererTest extends TestCase
 {
     /** @var  PdfRenderer */
     protected $renderer;
 
+    #[\Override]
     public function setUp(): void
     {
         $this->renderer = new PdfRenderer();
@@ -19,11 +20,9 @@ class PdfRendererTest extends TestCase
     /**
      * @dataProvider getJasperParameters
      *
-     * @param array $snapshotData
-     *
      * @return void
      */
-    public function testEmptyJasperParams($snapshotData)
+    public function testEmptyJasperParams(): void
     {
         $snapshot = new SnapshotDocument();
         $snapshot->setDocumentContent(null);
@@ -40,7 +39,7 @@ class PdfRendererTest extends TestCase
      *
      * @return void
      */
-    public function testBuildJasperParameters($snapshotData)
+    public function testBuildJasperParameters($snapshotData): void
     {
         $snapshot = new SnapshotDocument();
         $snapshot->setDocumentContent($snapshotData);

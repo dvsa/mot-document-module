@@ -5,7 +5,7 @@ namespace DvsaReportModuleTest\DvsaReport\Service\Csv;
 use DvsaReport\Service\Encoder\ParamsEncoder;
 use PHPUnit\Framework\TestCase;
 
-class ParamsEncoderTest extends TestCase
+final class ParamsEncoderTest extends TestCase
 {
     /**
      * Test ParamsEncoder data handling
@@ -17,7 +17,7 @@ class ParamsEncoderTest extends TestCase
      *
      * @return void
      */
-    public function testEncodingProvidedData($data, $expected)
+    public function testEncodingProvidedData(array $data, mixed $expected): void
     {
         $paramsEncoder = new ParamsEncoder();
 
@@ -31,7 +31,7 @@ class ParamsEncoderTest extends TestCase
      *
      * @return array
      */
-    public function dataProvider()
+    public function dataProvider(): array
     {
         return [
             [

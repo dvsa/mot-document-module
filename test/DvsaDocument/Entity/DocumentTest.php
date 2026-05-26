@@ -15,19 +15,13 @@ use DvsaDocument\Entity\Document;
  *
  * @author Rob Caiger <rob@clocal.co.uk>
  */
-class DocumentTest extends AbstractEntityTester
+final class DocumentTest extends AbstractEntityTester
 {
-    /**
-     * Holds the entity class name
-     *
-     * @var class-string
-     */
     protected $entityClass = Document::class;
 
-    public function providerGettersAndSetters()
+    #[\Override]
+    public function providerGettersAndSetters(): array
     {
-        $testMethods = parent::providerGettersAndSetters();
-
-        return $testMethods;
+        return parent::providerGettersAndSetters();
     }
 }

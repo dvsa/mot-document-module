@@ -14,7 +14,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * LambdaHttpClientService Test
  *
  */
-class LambdaHttpClientServiceTest extends TestCase
+final class LambdaHttpClientServiceTest extends TestCase
 {
     /** @var LambdaHttpClientService  */
     protected $service;
@@ -32,6 +32,7 @@ class LambdaHttpClientServiceTest extends TestCase
     protected $logger;
 
 
+    #[\Override]
     public function setUp(): void
     {
         $this->client = $this->getMockBuilder(Client::class)->disableOriginalConstructor()->onlyMethods(['setAuth', 'setOptions', 'dispatch'])->getMock();
@@ -47,7 +48,7 @@ class LambdaHttpClientServiceTest extends TestCase
     /**
      * @return void
      */
-    public function testGetClient()
+    public function testGetClient(): void
     {
         $this->assertSame($this->client, $this->service->getClient());
     }
@@ -55,7 +56,7 @@ class LambdaHttpClientServiceTest extends TestCase
     /**
      * @return void
      */
-    public function testGetLogger()
+    public function testGetLogger(): void
     {
         $this->assertSame($this->logger, $this->service->getLogger());
     }
@@ -63,7 +64,7 @@ class LambdaHttpClientServiceTest extends TestCase
     /**
      * @return void
      */
-    public function testGetRequest()
+    public function testGetRequest(): void
     {
         $this->assertSame($this->request, $this->service->getRequest());
     }
@@ -71,7 +72,7 @@ class LambdaHttpClientServiceTest extends TestCase
     /**
      * @return void
      */
-    public function testSetOptionsProxiesThroughToClient()
+    public function testSetOptionsProxiesThroughToClient(): void
     {
         $this->client->expects($this->once())
             ->method('setOptions')
@@ -83,7 +84,7 @@ class LambdaHttpClientServiceTest extends TestCase
     /**
      * @return void
      */
-    public function testDispatchIssuesRequest()
+    public function testDispatchIssuesRequest(): void
     {
         $response = (new Response())->setContent('foo');
 
@@ -98,7 +99,7 @@ class LambdaHttpClientServiceTest extends TestCase
     /**
      * @return void
      */
-    public function testDispatchLogsUrl()
+    public function testDispatchLogsUrl(): void
     {
         $this->client->method('dispatch')
             ->willReturn(new Response());

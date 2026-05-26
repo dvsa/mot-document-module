@@ -10,24 +10,20 @@ namespace DvsaReportModuleTest\DvsaReport\Service\Pdf;
 
 use DvsaReport\Service\Pdf\PdfService;
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * PdfService Test
  *
  * @author Rob Caiger <rob@clocal.co.uk>
  */
-class PdfServiceTest extends TestCase
+final class PdfServiceTest extends TestCase
 {
     /**
      * Test generate document
-     *
-     * @return void
      */
-    public function testGenerateDocument()
+    public function testGenerateDocument(): void
     {
-        /** @var MockObject&\DvsaReport\Service\Pdf\PdfService */
-        $pdf = $this->getMockBuilder(\DvsaReport\Service\Pdf\PdfService::class)->disableOriginalConstructor()->onlyMethods(array('generateUsingWkHtmlToPdf'))->getMock();
+        $pdf = $this->getMockBuilder(PdfService::class)->disableOriginalConstructor()->onlyMethods(array('generateUsingWkHtmlToPdf'))->getMock();
 
         $pdf->setTmpDir(__DIR__);
 
@@ -53,7 +49,7 @@ class PdfServiceTest extends TestCase
     /**
      * @return void
      */
-    public function testGenerateDocumentCantWrite()
+    public function testGenerateDocumentCantWrite(): void
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Failed to create temporary html file");
@@ -73,13 +69,13 @@ class PdfServiceTest extends TestCase
      *
      * @dataProvider dataProviderForReplaceWebRoot
      *
-     * @param null|string $input
+     * @param string|null $input
      * @param string $base
      * @param mixed $expected
      *
      * @return void
      */
-    public function testReplaceWebRoot($input, $base, $expected)
+    public function testReplaceWebRoot(?string $input, string $base, mixed $expected): void
     {
         $pdfService = new PdfService();
 
@@ -88,10 +84,7 @@ class PdfServiceTest extends TestCase
         $this->assertEquals($expected, $output);
     }
 
-    /**
-     * @return array
-     */
-    public function dataProviderForReplaceWebRoot()
+    public function dataProviderForReplaceWebRoot(): array
     {
         return array(
             array(

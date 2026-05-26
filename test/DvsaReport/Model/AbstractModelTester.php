@@ -9,6 +9,7 @@
 namespace DvsaDocumentModuleTest\DvsaReport\Model;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 
 /**
  * Abstract Model Tester
@@ -18,28 +19,15 @@ use PHPUnit\Framework\TestCase;
 abstract class AbstractModelTester extends TestCase
 {
     /**
-     * Holds the model
-     *
-     * @var object
-     */
-    protected $model;
-
-    /**
      * Holds the model class name
      *
      * @var class-string
      */
     protected $modelClass;
 
-    /**
-     * @var array
-     */
-    protected $testMethods = [];
+    protected array $testMethods = [];
 
-    /**
-     * @return class-string
-     */
-    public function getClassToTestName()
+    public function getClassToTestName(): string
     {
         return $this->modelClass;
     }
@@ -52,7 +40,7 @@ abstract class AbstractModelTester extends TestCase
      *
      * @return void
      */
-    public function testGettersAndSetters($methodName, $testValue)
+    public function testGettersAndSetters(string $methodName, mixed $testValue): void
     {
         $classToTestName = $this->getClassToTestName();
         $model = new $classToTestName();
@@ -62,12 +50,12 @@ abstract class AbstractModelTester extends TestCase
     }
 
     /**
-     * @return array
+     * @throws \ReflectionException
      */
-    public function providerGettersAndSetters()
+    public function providerGettersAndSetters(): array
     {
         $classToTestName = $this->getClassToTestName();
-        $reflection = new \ReflectionClass($classToTestName);
+        $reflection = new ReflectionClass($classToTestName);
 
         $methods = $reflection->getMethods();
 

@@ -2,21 +2,24 @@
 
 namespace DvsaDocumentModuleTest;
 
+use Laminas\ModuleManager\ModuleManager;
 use Laminas\Mvc\Service\ServiceManagerConfig;
 use Laminas\ServiceManager\ServiceManager;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * Test bootstrap, for setting up autoloading
  */
-class TestBootstrap
+final class TestBootstrap
 {
-    /** @var ServiceManager */
-    protected static $serviceManager;
+    protected static ServiceManager $serviceManager;
 
     /**
-     * @return void
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    public static function init()
+    public static function init(): void
     {
         // Grab the application config
         $config = array(
@@ -31,10 +34,9 @@ class TestBootstrap
             )
         );
 
-        /** @psalm-suppress ArgumentTypeCoercion */
         $serviceManager = new ServiceManager((new ServiceManagerConfig())->toArray());
         $serviceManager->setService('ApplicationConfig', $config);
-        /** @var \Laminas\ModuleManager\ModuleManager */
+        /** @var ModuleManager $moduleManager */
         $moduleManager = $serviceManager->get('ModuleManager');
         $moduleManager->loadModules();
         static::$serviceManager = $serviceManager;
@@ -43,7 +45,7 @@ class TestBootstrap
     /**
      * @return ServiceManager
      */
-    public static function getServiceManager()
+    public static function getServiceManager(): ServiceManager
     {
         return static::$serviceManager;
     }
