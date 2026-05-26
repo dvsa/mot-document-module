@@ -7,8 +7,9 @@ use Laminas\Mvc\MvcEvent;
 
 /**
  * Module Bootstrap
+ * @psalm-suppress UnusedClass
  */
-class Module
+final class Module
 {
     /**
      * @return mixed

@@ -15,12 +15,16 @@
         </ignoreFiles>
     </projectFiles>
     <issueHandlers>
-        <PropertyNotSetInConstructor errorLevel="suppress" /> 
         <MissingConstructor errorLevel="suppress" />
         <RedundantPropertyInitializationCheck errorLevel="suppress" />
+        <PropertyNotSetInConstructor errorLevel="suppress" />
         <UnusedClass>
             <errorLevel type="suppress">
                 <directory name="test" />
+                <directory name="module/DvsaDocument/Factory"/>
+                <directory name="module/DvsaReport/Service/Factory"/>
+                <file name="module/DvsaReport/Service/Pdf/PdfRendererFactory.php"/>
+                <file name="module/DvsaReport/Module.php"/>
             </errorLevel>
         </UnusedClass>
     </issueHandlers>

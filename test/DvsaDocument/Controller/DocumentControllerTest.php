@@ -8,6 +8,7 @@
 
 namespace DvsaDocumentModuleTest\DvsaDocument\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use DvsaDocument\Service\Document\DocumentService;
 use Laminas\Router\RouteStackInterface;
 use PHPUnit\Framework\TestCase;
@@ -27,10 +28,10 @@ use Laminas\View\Model\JsonModel;
  *
  * @author Alex Peshkov <alex.peshkov@valtech.co.uk>
  */
-class DocumentControllerTest extends TestCase
+final class DocumentControllerTest extends TestCase
 {
     /**
-     * @param \PHPUnit\Framework\MockObject\MockObject&DocumentService $documentServiceMock
+     * @param DocumentService $documentServiceMock
      * @param int $id
      * @param mixed $post
      *
@@ -108,9 +109,10 @@ class DocumentControllerTest extends TestCase
         $controller = $this->setUpController($documentServiceMock, $id);
         $response = $controller->deleteAction();
 
+        /** @psalm-suppress DeprecatedClass BL-19119*/
         $this->assertInstanceOf(JsonModel::class, $response);
         $decoded = $response->getVariables();
-        /** @phpstan-ignore-next-line */
+        /** @var array<string, mixed> $decoded */
         $this->assertEquals($id, $decoded['id']);
     }
 
@@ -231,6 +233,7 @@ class DocumentControllerTest extends TestCase
         );
         $response = $controller->createAction();
 
+        /** @psalm-suppress DeprecatedClass BL-19119*/
         $this->assertInstanceOf(JsonModel::class, $response);
         $decoded = $response->getVariables();
         /** @var array<string, mixed> $decoded */

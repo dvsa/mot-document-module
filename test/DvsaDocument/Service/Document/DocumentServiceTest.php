@@ -313,7 +313,6 @@ final class DocumentServiceTest extends TestCase
             return;
         }
 
-        /** @var MockObject&EntityManager $emMock */
         $emMock = $this->getMockBuilder(EntityManager::class)->disableOriginalConstructor()->onlyMethods($methods)->getMock();
         $this->em = $emMock;
 

@@ -15,7 +15,7 @@ namespace DvsaReport\Model;
  * @author Rob Caiger <rob@clocal.co.uk>
  * @author Nick Payne <nick.payne@valtech.co.uk>
  */
-class Report
+final class Report
 {
     /**
      * Holds the report name (including extension)

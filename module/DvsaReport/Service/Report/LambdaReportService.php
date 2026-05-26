@@ -13,6 +13,9 @@ use Laminas\Http\Response;
 use Laminas\Http\Header\HeaderInterface;
 use DvsaReport\Model\ReportNames;
 
+/**
+ * @psalm-suppress ClassMustBeFinal cannot be final or tests would need overhall
+ */
 class LambdaReportService
 {
     public const CONTENT_TYPE_JSON = 'application/json; charset=utf-8';

@@ -20,7 +20,7 @@ use DvsaReport\Service\HttpClient\EnhancedLambdaHttpClientService;
 use Laminas\Http\Headers;
 use Laminas\Log\Logger;
 
-class EnhancedLambdaHttpClientServiceFactory implements FactoryInterface
+final class EnhancedLambdaHttpClientServiceFactory implements FactoryInterface
 {
     public const REQUIRED_CONFIG_ROOT_KEY = 'certificate_generation';
     public const REQUIRED_CONFIG_KEYS = ['headers', 'uri', 'x-api-key', 'max_request_attempt_count', 'request_attempt_delay'];
@@ -31,6 +31,7 @@ class EnhancedLambdaHttpClientServiceFactory implements FactoryInterface
      * @param array|null $args
      * @return EnhancedLambdaHttpClientService|object
      */
+    #[\Override]
     public function __invoke(ContainerInterface $container, $name, array $args = null)
     {
         /** @var array */

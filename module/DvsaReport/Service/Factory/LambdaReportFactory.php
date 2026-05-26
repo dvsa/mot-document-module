@@ -7,15 +7,20 @@ use DvsaReport\Service\Pdf\PdfRenderer;
 use DvsaReport\Service\Report\LambdaReportService;
 use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
-class LambdaReportFactory implements FactoryInterface
+final class LambdaReportFactory implements FactoryInterface
 {
     /**
      * @param ContainerInterface $container
      * @param string $name
      * @param array|null $args
      * @return LambdaReportService|object
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
+    #[\Override]
     public function __invoke(ContainerInterface $container, $name, array $args = null)
     {
         /** @var PdfRenderer */

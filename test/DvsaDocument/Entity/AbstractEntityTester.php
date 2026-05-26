@@ -45,6 +45,7 @@ abstract class AbstractEntityTester extends TestCase
      * @param string $methodName
      * @param mixed $testValue
      * @param mixed $defValue
+     * @psalm-suppress PossiblyUnusedMethod
      *
      * @return void
      */
@@ -69,6 +70,7 @@ abstract class AbstractEntityTester extends TestCase
     /**
      * @return array
      * @throws \ReflectionException
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function providerGettersAndSetters(): array
     {

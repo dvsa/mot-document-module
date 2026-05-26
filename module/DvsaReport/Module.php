@@ -8,7 +8,7 @@ use Laminas\Mvc\MvcEvent;
 /**
  * Module Bootstrap
  */
-class Module
+final class Module
 {
     /**
      * @return array<array<array<string>|int|string>>

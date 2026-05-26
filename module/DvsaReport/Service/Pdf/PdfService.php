@@ -14,6 +14,7 @@ use Laminas\Http\Response;
  * Pdf service
  *
  * @author Rob Caiger <rob@clocal.co.uk>
+ * @psalm-suppress ClassMustBeFinal cannot be final or tests would need overhall
  */
 class PdfService
 {

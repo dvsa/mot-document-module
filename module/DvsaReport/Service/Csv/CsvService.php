@@ -15,7 +15,7 @@ use Laminas\Http\Response;
  *
  * @author Rob Caiger <rob@clocal.co.uk>
  */
-class CsvService
+final class CsvService
 {
     /**
      * Holds the data rows

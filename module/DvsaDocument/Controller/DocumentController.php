@@ -20,11 +20,11 @@ use Laminas\View\Model\JsonModel;
  *
  * @author Alex Peshkov <alex.peshkov@valtech.co.uk>
  */
-class DocumentController extends AbstractDocumentController
+final class DocumentController extends AbstractDocumentController
 {
     /**
      * Create new document and return ID
-     *
+     * @psalm-suppress DeprecatedClass BL-19119
      * @return Response|JsonModel
      */
     public function createAction()
@@ -63,6 +63,7 @@ class DocumentController extends AbstractDocumentController
     /**
      * Delete document by ID
      *
+     * @psalm-suppress DeprecatedClass BL-19119
      * @return Response|JsonModel
      */
     public function deleteAction()

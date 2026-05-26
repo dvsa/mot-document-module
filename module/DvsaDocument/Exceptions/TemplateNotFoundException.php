@@ -13,6 +13,6 @@ namespace DvsaDocument\Exceptions;
  *
  * @author Nick Payne <nick.payne@valtech.co.uk>
  */
-class TemplateNotFoundException extends \Exception
+final class TemplateNotFoundException extends \Exception
 {
 }

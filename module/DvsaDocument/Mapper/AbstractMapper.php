@@ -16,6 +16,8 @@ namespace DvsaDocument\Mapper;
  * Enforces only string key => value pairs defined in the mapTemplate
  *
  * @author Rob Caiger <rob@clocal.co.uk>
+ *
+ * Todo: should this be removed ?
  */
 abstract class AbstractMapper
 {

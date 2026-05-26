@@ -20,7 +20,7 @@ use DvsaDocument\EntityTrait\CommonIdentityTrait;
  * @ORM\Entity(readOnly=true)
  * @ORM\Cache(usage="READ_ONLY", region="staticdata")
  */
-class TemplateType extends Entity
+final class TemplateType extends Entity
 {
     use CommonIdentityTrait;
 

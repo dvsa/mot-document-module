@@ -9,15 +9,17 @@ use Laminas\ServiceManager\Factory\FactoryInterface;
  * Class PdfRendererFactory
  *
  */
-class PdfRendererFactory implements FactoryInterface
+final class PdfRendererFactory implements FactoryInterface
 {
     /**
      * Create service
      *
      * @param ContainerInterface $container
-     *
+     * @param mixed $name
+     * @param array|null $args
      * @return PdfRenderer
      */
+    #[\Override]
     public function __invoke(ContainerInterface $container, mixed $name, array $args = null)
     {
         $renderer = new PdfRenderer();

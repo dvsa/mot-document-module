@@ -2,7 +2,7 @@
 
 namespace DvsaReport\Model;
 
-class ReportNames
+final class ReportNames
 {
     public const VT20 = 'MOT/VT20.pdf';
     public const VT20W = 'MOT/VT20W.pdf';

@@ -20,11 +20,12 @@ use Laminas\View\Model\JsonModel;
  *
  * @author Rob Caiger <rob@clocal.co.uk>
  */
-class ReportNameController extends AbstractDocumentController
+final class ReportNameController extends AbstractDocumentController
 {
     /**
      * Return a single document resource
      *
+     * @psalm-suppress DeprecatedClass BL-19119
      * @return Response|JsonModel
      */
     public function getAction()

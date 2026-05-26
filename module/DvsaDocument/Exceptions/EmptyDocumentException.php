@@ -13,6 +13,6 @@ namespace DvsaDocument\Exceptions;
  *
  * @author Nick Payne <nick.payne@valtech.co.uk>
  */
-class EmptyDocumentException extends \Exception
+final class EmptyDocumentException extends \Exception
 {
 }

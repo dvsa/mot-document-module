@@ -27,6 +27,9 @@ abstract class AbstractModelTester extends TestCase
 
     protected array $testMethods = [];
 
+    /**
+     * @return class-string
+     */
     public function getClassToTestName(): string
     {
         return $this->modelClass;
@@ -37,6 +40,7 @@ abstract class AbstractModelTester extends TestCase
      *
      * @param string $methodName
      * @param mixed  $testValue
+     * @psalm-suppress PossiblyUnusedMethod
      *
      * @return void
      */
@@ -51,11 +55,11 @@ abstract class AbstractModelTester extends TestCase
 
     /**
      * @throws \ReflectionException
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function providerGettersAndSetters(): array
     {
         $classToTestName = $this->getClassToTestName();
-        /** @var class-string $classToTestName */
         $reflection = new ReflectionClass($classToTestName);
 
         $methods = $reflection->getMethods();
