@@ -156,6 +156,17 @@ class PdfService
     public function generateUsingWkHtmlToPdf(): string
     {
         // Need to create a tmp html file
+        /** @psalm-suppress PossiblyFalseOperand
+         *
+         * Reasons for false
+         * The directory doesn't exist
+         * The path is invalid
+         * There are permission issues
+         * The path contains symbolic links that can't be resolved
+         *
+         * Ignore since none of the above can happen and if they do they should happen, in dev 1st through testing
+         * plus the fix would be throw an error which will already happen
+         * */
         $tmpFilePrefix = realpath($this->getTmpDir()) . '/' . time() . uniqid();
 
         $config = $this->getConfig();

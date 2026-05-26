@@ -17,7 +17,6 @@ namespace DvsaDocument\Mapper;
  *
  * @author Rob Caiger <rob@clocal.co.uk>
  *
- * Todo: should this be removed ?
  */
 abstract class AbstractMapper
 {

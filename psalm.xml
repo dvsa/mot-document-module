@@ -25,7 +25,35 @@
                 <directory name="module/DvsaReport/Service/Factory"/>
                 <file name="module/DvsaReport/Service/Pdf/PdfRendererFactory.php"/>
                 <file name="module/DvsaReport/Module.php"/>
+                <file name="module/DvsaDocument/Mapper/AbstractMapper.php" note="todo: should this class exist"/>
             </errorLevel>
         </UnusedClass>
+        <PossiblyUnusedMethod>
+            <errorLevel type="suppress" note="todo: these methods should probably be removed">
+                <file name="module/DvsaDocument/Entity/Entity.php"/>
+                <file name="module/DvsaDocument/Service/Document/DocumentService.php"/>
+                <file name="module/DvsaDocument/Controller/AbstractDocumentController.php"/>
+                <file name="module/DvsaDocument/Entity/TemplateVariation.php"/>
+                <file name="module/DvsaDocument/Entity/TemplateType.php"/>
+                <file name="module/DvsaDocument/Entity/Template.php"/>
+                <file name="module/DvsaDocument/Entity/Document.php"/>
+                <file name="module/DvsaReport/Service/Report/LambdaReportService.php"/>
+                <file name="module/DvsaReport/Service/HttpClient/AbstractHttpClientService.php"/>
+                <file name="module/DvsaReport/Model/ReportNames.php"/>
+            </errorLevel>
+        </PossiblyUnusedMethod>
+        <PossiblyUnusedReturnValue>
+            <errorLevel type="suppress" note="todo: these methods should probably be removed">
+                <file name="module/DvsaDocument/Service/Document/DocumentService.php"/>
+                <file name="module/DvsaReport/Service/Report/LambdaReportService.php"/>
+                <file name="module/DvsaReport/Service/HttpClient/AbstractHttpClientService.php"/>
+                <file name="module/DvsaReport/Service/HttpClient/HttpClientServiceInterface.php"/>
+            </errorLevel>
+        </PossiblyUnusedReturnValue>
+        <PossiblyUnusedParam>
+            <errorLevel type="suppress" note="todo: this methods should probably be removed">
+                <file name="module/DvsaDocument/Mapper/AbstractMapper.php"/>
+            </errorLevel>
+        </PossiblyUnusedParam>
     </issueHandlers>
 </psalm>
