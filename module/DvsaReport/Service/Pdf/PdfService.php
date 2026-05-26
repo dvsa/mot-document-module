@@ -8,7 +8,6 @@
 
 namespace DvsaReport\Service\Pdf;
 
-use Laminas\Config\Config;
 use Laminas\Http\Response;
 
 /**
@@ -40,9 +39,10 @@ class PdfService
     private $tmpDir = '/tmp/';
 
     /**
-     * @var Config|null
+     * Holds the report config, and acts as cache so only fetched once from
+     * the getConfig method
      */
-    private $report_config;
+    private ?array $report_config = null;
 
     /**
      * Get html
@@ -152,16 +152,15 @@ class PdfService
      * @return string
      * @throws \Exception
      */
-    public function generateUsingWkHtmlToPdf()
+    public function generateUsingWkHtmlToPdf(): string
     {
         // Need to create a tmp html file
         $tmpFilePrefix = realpath($this->getTmpDir()) . '/' . time() . uniqid();
 
-        /** @var Config */
-        $reportBuilderConfig = $this->getConfig()->get('report_builder');
+        $reportBuilderConfig = $this->getConfig()['report_builder'];
 
-        /** @var string */
-        $binary = $reportBuilderConfig->get('html_to_pdf_binary');
+        /** @var string $binary */
+        $binary = $reportBuilderConfig['html_to_pdf_binary'];
 
         $tmpHtmlFile = $tmpFilePrefix . '.html';
         $tmpPdfFile = $tmpFilePrefix . '.pdf';
@@ -244,14 +243,13 @@ class PdfService
     }
 
     /**
-     * @return Config
+     * @return array
      */
-    private function getConfig()
+    private function getConfig(): array
     {
         if (is_null($this->report_config)) {
-            $this->report_config = new Config(include __DIR__ . '/../../../../config/report-module.config.php');
+            $this->report_config = include __DIR__ . '/../../../../config/report-module.config.php';
         }
-
         return $this->report_config;
     }
 }

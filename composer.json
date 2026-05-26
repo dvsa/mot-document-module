@@ -27,6 +27,12 @@
             "DvsaCommon\\": "module"
         }
     },
+    "autoload-dev": {
+        "psr-0": {
+            "DvsaDocumentModuleTest\\": "test",
+            "DvsaReportModuleTest\\": "test"
+        }
+    },
     "scripts": {
         "test": [
             "phpunit"
@@ -38,7 +44,7 @@
     },
     "config": {
         "platform": {
-            "php": "8.2"
+            "php": "8.2.27"
         },
         "allow-plugins": {
             "laminas/laminas-dependency-plugin": false,
