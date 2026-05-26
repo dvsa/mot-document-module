@@ -157,9 +157,16 @@ class PdfService
         // Need to create a tmp html file
         $tmpFilePrefix = realpath($this->getTmpDir()) . '/' . time() . uniqid();
 
-        $reportBuilderConfig = $this->getConfig()['report_builder'];
+        $config = $this->getConfig();
+        if (!isset($config['report_builder']) || !is_array($config['report_builder'])) {
+            throw new \Exception('Invalid configuration: report_builder not found');
+        }
 
-        /** @var string $binary */
+        $reportBuilderConfig = $config['report_builder'];
+        if (!isset($reportBuilderConfig['html_to_pdf_binary']) || !is_string($reportBuilderConfig['html_to_pdf_binary'])) {
+            throw new \Exception('Invalid configuration: html_to_pdf_binary not found');
+        }
+
         $binary = $reportBuilderConfig['html_to_pdf_binary'];
 
         $tmpHtmlFile = $tmpFilePrefix . '.html';
@@ -248,7 +255,9 @@ class PdfService
     private function getConfig(): array
     {
         if (is_null($this->report_config)) {
-            $this->report_config = include __DIR__ . '/../../../../config/report-module.config.php';
+            /** @var array $config */
+            $config = include __DIR__ . '/../../../../config/report-module.config.php';
+            $this->report_config = $config;
         }
         return $this->report_config;
     }

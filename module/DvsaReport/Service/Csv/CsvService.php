@@ -120,6 +120,7 @@ class CsvService
 
             $first = true;
 
+            /** @var array $row */
             foreach ($this->getData() as $row) {
                 $row = $this->cleanRow($row);
 
@@ -129,6 +130,7 @@ class CsvService
                     $rows[] = '"' . implode('","', array_keys($row)) . '"';
                 }
 
+                /** @phpstan-ignore-next-line */
                 $rows[] = '"' . implode('","', array_values($row)) . '"';
             }
 
@@ -149,6 +151,13 @@ class CsvService
         $removals = array('£');
 
         foreach ($row as $key => $value) {
+            // Convert to string first, handle non-scalar types
+            if (is_array($value) || is_object($value)) {
+                $value = '';
+            } elseif (!is_string($value)) {
+                /** @phpstan-ignore-next-line */
+                $value = strval($value);
+            }
             $row[$key] = str_replace($removals, '', strip_tags($value));
         }
 

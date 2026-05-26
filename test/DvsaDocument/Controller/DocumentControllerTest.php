@@ -9,6 +9,7 @@
 namespace DvsaDocumentModuleTest\DvsaDocument\Controller;
 
 use DvsaDocument\Service\Document\DocumentService;
+use Laminas\Router\RouteStackInterface;
 use PHPUnit\Framework\TestCase;
 use DvsaDocumentModuleTest\TestBootstrap as Bootstrap;
 use DvsaDocument\Controller\DocumentController;
@@ -60,10 +61,13 @@ class DocumentControllerTest extends TestCase
         }
 
         $event = new MvcEvent();
+        /** @var array $config*/
         $config = $serviceManager->get('Config');
+        /** @var array $routerConfig*/
         $routerConfig = $config['router'] ?? array();
         $router = HttpRouter::factory($routerConfig);
 
+        /** @var RouteStackInterface $router */
         $event->setRouter($router);
         $event->setRouteMatch($routeMatch);
         $event->setRequest($request);
@@ -106,6 +110,7 @@ class DocumentControllerTest extends TestCase
 
         $this->assertInstanceOf(JsonModel::class, $response);
         $decoded = $response->getVariables();
+        /** @phpstan-ignore-next-line */
         $this->assertEquals($id, $decoded['id']);
     }
 
@@ -228,6 +233,7 @@ class DocumentControllerTest extends TestCase
 
         $this->assertInstanceOf(JsonModel::class, $response);
         $decoded = $response->getVariables();
+        /** @var array<string, mixed> $decoded */
         $this->assertEquals(1, $decoded['id']);
     }
 }

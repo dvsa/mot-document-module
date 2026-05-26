@@ -101,16 +101,25 @@ abstract class AbstractMapper
         $data = $this->getData();
 
         foreach ($mapConfig as $mapKey => $dataKey) {
+            // Ensure $mapKey is a string
+            if (!is_string($mapKey)) {
+                continue;
+            }
+
             if (is_array($dataKey)) {
                 //  extended: transformation required before writing
                 $key = $dataKey['key'];
 
+                /** @var string $data[$key]*/
+                /** @var string|null $formatter */
+                $formatter = $dataKey['format'] ?? null;
                 $this->setValue(
                     $mapKey,
                     (isset($data[$key]) ? $data[$key] : ''),
-                    $dataKey['format']
+                    $formatter
                 );
             } else {
+                /** @var string $data[$dataKey]*/
                 $this->setValue(
                     $mapKey,
                     (isset($data[$dataKey]) ? $data[$dataKey] : '')
@@ -186,7 +195,7 @@ abstract class AbstractMapper
     protected function formatDate($value, $params = array())
     {
         $date = null;
-        $format = isset($params['format']) ? $params['format'] : self::FORMAT_DATE;
+        $format = isset($params['format']) && is_string($params['format']) ? $params['format'] : self::FORMAT_DATE;
 
         if ($value instanceof \DateTime) {
             return $value->format($format);
@@ -196,11 +205,16 @@ abstract class AbstractMapper
             $date = $value;
         }
 
-        if (is_null($date)) {
+        if (is_null($date) || !is_string($date)) {
             return '';
         }
 
-        return date($format, strtotime($date));
+        $timestamp = strtotime($date);
+        if ($timestamp === false) {
+            return '';
+        }
+
+        return date($format, $timestamp);
     }
 
     /**
@@ -232,7 +246,9 @@ abstract class AbstractMapper
         $this->data = array();
 
         foreach ($this->dataSources as $data) {
-            $this->data = array_merge($this->data, $data);
+            if (is_array($data)) {
+                $this->data = array_merge($this->data, $data);
+            }
         }
     }
 }

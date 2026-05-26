@@ -55,6 +55,7 @@ abstract class AbstractModelTester extends TestCase
     public function providerGettersAndSetters(): array
     {
         $classToTestName = $this->getClassToTestName();
+        /** @var class-string $classToTestName */
         $reflection = new ReflectionClass($classToTestName);
 
         $methods = $reflection->getMethods();

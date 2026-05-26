@@ -34,7 +34,7 @@ class AbstractDocumentController extends AbstractActionController
     protected $documentService;
 
     /**
-     * @param null|array|Traversable|ArrayAccess $data
+     * @param null|array<string, mixed>|Traversable<string, mixed>|ArrayAccess<string, mixed> $data
      *
      * @return JsonModel
      */

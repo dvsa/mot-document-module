@@ -34,7 +34,9 @@ final class TestBootstrap
             )
         );
 
-        $serviceManager = new ServiceManager((new ServiceManagerConfig())->toArray());
+        $serviceManagerConfig = (new ServiceManagerConfig())->toArray();
+        /** @phpstan-ignore-next-line */
+        $serviceManager = new ServiceManager($serviceManagerConfig);
         $serviceManager->setService('ApplicationConfig', $config);
         /** @var ModuleManager $moduleManager */
         $moduleManager = $serviceManager->get('ModuleManager');

@@ -18,6 +18,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use DvsaDocument\Entity\Document;
 use Laminas\ServiceManager\ServiceManager;
+use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -286,7 +287,11 @@ final class DocumentServiceTest extends TestCase
      */
     protected function getQueryBuilderMock($selfMethods, $extraMethods): MockObject
     {
-        $qb = $this->getMockBuilder(\stdClass::class)->disableOriginalConstructor()->addMethods(array_merge($selfMethods, $extraMethods))->getMock();
+        /** @var array<string> $allMethods */
+        $allMethods = array_merge($selfMethods, $extraMethods);
+        /** @var MockObject $qb */
+        $qb = $this->getMockBuilder(\stdClass::class)->disableOriginalConstructor()->addMethods($allMethods)->getMock();
+        /** @var Constraint|string $method */
         foreach ($selfMethods as $method) {
             $qb->expects($this->once())
                 ->method($method)
@@ -298,7 +303,7 @@ final class DocumentServiceTest extends TestCase
 
     /**
      * @param mixed $qb
-     * @param array $methods
+     * @param array<string> $methods
      * @param EntityManager|null $em
      */
     protected function mockEntityServiceWithQueryBuilder($qb, $methods = ['createQueryBuilder'], $em = null): void
@@ -308,7 +313,9 @@ final class DocumentServiceTest extends TestCase
             return;
         }
 
-        $this->em = $this->getMockBuilder(EntityManager::class)->disableOriginalConstructor()->onlyMethods($methods)->getMock();
+        /** @var MockObject&EntityManager $emMock */
+        $emMock = $this->getMockBuilder(EntityManager::class)->disableOriginalConstructor()->onlyMethods($methods)->getMock();
+        $this->em = $emMock;
 
         $this->em->expects($this->once())
             ->method('createQueryBuilder')

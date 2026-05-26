@@ -2,6 +2,7 @@
 
 namespace DvsaReport\Service\Report;
 
+use DvsaDocument\Entity\Document;
 use DvsaReport\Exceptions\ReportNotFoundException;
 use DvsaReport\Model\Report;
 use DvsaReport\Service\Encoder\ParamsEncoder;
@@ -96,9 +97,11 @@ class LambdaReportService
     private function convertSnapshotDataToJson($sourceSnapshotDataKey, $destSnapshotDataKey, &$runtimeParams = []): void
     {
         if (isset($runtimeParams[$sourceSnapshotDataKey])) {
-            $runtimeParams[$destSnapshotDataKey] = json_encode($this->pdfRenderer->buildPdfParameters(
-                $runtimeParams[$sourceSnapshotDataKey]
-            ));
+            /** @var \DvsaDocument\Entity\Document $snapshotData */
+            $snapshotData = $runtimeParams[$sourceSnapshotDataKey];
+            $runtimeParams[$destSnapshotDataKey] = json_encode(
+                $this->pdfRenderer->buildPdfParameters($snapshotData)
+            );
             // We no longer need 'snapshotData' as it's been transformed into $runtimeParams[HTTP_ATTR_SNAPSHOT]
             unset($runtimeParams[$sourceSnapshotDataKey]);
         }
@@ -106,7 +109,7 @@ class LambdaReportService
 
     private function generatePdfContent(Response $response): Response
     {
-        /** @var string */
+        /** @var string $responseContent */
         $responseContent = $response->getContent();
         $content = base64_decode($responseContent);
 
@@ -160,19 +163,27 @@ class LambdaReportService
     {
         $reportName = $this->resolveReportName($isPrs, $argList);
 
+        // Type is known at runtime
+        /** @phpstan-ignore-next-line */
         $runtimeParams = $argList[0]["runtimeParams"];
         foreach ($argList as $argument) {
+            // Types are known at runtime
+            /** @phpstan-ignore-next-line */
             if (in_array($argument['reportName'], self::REPORTS_FOR_FAIL_SNAPSHOT_DATA)) {
+                /** @phpstan-ignore-next-line */
                 $runtimeParams["snapshotFailData"] = $argument["runtimeParams"]["snapshotData"];
 
                 if (count($argList) === 1) {
+                    /** @phpstan-ignore-next-line */
                     unset($runtimeParams["snapshotData"]);
                 }
             } else {
+                /** @phpstan-ignore-next-line */
                 $runtimeParams["snapshotData"] = $argument["runtimeParams"]["snapshotData"];
             }
         }
 
+        /** @phpstan-ignore-next-line */
         $this->setupSnapshotData($runtimeParams);
 
         return $this->getReport($reportName, $runtimeParams);
@@ -199,6 +210,8 @@ class LambdaReportService
         $reportName = ReportNames::PRS;
 
         foreach ($reports as $report) {
+            // Type is known at runtime
+            /** @phpstan-ignore-next-line */
             if ($report["reportName"] === ReportNames::VT20W) {
                 $reportName = ReportNames::PRSW;
             }
@@ -216,9 +229,13 @@ class LambdaReportService
     {
         $reportName = "";
         if (count($reports) === 1) {
+            // Type is known at runtime
+            /** @phpstan-ignore-next-line */
             $reportName = $reports[0]["reportName"];
         } else {
             foreach ($reports as $report) {
+                // Type is known at runtime
+                /** @phpstan-ignore-next-line */
                 if ($report["reportName"] === ReportNames::VT20W) {
                     $reportName = ReportNames::VT20W;
                 } elseif ($report["reportName"] === ReportNames::VT30W) {
@@ -227,6 +244,7 @@ class LambdaReportService
             }
         }
 
+        /** @var string $reportName */
         return $reportName;
     }
 

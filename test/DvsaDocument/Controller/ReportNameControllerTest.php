@@ -9,6 +9,7 @@
 namespace DvsaDocumentModuleTest\DvsaDocument\Controller;
 
 use DvsaDocument\Service\Document\DocumentService;
+use Laminas\Router\RouteStackInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use DvsaDocumentModuleTest\TestBootstrap as Bootstrap;
@@ -61,6 +62,7 @@ final class ReportNameControllerTest extends TestCase
         $config = $serviceManager->get('Config');
         /** @var array $routerConfig */
         $routerConfig = $config['router'] ?? array();
+        /** @var RouteStackInterface $router */
         $router = HttpRouter::factory($routerConfig);
 
         $event->setRouter($router);
