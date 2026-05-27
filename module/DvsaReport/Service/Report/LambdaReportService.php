@@ -2,7 +2,6 @@
 
 namespace DvsaReport\Service\Report;
 
-use DvsaDocument\Entity\Document;
 use DvsaReport\Exceptions\ReportNotFoundException;
 use DvsaReport\Model\Report;
 use DvsaReport\Service\Encoder\ParamsEncoder;

@@ -102,11 +102,6 @@ abstract class AbstractMapper
         $data = $this->getData();
 
         foreach ($mapConfig as $mapKey => $dataKey) {
-            // Ensure $mapKey is a string
-            if (!is_string($mapKey)) {
-                continue;
-            }
-
             if (is_array($dataKey)) {
                 //  extended: transformation required before writing
                 $key = $dataKey['key'];
@@ -196,7 +191,8 @@ abstract class AbstractMapper
     protected function formatDate($value, $params = array())
     {
         $date = null;
-        $format = isset($params['format']) && is_string($params['format']) ? $params['format'] : self::FORMAT_DATE;
+        /** @var string $format */
+        $format = isset($params['format']) ? $params['format'] : self::FORMAT_DATE;
 
         if ($value instanceof \DateTime) {
             return $value->format($format);
@@ -206,15 +202,12 @@ abstract class AbstractMapper
             $date = $value;
         }
 
-        if (is_null($date) || !is_string($date)) {
+        if (is_null($date)) {
             return '';
         }
-
+        /** @var string $date */
         $timestamp = strtotime($date);
-        if ($timestamp === false) {
-            return '';
-        }
-
+        /** @var int $timestamp */
         return date($format, $timestamp);
     }
 
@@ -246,10 +239,9 @@ abstract class AbstractMapper
     {
         $this->data = array();
 
+        /** @var array $data */
         foreach ($this->dataSources as $data) {
-            if (is_array($data)) {
-                $this->data = array_merge($this->data, $data);
-            }
+            $this->data = array_merge($this->data, $data);
         }
     }
 }

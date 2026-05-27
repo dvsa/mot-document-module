@@ -14,9 +14,10 @@ final class CommonIdentityTraitTest extends TestCase
     /**
      * @return void
      *
+     * @throws \Exception
      * @psalm-suppress UndefinedDocblockClass
      * The above is a trait not a class
-    */
+     */
     public function testTrait()
     {
         // @phpstan-ignore-next-line

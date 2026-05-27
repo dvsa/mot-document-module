@@ -150,14 +150,8 @@ final class CsvService
     {
         $removals = array('£');
 
+        /** @var string $value */
         foreach ($row as $key => $value) {
-            // Convert to string first, handle non-scalar types
-            if (is_array($value) || is_object($value)) {
-                $value = '';
-            } elseif (!is_string($value)) {
-                /** @phpstan-ignore-next-line */
-                $value = strval($value);
-            }
             $row[$key] = str_replace($removals, '', strip_tags($value));
         }
 

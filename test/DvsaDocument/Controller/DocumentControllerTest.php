@@ -8,7 +8,6 @@
 
 namespace DvsaDocumentModuleTest\DvsaDocument\Controller;
 
-use Doctrine\ORM\EntityManagerInterface;
 use DvsaDocument\Service\Document\DocumentService;
 use Laminas\Router\RouteStackInterface;
 use PHPUnit\Framework\TestCase;

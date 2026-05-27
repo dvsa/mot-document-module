@@ -21,7 +21,6 @@ final class TraceableHttpClient extends Client
 
     /** @var string */
     protected $currentStageSpanId;
-
     /**
      * TraceableHttpClient constructor.
      */

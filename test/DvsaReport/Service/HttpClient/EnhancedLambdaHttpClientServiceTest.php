@@ -140,6 +140,7 @@ final class EnhancedLambdaHttpClientServiceTest extends TestCase
 
     /**
      * @return void
+     * @throws \Exception
      */
     public function test200After429(): void
     {
@@ -157,6 +158,7 @@ final class EnhancedLambdaHttpClientServiceTest extends TestCase
 
     /**
      * @return void
+     * @throws \Exception
      */
     public function test200After429and429(): void
     {
