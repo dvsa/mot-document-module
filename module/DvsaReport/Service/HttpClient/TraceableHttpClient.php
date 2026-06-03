@@ -11,13 +11,13 @@ namespace DvsaReport\Service\HttpClient;
 
 use DvsaReport\Service\Tracing\RequestTracingService;
 use Laminas\Http\Client;
+use Laminas\Http\Request;
 use Laminas\Stdlib;
 use DvsaReport\Model\TracingEvents;
 
 final class TraceableHttpClient extends Client
 {
-    /** @var RequestTracingService */
-    protected $requestTracingService;
+    protected RequestTracingService $requestTracingService;
 
     /** @var string */
     protected $currentStageSpanId;
@@ -41,7 +41,7 @@ final class TraceableHttpClient extends Client
     #[\Override]
     public function dispatch(Stdlib\RequestInterface $request, Stdlib\ResponseInterface $response = null)
     {
-        if (!($request instanceof \Laminas\Http\Request)) {
+        if (!($request instanceof Request)) {
             throw new \Exception("Request is not instance of \Laminas\Http\Request");
         }
         $request = $this->requestTracingService->addAbsentTracingHeaders($request);

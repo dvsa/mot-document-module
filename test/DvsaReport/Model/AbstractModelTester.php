@@ -1,10 +1,6 @@
 <?php
 
-/**
- * Abstract Model Tester
- *
- * @author Rob Caiger <rob@clocal.co.uk>
- */
+declare(strict_types=1);
 
 namespace DvsaDocumentModuleTest\DvsaReport\Model;
 
@@ -37,12 +33,7 @@ abstract class AbstractModelTester extends TestCase
 
     /**
      * @dataProvider providerGettersAndSetters
-     *
-     * @param string $methodName
-     * @param mixed  $testValue
      * @psalm-suppress PossiblyUnusedMethod
-     *
-     * @return void
      */
     public function testGettersAndSetters(string $methodName, mixed $testValue): void
     {

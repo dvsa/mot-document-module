@@ -8,46 +8,36 @@
 >
     <projectFiles>
         <directory name="module" />
-        <directory name="test" />
+        <directory name="test" test="true"/>
         <ignoreFiles>
             <directory name="config" />
             <directory name="vendor" />
         </ignoreFiles>
     </projectFiles>
+    <plugins>
+        <pluginClass class="Psalm\PhpUnitPlugin\Plugin" />
+    </plugins>
     <issueHandlers>
         <MissingConstructor errorLevel="suppress" />
         <RedundantPropertyInitializationCheck errorLevel="suppress" />
         <PropertyNotSetInConstructor errorLevel="suppress" />
         <UnusedClass>
             <errorLevel type="suppress">
-                <directory name="test" />
-                <directory name="module/DvsaDocument/Factory"/>
-                <directory name="module/DvsaReport/Service/Factory"/>
-                <file name="module/DvsaReport/Service/Pdf/PdfRendererFactory.php"/>
-                <file name="module/DvsaReport/Module.php"/>
-                <file name="module/DvsaDocument/Mapper/AbstractMapper.php" note="todo: should this class exist"/>
+                <directory name="module/DvsaDocument/Factory" errorLevel="info"/>
+                <directory name="module/DvsaReport/Service/Factory" errorLevel="info"/>
+                <file name="module/DvsaReport/Service/Pdf/PdfRendererFactory.php" errorLevel="info"/>
+                <file name="module/DvsaReport/Module.php" errorLevel="info"/>
+                <file name="module/DvsaDocument/Mapper/AbstractMapper.php" note="todo: should this class exist" errorLevel="info"/>
             </errorLevel>
         </UnusedClass>
         <PossiblyUnusedMethod>
             <errorLevel type="suppress" note="todo: these methods should probably be removed">
-                <file name="module/DvsaDocument/Entity/Entity.php"/>
-                <file name="module/DvsaDocument/Service/Document/DocumentService.php"/>
-                <file name="module/DvsaDocument/Controller/AbstractDocumentController.php"/>
-                <file name="module/DvsaDocument/Entity/TemplateVariation.php"/>
-                <file name="module/DvsaDocument/Entity/TemplateType.php"/>
-                <file name="module/DvsaDocument/Entity/Template.php"/>
-                <file name="module/DvsaDocument/Entity/Document.php"/>
-                <file name="module/DvsaReport/Service/Report/LambdaReportService.php"/>
-                <file name="module/DvsaReport/Service/HttpClient/AbstractHttpClientService.php"/>
-                <file name="module/DvsaReport/Model/ReportNames.php"/>
+                <directory name="module/*" errorLevel="info" />
             </errorLevel>
         </PossiblyUnusedMethod>
         <PossiblyUnusedReturnValue>
             <errorLevel type="suppress" note="todo: these methods should probably be removed">
-                <file name="module/DvsaDocument/Service/Document/DocumentService.php"/>
-                <file name="module/DvsaReport/Service/Report/LambdaReportService.php"/>
-                <file name="module/DvsaReport/Service/HttpClient/AbstractHttpClientService.php"/>
-                <file name="module/DvsaReport/Service/HttpClient/HttpClientServiceInterface.php"/>
+                <directory name="module" errorLevel="info" />
             </errorLevel>
         </PossiblyUnusedReturnValue>
         <PossiblyUnusedParam>

@@ -1,10 +1,6 @@
 <?php
 
-/**
- * Report Name Controller Test
- *
- * @author Rob Caiger <rob@clocal.co.uk>
- */
+declare(strict_types=1);
 
 namespace DvsaDocumentModuleTest\DvsaDocument\Controller;
 
@@ -32,12 +28,6 @@ use Psr\Container\NotFoundExceptionInterface;
 final class ReportNameControllerTest extends TestCase
 {
     /**
-     * @param MockObject&DocumentService $documentServiceMock
-     * @param int|null $id
-     * @param mixed $variation
-     *
-     * @return ReportNameController
-     *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
@@ -77,8 +67,6 @@ final class ReportNameControllerTest extends TestCase
 
     /**
      * Test get action Without ID
-     *
-     * @return void
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
@@ -97,8 +85,6 @@ final class ReportNameControllerTest extends TestCase
 
     /**
      * Test get action With Missing Template
-     *
-     * @return void
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
@@ -120,8 +106,6 @@ final class ReportNameControllerTest extends TestCase
 
     /**
      * Test get action With unexpected Exception Being Thrown
-     *
-     * @return void
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
@@ -143,8 +127,6 @@ final class ReportNameControllerTest extends TestCase
 
     /**
      * Test get action
-     *
-     * @return void
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */

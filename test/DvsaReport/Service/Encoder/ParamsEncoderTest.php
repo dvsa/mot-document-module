@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DvsaReportModuleTest\DvsaReport\Service\Csv;
 
 use DvsaReport\Service\Encoder\ParamsEncoder;
@@ -11,11 +13,6 @@ final class ParamsEncoderTest extends TestCase
      * Test ParamsEncoder data handling
      *
      * @dataProvider dataProvider
-     *
-     * @param array $data
-     * @param mixed $expected
-     *
-     * @return void
      */
     public function testEncodingProvidedData(array $data, mixed $expected): void
     {
@@ -28,8 +25,6 @@ final class ParamsEncoderTest extends TestCase
 
     /**
      * Data provider
-     *
-     * @return array
      */
     public function dataProvider(): array
     {

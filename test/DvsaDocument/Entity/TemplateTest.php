@@ -1,20 +1,13 @@
 <?php
 
-/**
- * Template Entity Test
- *
- * @author Rob Caiger <rob@clocal.co.uk>
- */
+declare(strict_types=1);
 
 namespace DvsaDocumentModuleTest\DvsaDocument\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use DvsaDocument\Entity\Template;
 
-/**
- * Template Entity Test
- *
- */
+/** Template Entity Test */
 final class TemplateTest extends AbstractEntityTester
 {
     protected $entityClass = Template::class;

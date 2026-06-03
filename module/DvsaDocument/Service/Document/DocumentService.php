@@ -6,7 +6,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
 use DvsaDocument\Exceptions\TemplateNotFoundException;
 use DvsaDocument\Exceptions\EmptyDocumentException;
-use Doctrine\ORM\EntityManager;
 use DvsaDocument\Entity\Document;
 
 /**

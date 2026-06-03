@@ -1,10 +1,6 @@
 <?php
 
-/**
- * Document Controller Test
- *
- * @author Alex Peshkov <alex.peshkov@valtech.co.uk>
- */
+declare(strict_types=1);
 
 namespace DvsaDocumentModuleTest\DvsaDocument\Controller;
 
@@ -21,6 +17,8 @@ use Laminas\Router\Http\TreeRouteStack as HttpRouter;
 use DvsaDocument\Exceptions\TemplateNotFoundException;
 use Laminas\Stdlib\Parameters;
 use Laminas\View\Model\JsonModel;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * Document Controller Test
@@ -31,12 +29,13 @@ final class DocumentControllerTest extends TestCase
 {
     /**
      * @param DocumentService $documentServiceMock
-     * @param int $id
-     * @param mixed $post
+     * @param array|null $post
      *
      * @return DocumentController
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    private function setUpController($documentServiceMock, $id = null, $post = array())
+    private function setUpController($documentServiceMock, null|int $id = null, array|null $post = array()): DocumentController
     {
         $controller = new DocumentController($documentServiceMock);
         if (is_array($post) && count($post)) {
@@ -80,8 +79,6 @@ final class DocumentControllerTest extends TestCase
 
     /**
      * Test delete action Without ID
-     *
-     * @return void
      */
     public function testDeleteActionWithoutId(): void
     {
@@ -97,8 +94,6 @@ final class DocumentControllerTest extends TestCase
 
     /**
      * Test delete action With ID
-     *
-     * @return void
      */
     public function testDeleteActionWithId(): void
     {
@@ -117,8 +112,6 @@ final class DocumentControllerTest extends TestCase
 
     /**
      * Test delete action with unexpected Exception Being Thrown
-     *
-     * @return void
      */
     public function testDeleteActionWithUnexpectedExceptionBeingThrown(): void
     {
@@ -138,8 +131,6 @@ final class DocumentControllerTest extends TestCase
 
     /**
      * Test create action With Missing Template name
-     *
-     * @return void
      */
     public function testCreateActionWithMissingTemplateName(): void
     {
@@ -153,8 +144,6 @@ final class DocumentControllerTest extends TestCase
 
     /**
      * Test create action With Missing document
-     *
-     * @return void
      */
     public function testCreateActionWithMissingDocument(): void
     {
@@ -168,8 +157,6 @@ final class DocumentControllerTest extends TestCase
 
     /**
      * Test create action with template not found exception beeing thrown
-     *
-     * @return void
      */
     public function testCreateActionWithTemplateNotFound(): void
     {
@@ -192,8 +179,6 @@ final class DocumentControllerTest extends TestCase
 
     /**
      * Test create action with unexpected exception beeing thrown
-     *
-     * @return void
      */
     public function testCreateActionWithUnexpectedExceptionBeingThrown(): void
     {
@@ -215,8 +200,6 @@ final class DocumentControllerTest extends TestCase
 
     /**
      * Test create action
-     *
-     * @return void
      */
     public function testCreateAction(): void
     {

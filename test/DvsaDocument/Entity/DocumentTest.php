@@ -1,10 +1,6 @@
 <?php
 
-/**
- * Document Entity Test
- *
- * @author Rob Caiger <rob@clocal.co.uk>
- */
+declare(strict_types=1);
 
 namespace DvsaDocumentModuleTest\DvsaDocument\Entity;
 

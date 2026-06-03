@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DvsaDocumentModuleTest\DvsaDocument\EntityTrait;
 
 use DvsaDocument\EntityTrait\CommonIdentityTrait;
@@ -12,13 +14,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 final class CommonIdentityTraitTest extends TestCase
 {
     /**
-     * @return void
-     *
+     * The above is a trait not a class
      * @throws \Exception
      * @psalm-suppress UndefinedDocblockClass
-     * The above is a trait not a class
      */
-    public function testTrait()
+    public function testTrait(): void
     {
         // @phpstan-ignore-next-line
         /** @var CommonIdentityTrait&MockObject $mock */

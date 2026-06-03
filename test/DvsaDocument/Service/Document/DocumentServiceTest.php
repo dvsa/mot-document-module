@@ -1,10 +1,6 @@
 <?php
 
-/**
- * DocumentService Test
- *
- * @author Nick Payne <nick.payne@valtech.co.uk>
- */
+declare(strict_types=1);
 
 namespace DvsaDocumentModuleTest\DvsaDocument\Service\Document;
 
@@ -42,9 +38,6 @@ final class DocumentServiceTest extends TestCase
         $this->service = new DocumentService($entityManager);
     }
 
-    /**
-     * @return void
-     */
     public function testGetReportNameWithInvalidIdThrowsExpectedException(): void
     {
         $query = $this->getMockBuilder(\stdClass::class)->disableOriginalConstructor()->addMethods(['getSingleResult'])->getMock();
@@ -77,9 +70,6 @@ final class DocumentServiceTest extends TestCase
         $this->fail('Expected exception not raised');
     }
 
-    /**
-     * @return void
-     */
     public function testGetReportNameWithVariationSetsCorrectParameters(): void
     {
         /*
@@ -123,7 +113,6 @@ final class DocumentServiceTest extends TestCase
     }
 
     /**
-     * @return void
      * @throws TemplateNotFoundException
      */
     public function testGetReportNameWhenSuccessful(): void
@@ -152,7 +141,6 @@ final class DocumentServiceTest extends TestCase
     }
 
     /**
-     * @return void
      * @throws EmptyDocumentException
      * @throws NoResultException
      * @throws NonUniqueResultException
@@ -218,7 +206,6 @@ final class DocumentServiceTest extends TestCase
     }
 
     /**
-     * @return void
      * @throws EmptyDocumentException
      * @throws NoResultException
      * @throws NonUniqueResultException
@@ -250,7 +237,9 @@ final class DocumentServiceTest extends TestCase
         $em = $this->getMockBuilder(EntityManager::class)->disableOriginalConstructor()->onlyMethods($methods)->getMock();
         $em->expects($this->any())
             ->method('persist')
-            ->will($this->returnCallback([$this, 'mockPersist']));
+            ->will($this->returnCallback(function (mixed $entity): void {
+                $this->mockPersist($entity);
+            }));
 
         $em->expects($this->once())
             ->method('flush');
@@ -279,13 +268,7 @@ final class DocumentServiceTest extends TestCase
         $this->assertEquals(4321, $actualDocumentId);
     }
 
-    /**
-     * @param array $selfMethods
-     * @param array $extraMethods
-     *
-     * @return MockObject
-     */
-    protected function getQueryBuilderMock($selfMethods, $extraMethods): MockObject
+    protected function getQueryBuilderMock(array $selfMethods, array $extraMethods): MockObject
     {
         /** @var array<string> $allMethods */
         $allMethods = array_merge($selfMethods, $extraMethods);
@@ -302,12 +285,13 @@ final class DocumentServiceTest extends TestCase
     }
 
     /**
-     * @param mixed $qb
      * @param array<string> $methods
-     * @param EntityManager|null $em
      */
-    protected function mockEntityServiceWithQueryBuilder($qb, $methods = ['createQueryBuilder'], $em = null): void
-    {
+    protected function mockEntityServiceWithQueryBuilder(
+        mixed $qb,
+        array $methods = ['createQueryBuilder'],
+        EntityManager|null $em = null
+    ): void {
         if (!empty($em)) {
             $this->service = new DocumentService($em);
             return;
@@ -324,32 +308,17 @@ final class DocumentServiceTest extends TestCase
     }
 
     /**
-     * @param array $config
+     * @psalm-suppress PossiblyUnusedMethod
      */
-    protected function setConfig($config): void
+    protected function setConfig(array $config): void
     {
         $this->sm->setService('Config', $config);
     }
 
     /**
-     * @param mixed $key
-     * @param mixed $value
-     */
-    protected function mockFieldValue($key, $value): array
-    {
-        $field = $this->getMockBuilder(\stdClass::class)->disableOriginalConstructor()->addMethods(['getFieldValue'])->getMock();
-        $field->expects($this->once())
-            ->method('getFieldValue')
-            ->will($this->returnValue($value));
-
-        return [$key, $field];
-    }
-
-    /**
-     * @param mixed $entity
      * @throws \Exception
      */
-    public function mockPersist($entity): void
+    public function mockPersist(mixed $entity): void
     {
         if ($entity instanceof Document) {
             $entity->setId(4321);

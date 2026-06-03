@@ -1,10 +1,6 @@
 <?php
 
-/**
- * PdfService Test
- *
- * @author Rob Caiger <rob@clocal.co.uk>
- */
+declare(strict_types=1);
 
 namespace DvsaReportModuleTest\DvsaReport\Service\Pdf;
 
@@ -46,9 +42,6 @@ final class PdfServiceTest extends TestCase
         $this->assertEquals('PDF CONTENT', $response->getContent());
     }
 
-    /**
-     * @return void
-     */
     public function testGenerateDocumentCantWrite(): void
     {
         $this->expectException(\Exception::class);
@@ -68,12 +61,6 @@ final class PdfServiceTest extends TestCase
      * Test replaceWebRoot
      *
      * @dataProvider dataProviderForReplaceWebRoot
-     *
-     * @param string|null $input
-     * @param string $base
-     * @param mixed $expected
-     *
-     * @return void
      */
     public function testReplaceWebRoot(?string $input, string $base, mixed $expected): void
     {

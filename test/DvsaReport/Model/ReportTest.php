@@ -1,10 +1,6 @@
 <?php
 
-/**
- * Report Model Test
- *
- * @author Rob Caiger <rob@clocal.co.uk>
- */
+declare(strict_types=1);
 
 namespace DvsaDocumentModuleTest\DvsaReport\Model;
 
@@ -21,8 +17,6 @@ final class ReportTest extends AbstractModelTester
 
     /**
      * Test setName replaces slashes
-     *
-     * @return void
      */
     public function testSetNameReplacesSlashes(): void
     {

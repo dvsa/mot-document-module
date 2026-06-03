@@ -1,10 +1,6 @@
 <?php
 
-/**
- * CsvService Test
- *
- * @author Rob Caiger <rob@clocal.co.uk>
- */
+declare(strict_types=1);
 
 namespace DvsaReportModuleTest\DvsaReport\Service\Csv;
 
@@ -23,13 +19,8 @@ final class CsvServiceTest extends TestCase
      * Test generate content from setData
      *
      * @dataProvider dataProvider
-     *
-     * @param array $data
-     * @param mixed $expected
-     *
-     * @return void
      */
-    public function testGenerateCsvFromSetData($data, $expected): void
+    public function testGenerateCsvFromSetData(array $data, mixed $expected): void
     {
         $csv = new CsvService();
 
@@ -46,10 +37,8 @@ final class CsvServiceTest extends TestCase
 
     /**
      * Data provider
-     *
-     * @return array
      */
-    public function dataProvider()
+    public function dataProvider(): array
     {
         return array(
             array(

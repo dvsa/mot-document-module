@@ -1,11 +1,6 @@
 <?php
 
-/**
- * Abstract Document Controller
- *
- * @author Rob Caiger <rob@clocal.co.uk>
- * @author Alex Peshkov <alex.peshkov@valtech.co.uk>
- */
+declare(strict_types=1);
 
 namespace DvsaDocument\Controller;
 
@@ -41,7 +36,9 @@ class AbstractDocumentController extends AbstractActionController
      */
     public function respondWithJson($data)
     {
-        /** @psalm-suppress DeprecatedClass BL-19119*/
+        /** @psalm-suppress DeprecatedClass
+         * currently suppressing to be changed in BL-19119
+         */
         return new JsonModel($data);
     }
 

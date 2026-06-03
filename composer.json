@@ -18,17 +18,18 @@
         "captainhook/plugin-composer": "^5.3.3",
         "dvsa/coding-standards": "^2.0",
         "phpstan/phpstan": "^2.1.33",
-        "vimeo/psalm": "^6.14.3"
+        "vimeo/psalm": "^6.14.3",
+        "psalm/plugin-phpunit": "^0.19.5"
     },
     "autoload": {
-        "psr-0": {
-            "DvsaDocument\\": "module",
-            "DvsaReport\\": "module",
-            "DvsaCommon\\": "module"
+        "psr-4": {
+            "DvsaDocument\\": "module/DvsaDocument/",
+            "DvsaReport\\": "module/DvsaReport/",
+            "DvsaCommon\\": "module/DvsaCommon/"
         }
     },
     "autoload-dev": {
-        "psr-0": {
+        "psr-4": {
             "DvsaDocumentModuleTest\\": "test",
             "DvsaReportModuleTest\\": "test"
         }

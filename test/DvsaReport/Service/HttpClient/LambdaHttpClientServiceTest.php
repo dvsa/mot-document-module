@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DvsaReportModuleTest\DvsaReport\Service\HttpClient;
 
 use DvsaReport\Service\HttpClient\LambdaHttpClientService;
@@ -16,21 +18,13 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 final class LambdaHttpClientServiceTest extends TestCase
 {
-    /** @var LambdaHttpClientService  */
-    protected $service;
+    protected LambdaHttpClientService $service;
 
-    /** @var MockObject&Client */
-    protected $client;
+    protected MockObject&Client $client;
 
-    /** @var MockObject&Request */
-    protected $request;
+    protected MockObject&Request $request;
 
-    /** @var MockObject&Response */
-    protected $response;
-
-    /** @var MockObject&Logger */
-    protected $logger;
-
+    protected MockObject&Logger $logger;
 
     #[\Override]
     public function setUp(): void
@@ -45,33 +39,21 @@ final class LambdaHttpClientServiceTest extends TestCase
         $this->service->setLogger($this->logger);
     }
 
-    /**
-     * @return void
-     */
     public function testGetClient(): void
     {
         $this->assertSame($this->client, $this->service->getClient());
     }
 
-    /**
-     * @return void
-     */
     public function testGetLogger(): void
     {
         $this->assertSame($this->logger, $this->service->getLogger());
     }
 
-    /**
-     * @return void
-     */
     public function testGetRequest(): void
     {
         $this->assertSame($this->request, $this->service->getRequest());
     }
 
-    /**
-     * @return void
-     */
     public function testSetOptionsProxiesThroughToClient(): void
     {
         $this->client->expects($this->once())
@@ -81,9 +63,6 @@ final class LambdaHttpClientServiceTest extends TestCase
         $this->service->setOptions(['foo-bar']);
     }
 
-    /**
-     * @return void
-     */
     public function testDispatchIssuesRequest(): void
     {
         $response = (new Response())->setContent('foo');
@@ -96,9 +75,6 @@ final class LambdaHttpClientServiceTest extends TestCase
         $this->assertEquals('foo', $this->service->dispatch()->getContent());
     }
 
-    /**
-     * @return void
-     */
     public function testDispatchLogsUrl(): void
     {
         $this->client->method('dispatch')

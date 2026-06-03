@@ -1,10 +1,6 @@
 <?php
 
-/**
- * Abstract entity tester
- *
- * @author Rob Caiger <rob@clocal.co.uk>
- */
+declare(strict_types=1);
 
 namespace DvsaDocumentModuleTest\DvsaDocument\Entity;
 
@@ -42,14 +38,11 @@ abstract class AbstractEntityTester extends TestCase
     /**
      * @dataProvider providerGettersAndSetters
      *
-     * @param string $methodName
-     * @param mixed $testValue
-     * @param mixed $defValue
      * @psalm-suppress PossiblyUnusedMethod
      *
      * @return void
      */
-    public function testGettersAndSetters($methodName, $testValue, $defValue = null)
+    public function testGettersAndSetters(string $methodName, mixed $testValue, mixed $defValue = null)
     {
         $classToTestName = $this->getClassToTestName();
         $entity = new $classToTestName();
@@ -68,7 +61,6 @@ abstract class AbstractEntityTester extends TestCase
     }
 
     /**
-     * @return array
      * @throws \ReflectionException
      * @psalm-suppress PossiblyUnusedMethod
      */
@@ -90,7 +82,7 @@ abstract class AbstractEntityTester extends TestCase
 
         //  --  class methods   --
         foreach ($methods as $method) {
-            if (substr($method->getName(), 0, 3) == 'set') {
+            if (str_starts_with($method->getName(), 'set')) {
                 $methodName = substr($method->getName(), 3);
 
                 if (

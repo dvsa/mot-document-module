@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DvsaDocumentModuleTest;
 
 use Laminas\ModuleManager\ModuleManager;
@@ -8,9 +10,7 @@ use Laminas\ServiceManager\ServiceManager;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-/**
- * Test bootstrap, for setting up autoloading
- */
+/** Test bootstrap, for setting up autoloading */
 final class TestBootstrap
 {
     protected static ServiceManager $serviceManager;
@@ -41,7 +41,7 @@ final class TestBootstrap
         /** @var ModuleManager $moduleManager */
         $moduleManager = $serviceManager->get('ModuleManager');
         $moduleManager->loadModules();
-        static::$serviceManager = $serviceManager;
+        TestBootstrap::$serviceManager = $serviceManager;
     }
 
     /**

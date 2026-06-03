@@ -1,8 +1,6 @@
 <?php
 
-/**
- * LambdaReportService Test
- */
+declare(strict_types=1);
 
 namespace DvsaReportModuleTest\DvsaReport\Service\Report;
 
@@ -18,9 +16,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Laminas\Log\Logger;
 
-/**
- * LambdaReportService Test
- */
+/** LambdaReportService Test */
 final class LambdaReportServiceTest extends TestCase
 {
     protected LambdaReportService $service;
@@ -29,8 +25,6 @@ final class LambdaReportServiceTest extends TestCase
 
     protected PdfRenderer&MockObject $stubPdfRenderer;
 
-    protected MockObject&Logger $logger;
-
     #[\Override]
     public function setUp(): void
     {
@@ -38,22 +32,14 @@ final class LambdaReportServiceTest extends TestCase
 
         $this->client = $this->getMockBuilder(EnhancedLambdaHttpClientService::class)->disableOriginalConstructor()->getMock();
 
-        $this->logger = $this->getMockBuilder(Logger::class)->getMock();
-
         $this->service = new LambdaReportService($this->stubPdfRenderer, $this->client);
     }
 
-    /**
-     * @return void
-     */
     public function testGetHttpClient(): void
     {
         $this->assertSame($this->client, $this->service->getHttpClient());
     }
 
-    /**
-     * @return void
-     */
     public function testGetDocumentThrowsExpectedExceptionWithFailedResponse(): void
     {
         $response = $this->getMockBuilder(Response::class)->disableOriginalConstructor()->onlyMethods(['isSuccess', 'getReasonPhrase'])->getMock();
@@ -76,9 +62,6 @@ final class LambdaReportServiceTest extends TestCase
         $this->fail('Expected exception not raised');
     }
 
-    /**
-     * @return void
-     */
     public function testGetDocumentWhenSuccessful(): void
     {
         $response = $this->getMockBuilder(Response::class)->disableOriginalConstructor()->onlyMethods(['isSuccess', 'getHeaders', 'getBody'])->getMock();
@@ -113,9 +96,6 @@ final class LambdaReportServiceTest extends TestCase
         $this->assertEquals(1234, $document->getSize());
     }
 
-    /**
-     * @return void
-     */
     public function testGetVt20W(): void
     {
         /** @var LambdaReportService&MockObject $service  */
@@ -154,9 +134,6 @@ final class LambdaReportServiceTest extends TestCase
         );
     }
 
-    /**
-     * @return void
-     */
     public function testGetVt30W(): void
     {
         /** @var LambdaReportService&MockObject $service  */
@@ -193,9 +170,6 @@ final class LambdaReportServiceTest extends TestCase
         );
     }
 
-    /**
-     * @return void
-     */
     public function testGetPRS(): void
     {
         /** @var LambdaReportService&MockObject $service  */
@@ -240,9 +214,6 @@ final class LambdaReportServiceTest extends TestCase
         );
     }
 
-    /**
-     * @return void
-     */
     public function testGetPRSW(): void
     {
         /** @var LambdaReportService&MockObject $service  */
@@ -282,12 +253,6 @@ final class LambdaReportServiceTest extends TestCase
         );
     }
 
-    /**
-     * @param string $key
-     * @param mixed $value
-     *
-     * @return array
-     */
     protected function mockFieldValue(string $key, mixed $value): array
     {
         $field = $this->getMockBuilder(\stdClass::class)->disableOriginalConstructor()->addMethods(['getFieldValue'])->getMock();
@@ -296,33 +261,5 @@ final class LambdaReportServiceTest extends TestCase
             ->will($this->returnValue($value));
 
         return [$key, $field];
-    }
-
-    /**
-     * @param string $resourceName
-     *
-     * @return MockObject&Response
-     */
-    protected function getMockReport(string $resourceName): Response&MockObject
-    {
-        $headerMock = $this->getMockBuilder(Headers::class)->disableOriginalConstructor()->onlyMethods(['toString'])->getMock();
-        $headerMock->expects($this->any())
-            ->method('toString')
-            ->will($this->returnValue('Content-Type: 1234'));
-
-        $mock = $this->getMockBuilder(Response::class)->disableOriginalConstructor()->onlyMethods(['getHeaders', 'getContent', 'getStatusCode'])->getMock();
-        $mock->expects($this->once())
-            ->method('getContent')
-            ->will($this->returnValue(file_get_contents(__DIR__ . '/../../Resources/' . $resourceName)));
-
-        $mock->expects($this->any())
-            ->method('getStatusCode')
-            ->willReturn(200);
-
-        $mock->expects($this->any())
-            ->method('getHeaders')
-            ->will($this->returnValue($headerMock));
-
-        return $mock;
     }
 }
