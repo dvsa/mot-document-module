@@ -23,7 +23,7 @@ final class DocumentController extends AbstractDocumentController
 {
     /**
      * Create new document and return ID
-     * @psalm-suppress DeprecatedClass BL-19119
+     * @psalm-suppress DeprecatedClass BL-22033
      * @return Response|JsonModel
      */
     public function createAction()
@@ -62,7 +62,7 @@ final class DocumentController extends AbstractDocumentController
     /**
      * Delete document by ID
      *
-     * @psalm-suppress DeprecatedClass BL-19119
+     * @psalm-suppress DeprecatedClass BL-22033
      * @return Response|JsonModel
      */
     public function deleteAction()

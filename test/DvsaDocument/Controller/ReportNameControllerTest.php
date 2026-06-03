@@ -142,7 +142,7 @@ final class ReportNameControllerTest extends TestCase
         $controller = $this->setUpController($documentServiceMock, $id, $variation);
         $response = $controller->getAction();
 
-        /** @psalm-suppress DeprecatedClass BL-19119*/
+        /** @psalm-suppress DeprecatedClass BL-22033*/
         $this->assertInstanceOf(JsonModel::class, $response);
         $this->assertEquals(array('report-name' => 'ReportName.pdf'), $response->getVariables());
     }

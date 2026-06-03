@@ -31,13 +31,13 @@ class AbstractDocumentController extends AbstractActionController
     /**
      * @param null|array<string, mixed>|Traversable<string, mixed>|ArrayAccess<string, mixed> $data
      *
-     * @psalm-suppress DeprecatedClass BL-19119
+     * @psalm-suppress DeprecatedClass BL-22033
      * @return JsonModel
      */
     public function respondWithJson($data)
     {
         /** @psalm-suppress DeprecatedClass
-         * currently suppressing to be changed in BL-19119
+         * currently suppressing to be changed in BL-22033
          */
         return new JsonModel($data);
     }

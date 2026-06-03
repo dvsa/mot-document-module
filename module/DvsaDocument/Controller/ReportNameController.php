@@ -25,7 +25,7 @@ final class ReportNameController extends AbstractDocumentController
     /**
      * Return a single document resource
      *
-     * @psalm-suppress DeprecatedClass BL-19119
+     * @psalm-suppress DeprecatedClass BL-22033
      * @return Response|JsonModel
      */
     public function getAction()

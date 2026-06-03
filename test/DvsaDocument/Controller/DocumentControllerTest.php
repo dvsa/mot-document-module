@@ -103,7 +103,7 @@ final class DocumentControllerTest extends TestCase
         $controller = $this->setUpController($documentServiceMock, $id);
         $response = $controller->deleteAction();
 
-        /** @psalm-suppress DeprecatedClass BL-19119*/
+        /** @psalm-suppress DeprecatedClass BL-22033*/
         $this->assertInstanceOf(JsonModel::class, $response);
         $decoded = $response->getVariables();
         /** @var array<string, mixed> $decoded */
@@ -215,7 +215,7 @@ final class DocumentControllerTest extends TestCase
         );
         $response = $controller->createAction();
 
-        /** @psalm-suppress DeprecatedClass BL-19119*/
+        /** @psalm-suppress DeprecatedClass BL-22033*/
         $this->assertInstanceOf(JsonModel::class, $response);
         $decoded = $response->getVariables();
         /** @var array<string, mixed> $decoded */
