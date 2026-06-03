@@ -3,7 +3,6 @@
 /**
  * Document Controller
  * Interact with the Document Service to create and delete document
- *
  * @author Alex Peshkov <alex.peshkov@valtech.co.uk>
  */
 
