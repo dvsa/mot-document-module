@@ -89,6 +89,7 @@ class AbstractDocumentController extends AbstractActionController
     /**
      * @param DocumentService $documentService
      * @return $this
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function setDocumentService(DocumentService $documentService)
     {

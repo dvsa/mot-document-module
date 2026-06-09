@@ -19,6 +19,7 @@ final class ReportNames
 
     /**
      * @return string[]
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public static function getAll(): array
     {

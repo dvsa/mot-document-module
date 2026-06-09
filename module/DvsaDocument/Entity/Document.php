@@ -47,6 +47,7 @@ class Document extends Entity
 
     /**
      * @return integer
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function getTemplate()
     {

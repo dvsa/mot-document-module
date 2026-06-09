@@ -136,6 +136,7 @@ class LambdaReportService
      * @param array  $runtimeParams
      *
      * @return Response
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function getReportById($documentId, $reportName, $runtimeParams = [])
     {
@@ -160,6 +161,7 @@ class LambdaReportService
      * @param array  $argList
      *
      * @return Response
+     * @psalm-suppress PossiblyUnusedReturnValue BL-22047
      */
     public function getMergedPdfReports($isPrs, $argList = [])
     {
@@ -294,6 +296,7 @@ class LambdaReportService
 
     /**
      * @param HttpClientServiceInterface $httpClient
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function setHttpClient(HttpClientServiceInterface $httpClient): void
     {

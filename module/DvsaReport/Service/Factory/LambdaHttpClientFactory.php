@@ -12,6 +12,7 @@ use Laminas\ServiceManager\Factory\FactoryInterface;
 
 /**
  * Http Client Service Factory
+ * @psalm-suppress UnusedClass BL-22047
  */
 final class LambdaHttpClientFactory implements FactoryInterface
 {

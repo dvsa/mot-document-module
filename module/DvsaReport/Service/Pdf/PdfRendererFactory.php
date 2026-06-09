@@ -7,7 +7,7 @@ use Laminas\ServiceManager\Factory\FactoryInterface;
 
 /**
  * Class PdfRendererFactory
- *
+ * @psalm-suppress UnusedClass BL-22047
  */
 final class PdfRendererFactory implements FactoryInterface
 {

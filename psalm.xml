@@ -21,29 +21,5 @@
         <MissingConstructor errorLevel="suppress" />
         <RedundantPropertyInitializationCheck errorLevel="suppress" />
         <PropertyNotSetInConstructor errorLevel="suppress" />
-        <UnusedClass>
-            <errorLevel type="suppress">
-                <directory name="module/DvsaDocument/Factory" errorLevel="info"/>
-                <directory name="module/DvsaReport/Service/Factory" errorLevel="info"/>
-                <file name="module/DvsaReport/Service/Pdf/PdfRendererFactory.php" errorLevel="info"/>
-                <file name="module/DvsaReport/Module.php" errorLevel="info"/>
-                <file name="module/DvsaDocument/Mapper/AbstractMapper.php" note="todo: should this class exist" errorLevel="info"/>
-            </errorLevel>
-        </UnusedClass>
-        <PossiblyUnusedMethod>
-            <errorLevel type="suppress" note="todo: these methods should probably be removed">
-                <directory name="module/*" errorLevel="info" />
-            </errorLevel>
-        </PossiblyUnusedMethod>
-        <PossiblyUnusedReturnValue>
-            <errorLevel type="suppress" note="todo: these methods should probably be removed">
-                <directory name="module" errorLevel="info" />
-            </errorLevel>
-        </PossiblyUnusedReturnValue>
-        <PossiblyUnusedParam>
-            <errorLevel type="suppress" note="todo: this methods should probably be removed">
-                <file name="module/DvsaDocument/Mapper/AbstractMapper.php"/>
-            </errorLevel>
-        </PossiblyUnusedParam>
     </issueHandlers>
 </psalm>

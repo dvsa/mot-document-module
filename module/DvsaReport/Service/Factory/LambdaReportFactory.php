@@ -10,6 +10,9 @@ use Laminas\ServiceManager\Factory\FactoryInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
+/**
+ * @psalm-suppress UnusedClass BL-22047
+ */
 final class LambdaReportFactory implements FactoryInterface
 {
     /**

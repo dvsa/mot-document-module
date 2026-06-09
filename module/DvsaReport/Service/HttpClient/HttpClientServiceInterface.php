@@ -17,6 +17,7 @@ interface HttpClientServiceInterface
 
     /**
      * @return static
+     * @psalm-suppress PossiblyUnusedReturnValue BL-22047
      */
     public function setLogger(Logger $logger);
 
@@ -27,21 +28,25 @@ interface HttpClientServiceInterface
 
     /**
      * @return static
+     * @psalm-suppress PossiblyUnusedReturnValue BL-22047
      */
     public function setUri(string|\Laminas\Uri\Http $uri);
 
     /**
      * @return static
+     * @psalm-suppress PossiblyUnusedReturnValue BL-22047
      */
     public function setContent(mixed $content);
 
     /**
      * @return static
+     * @psalm-suppress PossiblyUnusedReturnValue BL-22047
      */
     public function setOptions(array|Traversable $options);
 
     /**
      * @return static
+     * @psalm-suppress PossiblyUnusedReturnValue BL-22047
      */
     public function setDomainUrl(string $domainUrl);
 

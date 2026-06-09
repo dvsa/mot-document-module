@@ -308,7 +308,7 @@ final class DocumentServiceTest extends TestCase
     }
 
     /**
-     * @psalm-suppress PossiblyUnusedMethod
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     protected function setConfig(array $config): void
     {

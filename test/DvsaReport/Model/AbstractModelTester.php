@@ -33,7 +33,7 @@ abstract class AbstractModelTester extends TestCase
 
     /**
      * @dataProvider providerGettersAndSetters
-     * @psalm-suppress PossiblyUnusedMethod
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function testGettersAndSetters(string $methodName, mixed $testValue): void
     {
@@ -46,7 +46,7 @@ abstract class AbstractModelTester extends TestCase
 
     /**
      * @throws \ReflectionException
-     * @psalm-suppress PossiblyUnusedMethod
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function providerGettersAndSetters(): array
     {

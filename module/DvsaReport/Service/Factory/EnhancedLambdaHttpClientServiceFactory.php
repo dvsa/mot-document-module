@@ -20,6 +20,9 @@ use DvsaReport\Service\HttpClient\EnhancedLambdaHttpClientService;
 use Laminas\Http\Headers;
 use Laminas\Log\Logger;
 
+/**
+ * @psalm-suppress UnusedClass BL-22047
+ */
 final class EnhancedLambdaHttpClientServiceFactory implements FactoryInterface
 {
     public const REQUIRED_CONFIG_ROOT_KEY = 'certificate_generation';

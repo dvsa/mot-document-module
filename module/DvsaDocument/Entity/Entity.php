@@ -48,6 +48,7 @@ abstract class Entity
 
     /**
      * @return integer|null
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function getCreatedBy()
     {
@@ -68,6 +69,7 @@ abstract class Entity
 
     /**
      * @return \DateTime|null
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function getCreatedOn()
     {
@@ -88,6 +90,7 @@ abstract class Entity
 
     /**
      * @return integer|null
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function getLastUpdatedBy()
     {
@@ -98,6 +101,7 @@ abstract class Entity
      * @param int $value
      *
      * @return $this
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function setLastUpdatedBy($value)
     {
@@ -108,6 +112,7 @@ abstract class Entity
 
     /**
      * @return \DateTime|null
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function getLastUpdatedOn()
     {
@@ -118,6 +123,7 @@ abstract class Entity
      * @param \DateTime $date
      *
      * @return $this
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function setLastUpdatedOn(\DateTime $date)
     {
@@ -128,6 +134,7 @@ abstract class Entity
 
     /**
      * @return integer
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function getVersion()
     {
@@ -138,6 +145,7 @@ abstract class Entity
      * @param integer $version
      *
      * @return $this
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function setVersion($version)
     {
@@ -153,6 +161,7 @@ abstract class Entity
      * @param integer $userId
      *
      * @return boolean
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function isLastModifiedBy($userId)
     {

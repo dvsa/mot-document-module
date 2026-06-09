@@ -11,6 +11,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
+/**
+ * @psalm-suppress UnusedClass BL-22047
+ */
 final class DocumentServiceFactory implements FactoryInterface
 {
     /**
@@ -20,7 +23,6 @@ final class DocumentServiceFactory implements FactoryInterface
      * @return DocumentService|object
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
-     * @psalm-suppress UnusedClass
      */
     #[\Override]
     public function __invoke(ContainerInterface $container, $name, array $args = null)

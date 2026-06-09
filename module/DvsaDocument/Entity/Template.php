@@ -64,6 +64,9 @@ final class Template extends Entity
      */
     private $variations;
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
+     */
     public function __construct()
     {
         $this->documents = new ArrayCollection();
@@ -71,6 +74,7 @@ final class Template extends Entity
 
     /**
      * @return $this
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function setTemplateType(\DvsaDocument\Entity\TemplateType $templateType)
     {
@@ -81,6 +85,7 @@ final class Template extends Entity
 
     /**
      * @return TemplateType
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function getTemplateType()
     {
@@ -89,6 +94,7 @@ final class Template extends Entity
 
     /**
      * @return $this
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function setJasperReportName(string $jasperReportName)
     {
@@ -99,6 +105,7 @@ final class Template extends Entity
 
     /**
      * @return string
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function getJasperReportName()
     {
@@ -107,6 +114,7 @@ final class Template extends Entity
 
     /**
      * @return $this
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function setIsActive(bool $isActive)
     {
@@ -117,6 +125,7 @@ final class Template extends Entity
 
     /**
      * @return bool
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function getIsActive()
     {
@@ -125,6 +134,7 @@ final class Template extends Entity
 
     /**
      * @return $this
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function setDocuments(\Doctrine\Common\Collections\ArrayCollection $documents)
     {
@@ -135,6 +145,7 @@ final class Template extends Entity
 
     /**
      * @return ArrayCollection
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function getDocuments()
     {
@@ -143,6 +154,7 @@ final class Template extends Entity
 
     /**
      * @return $this
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function setVariations(\Doctrine\Common\Collections\ArrayCollection $variations)
     {
@@ -153,6 +165,7 @@ final class Template extends Entity
 
     /**
      * @return ArrayCollection
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function getVariations()
     {

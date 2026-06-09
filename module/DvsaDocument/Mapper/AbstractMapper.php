@@ -17,6 +17,7 @@ namespace DvsaDocument\Mapper;
  *
  * @author Rob Caiger <rob@clocal.co.uk>
  *
+ * @psalm-suppress UnusedClass BL-22047
  */
 abstract class AbstractMapper
 {
@@ -171,6 +172,7 @@ abstract class AbstractMapper
      *
      * @return string
      * @SuppressWarnings("unused")
+     * @psalm-suppress PossiblyUnusedParam BL-22047
      */
     protected function formatCountryRegistration($value, $params = [])
     {
@@ -187,6 +189,7 @@ abstract class AbstractMapper
      * @param array $params
      *
      * @return string
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     protected function formatDate($value, $params = array())
     {

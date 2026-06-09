@@ -92,6 +92,9 @@ class DocumentService
         return $document->getId();
     }
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
+     */
     public function updateSnapshot(Document $document): void
     {
         $em = $this->getEntityManager();
@@ -181,6 +184,7 @@ class DocumentService
      *
      * @return \DvsaDocument\Entity\Document
      * @throws EmptyDocumentException
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function getSnapshotById($id)
     {

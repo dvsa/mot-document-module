@@ -38,7 +38,7 @@ abstract class AbstractEntityTester extends TestCase
     /**
      * @dataProvider providerGettersAndSetters
      *
-     * @psalm-suppress PossiblyUnusedMethod
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      *
      * @return void
      */
@@ -62,7 +62,7 @@ abstract class AbstractEntityTester extends TestCase
 
     /**
      * @throws \ReflectionException
-     * @psalm-suppress PossiblyUnusedMethod
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function providerGettersAndSetters(): array
     {

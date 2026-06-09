@@ -36,6 +36,7 @@ final class TemplateType extends Entity
 
     /**
      * @return $this
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function setName(string $name)
     {
@@ -46,6 +47,7 @@ final class TemplateType extends Entity
 
     /**
      * @return string
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function getName()
     {
