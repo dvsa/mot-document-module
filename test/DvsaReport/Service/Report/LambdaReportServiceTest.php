@@ -1,8 +1,6 @@
 <?php
 
-/**
- * LambdaReportService Test
- */
+declare(strict_types=1);
 
 namespace DvsaReportModuleTest\DvsaReport\Service\Report;
 
@@ -18,51 +16,32 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Laminas\Log\Logger;
 
-/**
- * LambdaReportService Test
- */
-class LambdaReportServiceTest extends TestCase
+/** LambdaReportService Test */
+final class LambdaReportServiceTest extends TestCase
 {
-    /** @var LambdaReportService */
-    protected $service;
+    protected LambdaReportService $service;
 
-    /** @var EnhancedLambdaHttpClientService&MockObject   */
-    protected $client;
+    protected EnhancedLambdaHttpClientService&MockObject $client;
 
-    /**
-     * @var PdfRenderer&MockObject
-     */
-    protected $stubPdfRenderer;
+    protected PdfRenderer&MockObject $stubPdfRenderer;
 
-    /** @var MockObject&Logger */
-    protected $logger;
-
+    #[\Override]
     public function setUp(): void
     {
-
         $this->stubPdfRenderer = $this->getMockBuilder(PdfRenderer::class)->disableOriginalConstructor()->onlyMethods(['buildPdfParameters'])->getMock();
 
         $this->client = $this->getMockBuilder(EnhancedLambdaHttpClientService::class)->disableOriginalConstructor()->getMock();
 
-        $this->logger = $this->getMockBuilder(Logger::class)->getMock();
-
         $this->service = new LambdaReportService($this->stubPdfRenderer, $this->client);
     }
 
-    /**
-     * @return void
-     */
-    public function testGetHttpClient()
+    public function testGetHttpClient(): void
     {
         $this->assertSame($this->client, $this->service->getHttpClient());
     }
 
-    /**
-     * @return void
-     */
-    public function testGetDocumentThrowsExpectedExceptionWithFailedResponse()
+    public function testGetDocumentThrowsExpectedExceptionWithFailedResponse(): void
     {
-        /** @var MockObject&Response */
         $response = $this->getMockBuilder(Response::class)->disableOriginalConstructor()->onlyMethods(['isSuccess', 'getReasonPhrase'])->getMock();
 
         $response->expects($this->once())
@@ -83,12 +62,8 @@ class LambdaReportServiceTest extends TestCase
         $this->fail('Expected exception not raised');
     }
 
-    /**
-     * @return void
-     */
-    public function testGetDocumentWhenSuccessful()
+    public function testGetDocumentWhenSuccessful(): void
     {
-        /** @var MockObject&Response */
         $response = $this->getMockBuilder(Response::class)->disableOriginalConstructor()->onlyMethods(['isSuccess', 'getHeaders', 'getBody'])->getMock();
         $headers = $this->getMockBuilder(\stdClass::class)->disableOriginalConstructor()->addmethods(['get'])->getMock();
 
@@ -121,10 +96,7 @@ class LambdaReportServiceTest extends TestCase
         $this->assertEquals(1234, $document->getSize());
     }
 
-    /**
-     * @return void
-     */
-    public function testGetVt20W()
+    public function testGetVt20W(): void
     {
         /** @var LambdaReportService&MockObject $service  */
         $service = $this->getMockBuilder(
@@ -162,10 +134,7 @@ class LambdaReportServiceTest extends TestCase
         );
     }
 
-    /**
-     * @return void
-     */
-    public function testGetVt30W()
+    public function testGetVt30W(): void
     {
         /** @var LambdaReportService&MockObject $service  */
         $service = $this->getMockBuilder(
@@ -201,10 +170,7 @@ class LambdaReportServiceTest extends TestCase
         );
     }
 
-    /**
-     * @return void
-     */
-    public function testGetPRS()
+    public function testGetPRS(): void
     {
         /** @var LambdaReportService&MockObject $service  */
         $service = $this->getMockBuilder(
@@ -248,10 +214,7 @@ class LambdaReportServiceTest extends TestCase
         );
     }
 
-    /**
-     * @return void
-     */
-    public function testGetPRSW()
+    public function testGetPRSW(): void
     {
         /** @var LambdaReportService&MockObject $service  */
         $service = $this->getMockBuilder(
@@ -290,13 +253,7 @@ class LambdaReportServiceTest extends TestCase
         );
     }
 
-    /**
-     * @param string $key
-     * @param mixed $value
-     *
-     * @return array
-     */
-    protected function mockFieldValue($key, $value)
+    protected function mockFieldValue(string $key, mixed $value): array
     {
         $field = $this->getMockBuilder(\stdClass::class)->disableOriginalConstructor()->addMethods(['getFieldValue'])->getMock();
         $field->expects($this->any())
@@ -304,33 +261,5 @@ class LambdaReportServiceTest extends TestCase
             ->will($this->returnValue($value));
 
         return [$key, $field];
-    }
-
-    /**
-     * @param string $resourceName
-     *
-     * @return MockObject&Response
-     */
-    protected function getMockReport($resourceName)
-    {
-        $headerMock = $this->getMockBuilder(Headers::class)->disableOriginalConstructor()->onlyMethods(['toString'])->getMock();
-        $headerMock->expects($this->any())
-            ->method('toString')
-            ->will($this->returnValue('Content-Type: 1234'));
-
-        $mock = $this->getMockBuilder(Response::class)->disableOriginalConstructor()->onlyMethods(['getHeaders', 'getContent', 'getStatusCode'])->getMock();
-        $mock->expects($this->once())
-            ->method('getContent')
-            ->will($this->returnValue(file_get_contents(__DIR__ . '/../../Resources/' . $resourceName)));
-
-        $mock->expects($this->any())
-            ->method('getStatusCode')
-            ->willReturn(200);
-
-        $mock->expects($this->any())
-            ->method('getHeaders')
-            ->will($this->returnValue($headerMock));
-
-        return $mock;
     }
 }

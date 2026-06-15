@@ -8,15 +8,18 @@
 >
     <projectFiles>
         <directory name="module" />
-        <directory name="test" />
+        <directory name="test" test="true"/>
         <ignoreFiles>
             <directory name="config" />
             <directory name="vendor" />
         </ignoreFiles>
     </projectFiles>
+    <plugins>
+        <pluginClass class="Psalm\PhpUnitPlugin\Plugin" />
+    </plugins>
     <issueHandlers>
-        <PropertyNotSetInConstructor errorLevel="suppress" /> 
-        <MissingConstructor errorLevel="suppress" /> 
-        <RedundantPropertyInitializationCheck errorLevel="suppress" /> 
+        <MissingConstructor errorLevel="suppress" />
+        <RedundantPropertyInitializationCheck errorLevel="suppress" />
+        <PropertyNotSetInConstructor errorLevel="suppress" />
     </issueHandlers>
 </psalm>

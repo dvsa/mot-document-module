@@ -1,20 +1,16 @@
 <?php
 
-/**
- * Pdf service
- *
- * @author Rob Caiger <rob@clocal.co.uk>
- */
+declare(strict_types=1);
 
 namespace DvsaReport\Service\Pdf;
 
-use Laminas\Config\Config;
 use Laminas\Http\Response;
 
 /**
  * Pdf service
  *
  * @author Rob Caiger <rob@clocal.co.uk>
+ * @psalm-suppress ClassMustBeFinal cannot be final or tests would need overhall
  */
 class PdfService
 {
@@ -40,9 +36,10 @@ class PdfService
     private $tmpDir = '/tmp/';
 
     /**
-     * @var Config|null
+     * Holds the report config, and acts as cache so only fetched once from
+     * the getConfig method
      */
-    private $report_config;
+    private ?array $report_config = null;
 
     /**
      * Get html
@@ -152,16 +149,33 @@ class PdfService
      * @return string
      * @throws \Exception
      */
-    public function generateUsingWkHtmlToPdf()
+    public function generateUsingWkHtmlToPdf(): string
     {
         // Need to create a tmp html file
+        /** @psalm-suppress PossiblyFalseOperand
+         *
+         * Reasons for false
+         * The directory doesn't exist
+         * The path is invalid
+         * There are permission issues
+         * The path contains symbolic links that can't be resolved
+         *
+         * Ignore since none of the above can happen and if they do they should happen, in dev 1st through testing
+         * plus the fix would be throw an error which will already happen
+         * */
         $tmpFilePrefix = realpath($this->getTmpDir()) . '/' . time() . uniqid();
 
-        /** @var Config */
-        $reportBuilderConfig = $this->getConfig()->get('report_builder');
+        $config = $this->getConfig();
+        if (!isset($config['report_builder']) || !is_array($config['report_builder'])) {
+            throw new \Exception('Invalid configuration: report_builder not found');
+        }
 
-        /** @var string */
-        $binary = $reportBuilderConfig->get('html_to_pdf_binary');
+        $reportBuilderConfig = $config['report_builder'];
+        if (!isset($reportBuilderConfig['html_to_pdf_binary']) || !is_string($reportBuilderConfig['html_to_pdf_binary'])) {
+            throw new \Exception('Invalid configuration: html_to_pdf_binary not found');
+        }
+
+        $binary = $reportBuilderConfig['html_to_pdf_binary'];
 
         $tmpHtmlFile = $tmpFilePrefix . '.html';
         $tmpPdfFile = $tmpFilePrefix . '.pdf';
@@ -244,14 +258,15 @@ class PdfService
     }
 
     /**
-     * @return Config
+     * @return array
      */
-    private function getConfig()
+    private function getConfig(): array
     {
         if (is_null($this->report_config)) {
-            $this->report_config = new Config(include __DIR__ . '/../../../../config/report-module.config.php');
+            /** @var array $config */
+            $config = include __DIR__ . '/../../../../config/report-module.config.php';
+            $this->report_config = $config;
         }
-
         return $this->report_config;
     }
 }

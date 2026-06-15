@@ -1,35 +1,26 @@
 <?php
 
-/**
- * Report Model Test
- *
- * @author Rob Caiger <rob@clocal.co.uk>
- */
+declare(strict_types=1);
 
 namespace DvsaDocumentModuleTest\DvsaReport\Model;
 
+use DvsaReport\Model\Report;
+
 /**
  * Report Model Test
  *
  * @author Rob Caiger <rob@clocal.co.uk>
  */
-class ReportTest extends AbstractModelTester
+final class ReportTest extends AbstractModelTester
 {
-    /**
-     * Holds the model class name
-     *
-     * @var class-string
-     */
-    protected $modelClass = \DvsaReport\Model\Report::class;
+    protected $modelClass = Report::class;
 
     /**
      * Test setName replaces slashes
-     *
-     * @return void
      */
-    public function testSetNameReplacesSlashes()
+    public function testSetNameReplacesSlashes(): void
     {
-        $model = new \DvsaReport\Model\Report();
+        $model = new Report();
         $model->setName('Name/With/Slashes.pdf');
         $this->assertEquals('Name-With-Slashes.pdf', $model->getName());
     }

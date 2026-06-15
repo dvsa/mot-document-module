@@ -12,8 +12,9 @@ use Laminas\ServiceManager\Factory\FactoryInterface;
 
 /**
  * Http Client Service Factory
+ * @psalm-suppress UnusedClass BL-22047
  */
-class LambdaHttpClientFactory implements FactoryInterface
+final class LambdaHttpClientFactory implements FactoryInterface
 {
     /**
      * @param ContainerInterface $container
@@ -21,6 +22,7 @@ class LambdaHttpClientFactory implements FactoryInterface
      * @param array|null $args
      * @return LambdaHttpClientService|object
      */
+    #[\Override]
     public function __invoke(ContainerInterface $container, $named, array $args = null)
     {
         /** @var array */

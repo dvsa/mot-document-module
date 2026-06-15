@@ -18,13 +18,20 @@
         "captainhook/plugin-composer": "^5.3.3",
         "dvsa/coding-standards": "^2.0",
         "phpstan/phpstan": "^2.1.33",
-        "vimeo/psalm": "^6.14.3"
+        "vimeo/psalm": "^6.14.3",
+        "psalm/plugin-phpunit": "^0.19.5"
     },
     "autoload": {
-        "psr-0": {
-            "DvsaDocument\\": "module",
-            "DvsaReport\\": "module",
-            "DvsaCommon\\": "module"
+        "psr-4": {
+            "DvsaDocument\\": "module/DvsaDocument/",
+            "DvsaReport\\": "module/DvsaReport/",
+            "DvsaCommon\\": "module/DvsaCommon/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "DvsaDocumentModuleTest\\": "test",
+            "DvsaReportModuleTest\\": "test"
         }
     },
     "scripts": {
@@ -34,11 +41,11 @@
         "phpcs": "./vendor/bin/phpcs .",
         "phpcs-fix": "./vendor/bin/phpcbf .",
         "psalm": "./vendor/bin/psalm",
-        "phpstan": "./vendor/bin/phpstan analyse"
+        "phpstan": "./vendor/bin/phpstan analyse --memory-limit=512M"
     },
     "config": {
         "platform": {
-            "php": "8.2"
+            "php": "8.2.27"
         },
         "allow-plugins": {
             "laminas/laminas-dependency-plugin": false,

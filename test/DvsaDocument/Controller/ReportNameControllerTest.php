@@ -1,15 +1,12 @@
 <?php
 
-/**
- * Report Name Controller Test
- *
- * @author Rob Caiger <rob@clocal.co.uk>
- */
+declare(strict_types=1);
 
 namespace DvsaDocumentModuleTest\DvsaDocument\Controller;
 
-use DvsaDocument\Factory\Controller\ReportNameControllerFactory;
 use DvsaDocument\Service\Document\DocumentService;
+use Laminas\Router\RouteStackInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use DvsaDocumentModuleTest\TestBootstrap as Bootstrap;
 use DvsaDocument\Controller\ReportNameController;
@@ -20,22 +17,21 @@ use Laminas\Mvc\MvcEvent;
 use Laminas\Router\Http\TreeRouteStack as HttpRouter;
 use DvsaDocument\Exceptions\TemplateNotFoundException;
 use Laminas\View\Model\JsonModel;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * Report Name Controller Test
  *
  * @author Rob Caiger <rob@clocal.co.uk>
  */
-class ReportNameControllerTest extends TestCase
+final class ReportNameControllerTest extends TestCase
 {
     /**
-     * @param \PHPUnit\Framework\MockObject\MockObject&DocumentService $documentServiceMock
-     * @param int|null $id
-     * @param mixed $variation
-     *
-     * @return ReportNameController
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    private function setUpController($documentServiceMock, $id, $variation)
+    private function setUpController(DocumentService&MockObject $documentServiceMock, ?int $id, mixed $variation): ReportNameController
     {
         $controller = new ReportNameController($documentServiceMock);
 
@@ -52,10 +48,11 @@ class ReportNameControllerTest extends TestCase
         );
 
         $event = new MvcEvent();
-        /** @var array */
+        /** @var array $config */
         $config = $serviceManager->get('Config');
-        /** @var array */
-        $routerConfig = isset($config['router']) ? $config['router'] : array();
+        /** @var array $routerConfig */
+        $routerConfig = $config['router'] ?? array();
+        /** @var RouteStackInterface $router */
         $router = HttpRouter::factory($routerConfig);
 
         $event->setRouter($router);
@@ -70,10 +67,10 @@ class ReportNameControllerTest extends TestCase
 
     /**
      * Test get action Without ID
-     *
-     * @return void
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    public function testGetActionWithoutId()
+    public function testGetActionWithoutId(): void
     {
         $id = null;
         $variation = null;
@@ -88,10 +85,10 @@ class ReportNameControllerTest extends TestCase
 
     /**
      * Test get action With Missing Template
-     *
-     * @return void
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    public function testGetActionWithMissingTemplate()
+    public function testGetActionWithMissingTemplate(): void
     {
         $id = 1;
         $variation = null;
@@ -109,10 +106,10 @@ class ReportNameControllerTest extends TestCase
 
     /**
      * Test get action With unexpected Exception Being Thrown
-     *
-     * @return void
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    public function testGetActionWithUnexpectedExceptionBeingThrown()
+    public function testGetActionWithUnexpectedExceptionBeingThrown(): void
     {
         $id = 1;
         $variation = null;
@@ -130,10 +127,10 @@ class ReportNameControllerTest extends TestCase
 
     /**
      * Test get action
-     *
-     * @return void
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    public function testGetActionHappyPath()
+    public function testGetActionHappyPath(): void
     {
         $id = 1;
         $variation = null;
@@ -145,6 +142,7 @@ class ReportNameControllerTest extends TestCase
         $controller = $this->setUpController($documentServiceMock, $id, $variation);
         $response = $controller->getAction();
 
+        /** @psalm-suppress DeprecatedClass BL-22033*/
         $this->assertInstanceOf(JsonModel::class, $response);
         $this->assertEquals(array('report-name' => 'ReportName.pdf'), $response->getVariables());
     }

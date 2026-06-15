@@ -105,6 +105,7 @@ class AbstractHttpClientService
      * @param string|Http $uri
      *
      * @return $this
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function setUri($uri)
     {
@@ -118,6 +119,7 @@ class AbstractHttpClientService
      * @param mixed $content
      *
      * @return $this
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function setContent($content)
     {
@@ -130,6 +132,7 @@ class AbstractHttpClientService
      *
      * @param array|Traversable $options
      * @return $this
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function setOptions($options)
     {

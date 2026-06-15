@@ -7,6 +7,8 @@
  * Time: 14:47
  */
 
+declare(strict_types=1);
+
 namespace DvsaReportModuleTest\DvsaReport\Service\HttpClient;
 
 use DvsaReport\Service\HttpClient\EnhancedLambdaHttpClientService;
@@ -15,29 +17,23 @@ use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use Laminas\Http\Client;
 use Laminas\Http\Request;
-use Laminas\Http\Resopnse;
 use Laminas\Log\Logger;
 
-class EnhancedLambdaHttpClientServiceTest extends TestCase
+final class EnhancedLambdaHttpClientServiceTest extends TestCase
 {
-    /** @var EnhancedLambdaHttpClientService  */
-    protected $wrapper;
+    protected EnhancedLambdaHttpClientService $wrapper;
 
-    /** @var MockObject&Client */
-    protected $client;
+    protected MockObject&Client $client;
 
-    /** @var MockObject&Request */
-    protected $request;
+    protected MockObject&Request $request;
 
-    /** @var MockObject&Response */
-    protected $response;
+    protected MockObject&Response $response;
 
-    /** @var MockObject&Logger */
-    protected $logger;
+    protected MockObject&Logger $logger;
 
-    /** @var int */
-    protected $maxAttemptCount;
+    protected int $maxAttemptCount;
 
+    #[\Override]
     public function setUp(): void
     {
         $this->client = $this->getMockBuilder(Client::class)->disableOriginalConstructor()->onlyMethods(['setAuth', 'setOptions', 'dispatch'])->getMock();
@@ -52,10 +48,7 @@ class EnhancedLambdaHttpClientServiceTest extends TestCase
         $this->wrapper->setLogger($this->logger);
     }
 
-    /**
-     * @return void
-     */
-    public function test200Response()
+    public function test200Response(): void
     {
         $this->response->method('getStatusCode')
             ->willReturn(Response::STATUS_CODE_200);
@@ -76,7 +69,7 @@ class EnhancedLambdaHttpClientServiceTest extends TestCase
      *
      * @return void
      */
-    public function testUnretriableCodes($statusCode)
+    public function testNoneRetriableCodes($statusCode)
     {
         $this->expectException(\Exception::class);
         $this->response->method('getStatusCode')
@@ -89,10 +82,7 @@ class EnhancedLambdaHttpClientServiceTest extends TestCase
         $this->wrapper->dispatch();
     }
 
-    /**
-     * @return array
-     */
-    public function providerUnretriableCodes()
+    public function providerUnretriableCodes(): array
     {
         // test with this values
         return array(
@@ -103,12 +93,8 @@ class EnhancedLambdaHttpClientServiceTest extends TestCase
 
     /**
      * @dataProvider providerRetriableCodes
-     *
-     * @param int $statusCode
-     *
-     * @return void
      */
-    public function testRetriableCodes($statusCode)
+    public function testRetriableCodes(int $statusCode): void
     {
         $this->response->method('getStatusCode')
             ->willReturn($statusCode);
@@ -124,10 +110,7 @@ class EnhancedLambdaHttpClientServiceTest extends TestCase
         }
     }
 
-    /**
-     * @return array
-     */
-    public function providerRetriableCodes()
+    public function providerRetriableCodes(): array
     {
         // test with this values
         return array(
@@ -138,9 +121,9 @@ class EnhancedLambdaHttpClientServiceTest extends TestCase
     }
 
     /**
-     * @return void
+     * @throws \Exception
      */
-    public function test200After429()
+    public function test200After429(): void
     {
         $this->response->method('getStatusCode')
             ->will($this->onConsecutiveCalls(Response::STATUS_CODE_429, Response::STATUS_CODE_200));
@@ -155,9 +138,9 @@ class EnhancedLambdaHttpClientServiceTest extends TestCase
     }
 
     /**
-     * @return void
+     * @throws \Exception
      */
-    public function test200After429and429()
+    public function test200After429and429(): void
     {
         $this->response->method('getStatusCode')
             ->will($this->onConsecutiveCalls(Response::STATUS_CODE_429, Response::STATUS_CODE_429, Response::STATUS_CODE_200));
@@ -173,10 +156,7 @@ class EnhancedLambdaHttpClientServiceTest extends TestCase
         $this->assertEquals("third", $r);
     }
 
-    /**
-     * @return void
-     */
-    public function test500After429()
+    public function test500After429(): void
     {
         $this->response->method('getStatusCode')
             ->will($this->onConsecutiveCalls(Response::STATUS_CODE_429, Response::STATUS_CODE_500));

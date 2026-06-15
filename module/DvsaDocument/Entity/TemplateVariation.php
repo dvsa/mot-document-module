@@ -20,7 +20,7 @@ use DvsaDocument\EntityTrait\CommonIdentityTrait;
  * @ORM\Entity(readOnly=true)
  * @ORM\Cache(usage="READ_ONLY", region="staticdata")
  */
-class TemplateVariation extends Entity
+final class TemplateVariation extends Entity
 {
     use CommonIdentityTrait;
 
@@ -51,6 +51,7 @@ class TemplateVariation extends Entity
 
     /**
      * @return $this
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function setTemplate(Template $template)
     {
@@ -61,6 +62,7 @@ class TemplateVariation extends Entity
 
     /**
      * @return Template
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function getTemplate()
     {
@@ -69,6 +71,7 @@ class TemplateVariation extends Entity
 
     /**
      * @return $this
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function setName(string $name)
     {
@@ -79,6 +82,7 @@ class TemplateVariation extends Entity
 
     /**
      * @return string
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function getName()
     {
@@ -87,6 +91,7 @@ class TemplateVariation extends Entity
 
     /**
      * @return $this
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function setJasperReportName(string $jasperReportName)
     {
@@ -97,6 +102,7 @@ class TemplateVariation extends Entity
 
     /**
      * @return string
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function getJasperReportName()
     {

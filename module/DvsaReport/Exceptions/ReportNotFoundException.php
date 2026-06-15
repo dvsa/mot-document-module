@@ -13,6 +13,6 @@ namespace DvsaReport\Exceptions;
  *
  * @author Rob Caiger <rob@clocal.co.uk>
  */
-class ReportNotFoundException extends \Exception
+final class ReportNotFoundException extends \Exception
 {
 }

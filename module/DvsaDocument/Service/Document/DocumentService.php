@@ -6,7 +6,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
 use DvsaDocument\Exceptions\TemplateNotFoundException;
 use DvsaDocument\Exceptions\EmptyDocumentException;
-use Doctrine\ORM\EntityManager;
 use DvsaDocument\Entity\Document;
 
 /**
@@ -14,6 +13,7 @@ use DvsaDocument\Entity\Document;
  *
  * @author Nick Payne <nick.payne@valtech.co.uk>
  * @author Rob Caiger <rob@clocal.co.uk>
+ * @psalm-suppress ClassMustBeFinal cannot be final or tests would need overhall
  */
 class DocumentService
 {
@@ -92,6 +92,9 @@ class DocumentService
         return $document->getId();
     }
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
+     */
     public function updateSnapshot(Document $document): void
     {
         $em = $this->getEntityManager();
@@ -181,6 +184,7 @@ class DocumentService
      *
      * @return \DvsaDocument\Entity\Document
      * @throws EmptyDocumentException
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function getSnapshotById($id)
     {

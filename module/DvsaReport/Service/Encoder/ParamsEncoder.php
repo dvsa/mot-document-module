@@ -2,7 +2,7 @@
 
 namespace DvsaReport\Service\Encoder;
 
-class ParamsEncoder
+final class ParamsEncoder
 {
     /**
      * @param array $params

@@ -16,6 +16,8 @@ namespace DvsaDocument\Mapper;
  * Enforces only string key => value pairs defined in the mapTemplate
  *
  * @author Rob Caiger <rob@clocal.co.uk>
+ *
+ * @psalm-suppress UnusedClass BL-22047
  */
 abstract class AbstractMapper
 {
@@ -105,12 +107,16 @@ abstract class AbstractMapper
                 //  extended: transformation required before writing
                 $key = $dataKey['key'];
 
+                /** @var string $data[$key]*/
+                /** @var string|null $formatter */
+                $formatter = $dataKey['format'] ?? null;
                 $this->setValue(
                     $mapKey,
                     (isset($data[$key]) ? $data[$key] : ''),
-                    $dataKey['format']
+                    $formatter
                 );
             } else {
+                /** @var string $data[$dataKey]*/
                 $this->setValue(
                     $mapKey,
                     (isset($data[$dataKey]) ? $data[$dataKey] : '')
@@ -166,6 +172,7 @@ abstract class AbstractMapper
      *
      * @return string
      * @SuppressWarnings("unused")
+     * @psalm-suppress PossiblyUnusedParam BL-22047
      */
     protected function formatCountryRegistration($value, $params = [])
     {
@@ -182,10 +189,12 @@ abstract class AbstractMapper
      * @param array $params
      *
      * @return string
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     protected function formatDate($value, $params = array())
     {
         $date = null;
+        /** @var string $format */
         $format = isset($params['format']) ? $params['format'] : self::FORMAT_DATE;
 
         if ($value instanceof \DateTime) {
@@ -199,8 +208,10 @@ abstract class AbstractMapper
         if (is_null($date)) {
             return '';
         }
-
-        return date($format, strtotime($date));
+        /** @var string $date */
+        $timestamp = strtotime($date);
+        /** @var int $timestamp */
+        return date($format, $timestamp);
     }
 
     /**
@@ -231,6 +242,7 @@ abstract class AbstractMapper
     {
         $this->data = array();
 
+        /** @var array $data */
         foreach ($this->dataSources as $data) {
             $this->data = array_merge($this->data, $data);
         }

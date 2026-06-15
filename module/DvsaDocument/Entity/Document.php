@@ -13,6 +13,7 @@ use DvsaDocument\EntityTrait\CommonIdentityTrait;
  *
  * @ORM\Table(name="jasper_document")
  * @ORM\Entity
+ * @psalm-suppress ClassMustBeFinal cannot be final or tests would need overhall
  */
 class Document extends Entity
 {
@@ -46,6 +47,7 @@ class Document extends Entity
 
     /**
      * @return integer
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function getTemplate()
     {

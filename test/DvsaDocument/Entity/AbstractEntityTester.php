@@ -1,15 +1,12 @@
 <?php
 
-/**
- * Abstract entity tester
- *
- * @author Rob Caiger <rob@clocal.co.uk>
- */
+declare(strict_types=1);
 
 namespace DvsaDocumentModuleTest\DvsaDocument\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 
 /**
  * Abstract entity tester
@@ -18,13 +15,6 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class AbstractEntityTester extends TestCase
 {
-    /**
-     * Holds the entity
-     *
-     * @var object
-     */
-    protected $entity;
-
     /**
      * Holds the entity class name
      *
@@ -40,7 +30,7 @@ abstract class AbstractEntityTester extends TestCase
     /**
      * @return class-string
      */
-    public function getClassToTestName()
+    public function getClassToTestName(): string
     {
         return $this->entityClass;
     }
@@ -48,13 +38,11 @@ abstract class AbstractEntityTester extends TestCase
     /**
      * @dataProvider providerGettersAndSetters
      *
-     * @param string $methodName
-     * @param mixed $testValue
-     * @param mixed $defValue
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      *
      * @return void
      */
-    public function testGettersAndSetters($methodName, $testValue, $defValue = null)
+    public function testGettersAndSetters(string $methodName, mixed $testValue, mixed $defValue = null)
     {
         $classToTestName = $this->getClassToTestName();
         $entity = new $classToTestName();
@@ -73,12 +61,13 @@ abstract class AbstractEntityTester extends TestCase
     }
 
     /**
-     * @return array
+     * @throws \ReflectionException
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
-    public function providerGettersAndSetters()
+    public function providerGettersAndSetters(): array
     {
         $classToTestName = $this->getClassToTestName();
-        $reflection = new \ReflectionClass($classToTestName);
+        $reflection = new ReflectionClass($classToTestName);
 
         $methods = $reflection->getMethods();
 
@@ -93,7 +82,7 @@ abstract class AbstractEntityTester extends TestCase
 
         //  --  class methods   --
         foreach ($methods as $method) {
-            if (substr($method->getName(), 0, 3) == 'set') {
+            if (str_starts_with($method->getName(), 'set')) {
                 $methodName = substr($method->getName(), 3);
 
                 if (

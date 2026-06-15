@@ -3,7 +3,6 @@
 /**
  * Document Controller
  * Interact with the Document Service to create and delete document
- *
  * @author Alex Peshkov <alex.peshkov@valtech.co.uk>
  */
 
@@ -20,11 +19,11 @@ use Laminas\View\Model\JsonModel;
  *
  * @author Alex Peshkov <alex.peshkov@valtech.co.uk>
  */
-class DocumentController extends AbstractDocumentController
+final class DocumentController extends AbstractDocumentController
 {
     /**
      * Create new document and return ID
-     *
+     * @psalm-suppress DeprecatedClass BL-22033
      * @return Response|JsonModel
      */
     public function createAction()
@@ -63,6 +62,7 @@ class DocumentController extends AbstractDocumentController
     /**
      * Delete document by ID
      *
+     * @psalm-suppress DeprecatedClass BL-22033
      * @return Response|JsonModel
      */
     public function deleteAction()

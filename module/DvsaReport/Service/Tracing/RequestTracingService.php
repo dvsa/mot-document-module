@@ -11,8 +11,9 @@ use Laminas\Log\Logger;
  * User: radoslawl
  * Date: 20/03/2018
  * Time: 15:15
+ * @psalm-suppress ClassMustBeFinal cannot be final or tests would need overhall
  */
-class RequestTracingService
+final class RequestTracingService
 {
     public const TRACE_ID_HEADER = "X-B3-TraceId";
     public const PARENT_ID_HEADER = "X-B3-ParentSpanId";

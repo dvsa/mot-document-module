@@ -15,7 +15,7 @@ use Laminas\Http\Response;
  *
  * @author Rob Caiger <rob@clocal.co.uk>
  */
-class CsvService
+final class CsvService
 {
     /**
      * Holds the data rows
@@ -120,6 +120,7 @@ class CsvService
 
             $first = true;
 
+            /** @var array $row */
             foreach ($this->getData() as $row) {
                 $row = $this->cleanRow($row);
 
@@ -129,6 +130,7 @@ class CsvService
                     $rows[] = '"' . implode('","', array_keys($row)) . '"';
                 }
 
+                /** @phpstan-ignore-next-line */
                 $rows[] = '"' . implode('","', array_values($row)) . '"';
             }
 
@@ -148,6 +150,7 @@ class CsvService
     {
         $removals = array('£');
 
+        /** @var string $value */
         foreach ($row as $key => $value) {
             $row[$key] = str_replace($removals, '', strip_tags($value));
         }

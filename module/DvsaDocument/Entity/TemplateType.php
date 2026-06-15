@@ -20,7 +20,7 @@ use DvsaDocument\EntityTrait\CommonIdentityTrait;
  * @ORM\Entity(readOnly=true)
  * @ORM\Cache(usage="READ_ONLY", region="staticdata")
  */
-class TemplateType extends Entity
+final class TemplateType extends Entity
 {
     use CommonIdentityTrait;
 
@@ -36,6 +36,7 @@ class TemplateType extends Entity
 
     /**
      * @return $this
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function setName(string $name)
     {
@@ -46,6 +47,7 @@ class TemplateType extends Entity
 
     /**
      * @return string
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public function getName()
     {

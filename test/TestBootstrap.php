@@ -1,22 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DvsaDocumentModuleTest;
 
+use Laminas\ModuleManager\ModuleManager;
 use Laminas\Mvc\Service\ServiceManagerConfig;
 use Laminas\ServiceManager\ServiceManager;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
-/**
- * Test bootstrap, for setting up autoloading
- */
-class TestBootstrap
+/** Test bootstrap, for setting up autoloading */
+final class TestBootstrap
 {
-    /** @var ServiceManager */
-    protected static $serviceManager;
+    protected static ServiceManager $serviceManager;
 
     /**
-     * @return void
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    public static function init()
+    public static function init(): void
     {
         // Grab the application config
         $config = array(
@@ -31,19 +34,20 @@ class TestBootstrap
             )
         );
 
-        /** @psalm-suppress ArgumentTypeCoercion */
-        $serviceManager = new ServiceManager((new ServiceManagerConfig())->toArray());
+        $serviceManagerConfig = (new ServiceManagerConfig())->toArray();
+        /** @phpstan-ignore-next-line */
+        $serviceManager = new ServiceManager($serviceManagerConfig);
         $serviceManager->setService('ApplicationConfig', $config);
-        /** @var \Laminas\ModuleManager\ModuleManager */
+        /** @var ModuleManager $moduleManager */
         $moduleManager = $serviceManager->get('ModuleManager');
         $moduleManager->loadModules();
-        static::$serviceManager = $serviceManager;
+        TestBootstrap::$serviceManager = $serviceManager;
     }
 
     /**
      * @return ServiceManager
      */
-    public static function getServiceManager()
+    public static function getServiceManager(): ServiceManager
     {
         return static::$serviceManager;
     }

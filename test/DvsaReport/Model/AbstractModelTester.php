@@ -1,14 +1,11 @@
 <?php
 
-/**
- * Abstract Model Tester
- *
- * @author Rob Caiger <rob@clocal.co.uk>
- */
+declare(strict_types=1);
 
 namespace DvsaDocumentModuleTest\DvsaReport\Model;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 
 /**
  * Abstract Model Tester
@@ -18,41 +15,27 @@ use PHPUnit\Framework\TestCase;
 abstract class AbstractModelTester extends TestCase
 {
     /**
-     * Holds the model
-     *
-     * @var object
-     */
-    protected $model;
-
-    /**
      * Holds the model class name
      *
      * @var class-string
      */
     protected $modelClass;
 
-    /**
-     * @var array
-     */
-    protected $testMethods = [];
+    protected array $testMethods = [];
 
     /**
      * @return class-string
      */
-    public function getClassToTestName()
+    public function getClassToTestName(): string
     {
         return $this->modelClass;
     }
 
     /**
      * @dataProvider providerGettersAndSetters
-     *
-     * @param string $methodName
-     * @param mixed  $testValue
-     *
-     * @return void
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
-    public function testGettersAndSetters($methodName, $testValue)
+    public function testGettersAndSetters(string $methodName, mixed $testValue): void
     {
         $classToTestName = $this->getClassToTestName();
         $model = new $classToTestName();
@@ -62,12 +45,13 @@ abstract class AbstractModelTester extends TestCase
     }
 
     /**
-     * @return array
+     * @throws \ReflectionException
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
-    public function providerGettersAndSetters()
+    public function providerGettersAndSetters(): array
     {
         $classToTestName = $this->getClassToTestName();
-        $reflection = new \ReflectionClass($classToTestName);
+        $reflection = new ReflectionClass($classToTestName);
 
         $methods = $reflection->getMethods();
 

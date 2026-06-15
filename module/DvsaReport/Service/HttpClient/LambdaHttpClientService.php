@@ -13,6 +13,7 @@ class LambdaHttpClientService extends AbstractHttpClientService implements HttpC
     /**
      * Wrapper method to dispatch the request and return the response
      */
+    #[\Override]
     public function dispatch(): Response
     {
         $this->logger->info('Lambda document generator service call. Url: "' . $this->request->getUriString() . '"');
@@ -26,12 +27,14 @@ class LambdaHttpClientService extends AbstractHttpClientService implements HttpC
     /**
      * @param string $domainUrl
      */
+    #[\Override]
     public function setDomainUrl($domainUrl)
     {
         $this->domainUrl = $domainUrl;
         return $this;
     }
 
+    #[\Override]
     public function getDomainUrl(): string
     {
         return $this->domainUrl;

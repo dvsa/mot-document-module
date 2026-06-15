@@ -2,7 +2,7 @@
 
 namespace DvsaReport\Model;
 
-class ReportNames
+final class ReportNames
 {
     public const VT20 = 'MOT/VT20.pdf';
     public const VT20W = 'MOT/VT20W.pdf';
@@ -19,6 +19,7 @@ class ReportNames
 
     /**
      * @return string[]
+     * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
     public static function getAll(): array
     {

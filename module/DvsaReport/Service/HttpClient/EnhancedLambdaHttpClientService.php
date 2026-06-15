@@ -10,6 +10,7 @@ use Laminas\Log\Logger;
  * User: radoslawl
  * Date: 16/02/2018
  * Time: 12:54
+ * @psalm-suppress ClassMustBeFinal cannot be final or tests would need overhall
  */
 class EnhancedLambdaHttpClientService extends LambdaHttpClientService
 {
@@ -38,6 +39,7 @@ class EnhancedLambdaHttpClientService extends LambdaHttpClientService
         $this->RETRY_DELAY_IN_SECONDS = $retryDelayInSeconds;
     }
 
+    #[\Override]
     public function dispatch(): Response
     {
         $attempt = 0;

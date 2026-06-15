@@ -1,30 +1,18 @@
 <?php
 
-/**
- * Template Entity Test
- *
- * @author Rob Caiger <rob@clocal.co.uk>
- */
+declare(strict_types=1);
 
 namespace DvsaDocumentModuleTest\DvsaDocument\Entity;
 
-use DvsaDocument\Entity\Template;
 use Doctrine\Common\Collections\ArrayCollection;
+use DvsaDocument\Entity\Template;
 
-/**
- * Template Entity Test
- *
- */
-class TemplateTest extends AbstractEntityTester
+/** Template Entity Test */
+final class TemplateTest extends AbstractEntityTester
 {
-    /**
-     * Holds the entity class name
-     *
-     * @var class-string
-     */
     protected $entityClass = Template::class;
-
-    public function providerGettersAndSetters()
+    #[\Override]
+    public function providerGettersAndSetters(): array
     {
         $testMethods = parent::providerGettersAndSetters();
 

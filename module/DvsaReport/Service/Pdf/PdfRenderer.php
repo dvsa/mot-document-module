@@ -6,6 +6,7 @@ use DvsaDocument\Entity\Document;
 
 /**
  * Jasper PDF report generation
+ * @psalm-suppress ClassMustBeFinal cannot be final or tests would need overhall
  */
 class PdfRenderer
 {
