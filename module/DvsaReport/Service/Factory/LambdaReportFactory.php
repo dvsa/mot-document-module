@@ -5,7 +5,7 @@ namespace DvsaReport\Service\Factory;
 use DvsaReport\Service\HttpClient\EnhancedLambdaHttpClientService;
 use DvsaReport\Service\Pdf\PdfRenderer;
 use DvsaReport\Service\Report\LambdaReportService;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;

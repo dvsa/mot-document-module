@@ -2,7 +2,7 @@
 
 namespace DvsaReport\Service\Factory;
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use RuntimeException;
 use DvsaReport\Service\HttpClient\LambdaHttpClientService;
 use Laminas\Http\Client;

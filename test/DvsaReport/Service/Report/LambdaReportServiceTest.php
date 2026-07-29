@@ -9,12 +9,10 @@ use DvsaReport\Service\HttpClient\EnhancedLambdaHttpClientService;
 use DvsaReport\Service\Report\LambdaReportService;
 use DvsaReport\Model\Report;
 use Laminas\Http\Response;
-use Laminas\Http\Headers;
 use DvsaReport\Service\Pdf\PdfRenderer;
 use DvsaReport\Exceptions\ReportNotFoundException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Laminas\Log\Logger;
 
 /** LambdaReportService Test */
 final class LambdaReportServiceTest extends TestCase

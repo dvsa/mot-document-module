@@ -3,7 +3,7 @@
 namespace DvsaReport\Service\HttpClient;
 
 use Laminas\Http\Response;
-use Laminas\Log\Logger;
+use DvsaLogger\Logger\MotLogger;
 
 /**
  * Created by PhpStorm.
@@ -24,7 +24,7 @@ class EnhancedLambdaHttpClientService extends LambdaHttpClientService
     /** @var integer */
     protected $RETRY_DELAY_IN_SECONDS;
 
-    /** @var Logger */
+    /** @var MotLogger */
     protected $logger;
 
     /**

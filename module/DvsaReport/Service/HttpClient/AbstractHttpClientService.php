@@ -8,7 +8,7 @@ namespace DvsaReport\Service\HttpClient;
 
 use Laminas\Http\Client;
 use Laminas\Http\Request;
-use Laminas\Log\Logger;
+use DvsaLogger\Logger\MotLogger;
 use Laminas\Uri\Http;
 use Traversable;
 
@@ -30,7 +30,7 @@ class AbstractHttpClientService
     /**
      * Holds the logger object
      *
-     * @var Logger
+     * @var MotLogger
      */
     protected $logger;
 
@@ -54,10 +54,10 @@ class AbstractHttpClientService
     /**
      * Set the logger
      *
-     * @param Logger $logger
+     * @param MotLogger $logger
      * @return $this
      */
-    public function setLogger(Logger $logger)
+    public function setLogger(MotLogger $logger)
     {
         $this->logger = $logger;
         return $this;
@@ -84,9 +84,9 @@ class AbstractHttpClientService
     }
 
     /**
-     * @return Logger
+     * @return MotLogger
      */
-    public function getLogger(): Logger
+    public function getLogger(): MotLogger
     {
         return $this->logger;
     }

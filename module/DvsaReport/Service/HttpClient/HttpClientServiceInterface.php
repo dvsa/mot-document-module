@@ -5,7 +5,7 @@ namespace DvsaReport\Service\HttpClient;
 use Laminas\Http\Client;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
-use Laminas\Log\Logger;
+use DvsaLogger\Logger\MotLogger;
 use Traversable;
 
 interface HttpClientServiceInterface
@@ -19,7 +19,7 @@ interface HttpClientServiceInterface
      * @return static
      * @psalm-suppress PossiblyUnusedReturnValue BL-22047
      */
-    public function setLogger(Logger $logger);
+    public function setLogger(MotLogger $logger);
 
     /**
      * @return static
@@ -52,7 +52,7 @@ interface HttpClientServiceInterface
 
     public function getClient(): Client;
 
-    public function getLogger(): Logger;
+    public function getLogger(): MotLogger;
 
     public function getRequest(): Request;
 

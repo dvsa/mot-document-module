@@ -10,7 +10,7 @@
 namespace DvsaReport\Service\Factory;
 
 use DvsaReport\Service\Tracing\RequestTracingService;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use RuntimeException;
 use DvsaReport\Service\HttpClient\TraceableHttpClient;
 use Laminas\Http\Request;
@@ -18,7 +18,7 @@ use Laminas\ServiceManager\Factory\FactoryInterface;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use DvsaReport\Service\HttpClient\EnhancedLambdaHttpClientService;
 use Laminas\Http\Headers;
-use Laminas\Log\Logger;
+use DvsaLogger\Logger\MotLogger;
 
 /**
  * @psalm-suppress UnusedClass BL-22047
@@ -115,19 +115,19 @@ final class EnhancedLambdaHttpClientServiceFactory implements FactoryInterface
     /**
      * @param ContainerInterface $serviceLocator
      *
-     * @return Logger
+     * @return MotLogger
      */
     protected function obtainLogger($serviceLocator): object
     {
-        /** @var Logger|null */
+        /** @var MotLogger|null */
         $logger = null;
         try {
             $logger = $serviceLocator->get('Application\Logger');
         } catch (ServiceNotFoundException $e) {
         }
 
-        if (!is_callable(array($logger, 'log'), true) || !($logger instanceof Logger)) {
-            throw new RuntimeException('\Laminas\Log\Logger instance expected in ServiceLocator under Application\Logger');
+        if (!is_callable(array($logger, 'log'), true) || !($logger instanceof MotLogger)) {
+            throw new RuntimeException('\DvsaLogger\Logger\MotLogger instance expected in ServiceLocator under Application\Logger');
         }
 
         return $logger;
