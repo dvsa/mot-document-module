@@ -21,6 +21,7 @@ final class EnhancedLambdaHttpClientServiceFactoryTest extends TestCase
 
     private MotLogger&MockObject $logger;
 
+    /** @var array<string, array<string, mixed>> */
     private array $validConfig;
 
     #[\Override]
@@ -63,7 +64,9 @@ final class EnhancedLambdaHttpClientServiceFactoryTest extends TestCase
     public function testInvokeWithClientOptionsCallsSetOptions(): void
     {
         $configWithOptions = $this->validConfig;
-        $configWithOptions['certificate_generation']['client_options'] = ['timeout' => 30];
+        $certGenConfig = $configWithOptions['certificate_generation'];
+        $certGenConfig['client_options'] = ['timeout' => 30];
+        $configWithOptions['certificate_generation'] = $certGenConfig;
 
         $this->container->method('get')
             ->willReturnMap([
@@ -93,7 +96,9 @@ final class EnhancedLambdaHttpClientServiceFactoryTest extends TestCase
     public function testInvokeThrowsExceptionWhenRequiredConfigKeyMissing(string $missingKey): void
     {
         $config = $this->validConfig;
-        unset($config['certificate_generation'][$missingKey]);
+        $certGenConfig = $config['certificate_generation'];
+        unset($certGenConfig[$missingKey]);
+        $config['certificate_generation'] = $certGenConfig;
 
         $this->container->method('get')
             ->willReturnMap([
