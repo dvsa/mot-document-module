@@ -87,36 +87,20 @@ final class EnhancedLambdaHttpClientServiceFactory implements FactoryInterface
         return $service;
     }
 
-    /**
-     * @param array $config
-     *
-     * @return void
-     */
-    protected function verifyConfig($config)
+    protected function verifyConfig(array $config): void
     {
         foreach (self::REQUIRED_CONFIG_KEYS as $configKey) {
             $this->verifyConfigKey($config, $configKey);
         }
     }
 
-    /**
-     * @param array $config
-     * @param string $configKey
-     *
-     * @return void
-     */
-    protected function verifyConfigKey($config, $configKey)
+    protected function verifyConfigKey(array $config, string $configKey): void
     {
         if (!isset($config[$configKey])) {
             throw new RuntimeException('Missing required' . $configKey . 'configuration');
         }
     }
 
-    /**
-     * @param ContainerInterface $serviceLocator
-     *
-     * @return MotLogger
-     */
     protected function obtainLogger(ContainerInterface $serviceLocator): MotLogger
     {
         /** @var MotLogger|null */

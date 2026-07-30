@@ -21,17 +21,12 @@ final class RequestTracingService
 
     public const TRACING_HEADERS = [self::TRACE_ID_HEADER, self::PARENT_ID_HEADER, self::SPAN_ID_HEADER];
 
-    /**
-     * @var MotLogger
-     */
-    private $logger;
+    private MotLogger $logger;
 
     /**
      * RequestTracingService constructor.
-     *
-     * @param MotLogger $logger
      */
-    public function __construct($logger)
+    public function __construct(MotLogger $logger)
     {
         $this->logger = $logger;
     }
@@ -41,10 +36,8 @@ final class RequestTracingService
      * The method adds all headers necessary for tracing. At this point (27.03.18) the API is the first stage of tracing
      * it must generate traceId on its own. In the futuer, if any external client calls API the traceId will not be
      * regenerated, but used the same throughout entire request chain.
-     *
-     * @return Request
      */
-    public function addAbsentTracingHeaders(Request $request)
+    public function addAbsentTracingHeaders(Request $request): Request
     {
         foreach (self::TRACING_HEADERS as $header) {
             if (!$this->headerExists($request, $header)) {
@@ -55,10 +48,7 @@ final class RequestTracingService
         return $request;
     }
 
-    /**
-     * @return Request
-     */
-    public function addHeader(Request $request, string $headerName, string $headerValue)
+    public function addHeader(Request $request, string $headerName, string $headerValue): Request
     {
         /** @var Headers $currentHeaders */
         $currentHeaders = $request->getHeaders();
@@ -69,18 +59,12 @@ final class RequestTracingService
         return $request;
     }
 
-    /**
-     * @return bool
-     */
-    public function headerExists(Request $request, string $headerName)
+    public function headerExists(Request $request, string $headerName): bool
     {
         return !($request->getHeader($headerName) === false);
     }
 
-    /**
-     * @return Request
-     */
-    public function updateTracingHeader(Request $request, string $headerName, string $value)
+    public function updateTracingHeader(Request $request, string $headerName, string $value): Request
     {
         /** @var Headers */
         $headers = $request->getHeaders();

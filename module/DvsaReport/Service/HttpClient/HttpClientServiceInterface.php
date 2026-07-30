@@ -10,45 +10,34 @@ use Traversable;
 
 interface HttpClientServiceInterface
 {
-    /**
-     * @return static
-     */
-    public function setClient(Client $client);
+    public function setClient(Client $client): static;
 
     /**
-     * @return static
      * @psalm-suppress PossiblyUnusedReturnValue BL-22047
      */
-    public function setLogger(MotLogger $logger);
+    public function setLogger(MotLogger $logger): static;
+
+    public function setRequest(Request $request): static;
 
     /**
-     * @return static
-     */
-    public function setRequest(Request $request);
-
-    /**
-     * @return static
      * @psalm-suppress PossiblyUnusedReturnValue BL-22047
      */
-    public function setUri(string|\Laminas\Uri\Http $uri);
+    public function setUri(string|\Laminas\Uri\Http $uri): static;
 
     /**
-     * @return static
      * @psalm-suppress PossiblyUnusedReturnValue BL-22047
      */
-    public function setContent(mixed $content);
+    public function setContent(mixed $content): static;
 
     /**
-     * @return static
      * @psalm-suppress PossiblyUnusedReturnValue BL-22047
      */
-    public function setOptions(array|Traversable $options);
+    public function setOptions(array|Traversable $options): static;
 
     /**
-     * @return static
      * @psalm-suppress PossiblyUnusedReturnValue BL-22047
      */
-    public function setDomainUrl(string $domainUrl);
+    public function setDomainUrl(string $domainUrl): static;
 
     public function getClient(): Client;
 

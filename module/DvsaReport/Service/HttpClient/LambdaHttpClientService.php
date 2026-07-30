@@ -8,7 +8,7 @@ use Laminas\Http\Client\Adapter\AdapterInterface;
 /**
  * Http Client service
  */
-class LambdaHttpClientService extends AbstractHttpClientService implements HttpClientServiceInterface
+class LambdaHttpClientService extends AbstractHttpClientService
 {
     /**
      * Wrapper method to dispatch the request and return the response
@@ -24,11 +24,8 @@ class LambdaHttpClientService extends AbstractHttpClientService implements HttpC
         return $response;
     }
 
-    /**
-     * @param string $domainUrl
-     */
     #[\Override]
-    public function setDomainUrl($domainUrl)
+    public function setDomainUrl(string $domainUrl): static
     {
         $this->domainUrl = $domainUrl;
         return $this;
@@ -42,10 +39,8 @@ class LambdaHttpClientService extends AbstractHttpClientService implements HttpC
 
     /**
      * Wrapper method to set any client adapter
-     *
-     * @param AdapterInterface|string $adapter
      */
-    public function setAdapter($adapter): static
+    public function setAdapter(AdapterInterface|string $adapter): static
     {
         $this->client->setAdapter($adapter);
         return $this;
