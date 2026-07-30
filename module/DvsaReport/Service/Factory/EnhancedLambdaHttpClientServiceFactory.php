@@ -117,7 +117,7 @@ final class EnhancedLambdaHttpClientServiceFactory implements FactoryInterface
      *
      * @return MotLogger
      */
-    protected function obtainLogger($serviceLocator): object
+    protected function obtainLogger(ContainerInterface $serviceLocator): MotLogger
     {
         /** @var MotLogger|null */
         $logger = null;
