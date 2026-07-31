@@ -6,6 +6,7 @@ use Laminas\Http\Client;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
 use DvsaLogger\Logger\MotLogger;
+use Laminas\Uri\Http;
 use Traversable;
 
 interface HttpClientServiceInterface
@@ -22,7 +23,7 @@ interface HttpClientServiceInterface
     /**
      * @psalm-suppress PossiblyUnusedReturnValue BL-22047
      */
-    public function setUri(string|\Laminas\Uri\Http $uri): static;
+    public function setUri(string|Http $uri): static;
 
     /**
      * @psalm-suppress PossiblyUnusedReturnValue BL-22047
