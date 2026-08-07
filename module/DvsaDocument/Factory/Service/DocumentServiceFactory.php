@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace DvsaDocument\Factory\Service;
 
 use DvsaDocument\Service\Document\DocumentService;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerExceptionInterface;

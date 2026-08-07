@@ -8,7 +8,7 @@ use DvsaReport\Service\HttpClient\LambdaHttpClientService;
 use Laminas\Http\Client;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
-use Laminas\Log\Logger;
+use DvsaLogger\Logger\MotLogger;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -24,14 +24,14 @@ final class LambdaHttpClientServiceTest extends TestCase
 
     protected MockObject&Request $request;
 
-    protected MockObject&Logger $logger;
+    protected MockObject&MotLogger $logger;
 
     #[\Override]
     public function setUp(): void
     {
         $this->client = $this->getMockBuilder(Client::class)->disableOriginalConstructor()->onlyMethods(['setAuth', 'setOptions', 'dispatch'])->getMock();
         $this->request = $this->getMockBuilder(Request::class)->disableOriginalConstructor()->onlyMethods(['setUri', 'getUriString'])->getMock();
-        $this->logger = $this->getMockBuilder(Logger::class)->disableOriginalConstructor()->onlyMethods(['info'])->getMock();
+        $this->logger = $this->getMockBuilder(MotLogger::class)->disableOriginalConstructor()->onlyMethods(['info'])->getMock();
         $this->service = new LambdaHttpClientService();
 
         $this->service->setClient($this->client);

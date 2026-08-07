@@ -8,92 +8,61 @@ namespace DvsaReport\Service\HttpClient;
 
 use Laminas\Http\Client;
 use Laminas\Http\Request;
-use Laminas\Log\Logger;
+use Laminas\Http\Response;
+use DvsaLogger\Logger\MotLogger;
 use Laminas\Uri\Http;
 use Traversable;
 
 /**
  * Http Client service
  */
-class AbstractHttpClientService
+abstract class AbstractHttpClientService implements HttpClientServiceInterface
 {
-    /**
-     * @var Client
-     */
-    protected $client;
+    protected Client $client;
 
-    /**
-     * @var Request
-     */
-    protected $request;
+    protected Request $request;
 
     /**
      * Holds the logger object
-     *
-     * @var Logger
      */
-    protected $logger;
+    protected MotLogger $logger;
 
-    /**
-     * @var string
-     */
-    protected $domainUrl;
+    protected string $domainUrl;
 
-    /**
-     * Set the client object
-     *
-     * @param Client $client
-     * @return $this
-     */
-    public function setClient(Client $client)
+    #[\Override]
+    public function setClient(Client $client): static
     {
         $this->client = $client;
         return $this;
     }
 
-    /**
-     * Set the logger
-     *
-     * @param Logger $logger
-     * @return $this
-     */
-    public function setLogger(Logger $logger)
+    #[\Override]
+    public function setLogger(MotLogger $logger): static
     {
         $this->logger = $logger;
         return $this;
     }
 
-    /**
-     * Set the request object
-     *
-     * @param Request $request
-     * @return $this
-     */
-    public function setRequest(Request $request)
+    #[\Override]
+    public function setRequest(Request $request): static
     {
         $this->request = $request;
         return $this;
     }
 
-    /**
-     * @return Client
-     */
+    #[\Override]
     public function getClient(): Client
     {
         return $this->client;
     }
 
-    /**
-     * @return Logger
-     */
-    public function getLogger(): Logger
+    #[\Override]
+    public function getLogger(): MotLogger
     {
         return $this->logger;
     }
 
-    /**
-     * @return Request
-     */
+    #[\Override]
     public function getRequest(): Request
     {
         return $this->request;
@@ -102,26 +71,22 @@ class AbstractHttpClientService
     /**
      * Wrapper method to set the request URI
      *
-     * @param string|Http $uri
-     *
-     * @return $this
      * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
-    public function setUri($uri)
+    #[\Override]
+    public function setUri(string|Http $uri): static
     {
         $this->request->setUri($uri);
         return $this;
     }
 
     /**
-     * Wrapper method to set the request URI
+     * Wrapper method to set the request content
      *
-     * @param mixed $content
-     *
-     * @return $this
      * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
-    public function setContent($content)
+    #[\Override]
+    public function setContent(mixed $content): static
     {
         $this->request->setContent($content);
         return $this;
@@ -130,13 +95,24 @@ class AbstractHttpClientService
     /**
      * Wrapper method to set any client options
      *
-     * @param array|Traversable $options
-     * @return $this
      * @psalm-suppress PossiblyUnusedMethod BL-22047
      */
-    public function setOptions($options)
+    #[\Override]
+    public function setOptions(array|Traversable $options): static
     {
         $this->client->setOptions($options);
         return $this;
     }
+
+    #[\Override]
+    abstract public function dispatch(): Response;
+
+    /**
+     * @psalm-suppress PossiblyUnusedReturnValue BL-21801
+     */
+    #[\Override]
+    abstract public function setDomainUrl(string $domainUrl): static;
+
+    #[\Override]
+    abstract public function getDomainUrl(): string;
 }

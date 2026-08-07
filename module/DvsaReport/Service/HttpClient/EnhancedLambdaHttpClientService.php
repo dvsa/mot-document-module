@@ -3,7 +3,7 @@
 namespace DvsaReport\Service\HttpClient;
 
 use Laminas\Http\Response;
-use Laminas\Log\Logger;
+use DvsaLogger\Logger\MotLogger;
 
 /**
  * Created by PhpStorm.
@@ -19,21 +19,16 @@ class EnhancedLambdaHttpClientService extends LambdaHttpClientService
         Response::STATUS_CODE_503,
         Response::STATUS_CODE_504);
 
-    /** @var integer */
-    protected $MAX_ATTEMPT_COUNT;
-    /** @var integer */
-    protected $RETRY_DELAY_IN_SECONDS;
+    protected int $MAX_ATTEMPT_COUNT;
 
-    /** @var Logger */
-    protected $logger;
+    protected int $RETRY_DELAY_IN_SECONDS;
+
+    protected MotLogger $logger;
 
     /**
      * LambdaHttpClientWrapper constructor.
-     *
-     * @param int $maxAttemptCount
-     * @param int $retryDelayInSeconds
      */
-    public function __construct($maxAttemptCount, $retryDelayInSeconds)
+    public function __construct(int $maxAttemptCount, int $retryDelayInSeconds)
     {
         $this->MAX_ATTEMPT_COUNT = $maxAttemptCount;
         $this->RETRY_DELAY_IN_SECONDS = $retryDelayInSeconds;
@@ -74,10 +69,7 @@ class EnhancedLambdaHttpClientService extends LambdaHttpClientService
         throw new \Exception(sprintf("Getting report failed after 3 attempts:\n %s", $response));
     }
 
-    /**
-     * @param int $attempt
-     */
-    private function delayNextRequest($attempt): void
+    private function delayNextRequest(int $attempt): void
     {
         $secondsToSleep = $attempt * $this->RETRY_DELAY_IN_SECONDS;
         set_time_limit(15);

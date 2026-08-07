@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use Laminas\Http\Client;
 use Laminas\Http\Request;
-use Laminas\Log\Logger;
+use DvsaLogger\Logger\MotLogger;
 
 final class EnhancedLambdaHttpClientServiceTest extends TestCase
 {
@@ -29,7 +29,7 @@ final class EnhancedLambdaHttpClientServiceTest extends TestCase
 
     protected MockObject&Response $response;
 
-    protected MockObject&Logger $logger;
+    protected MockObject&MotLogger $logger;
 
     protected int $maxAttemptCount;
 
@@ -39,7 +39,7 @@ final class EnhancedLambdaHttpClientServiceTest extends TestCase
         $this->client = $this->getMockBuilder(Client::class)->disableOriginalConstructor()->onlyMethods(['setAuth', 'setOptions', 'dispatch'])->getMock();
         $this->request = $this->getMockBuilder(Request::class)->disableOriginalConstructor()->onlyMethods(['setUri', 'getUriString'])->getMock();
         $this->response = $this->getMockBuilder(Response::class)->disableOriginalConstructor()->onlyMethods(['getStatusCode', 'getBody', '__toString'])->getMock();
-        $this->logger = $this->getMockBuilder(Logger::class)->disableOriginalConstructor()->onlyMethods(['info', 'warn'])->getMock();
+        $this->logger = $this->getMockBuilder(MotLogger::class)->disableOriginalConstructor()->onlyMethods(['info', 'warn'])->getMock();
 
         $this->maxAttemptCount = 3;
         $this->wrapper = new EnhancedLambdaHttpClientService($this->maxAttemptCount, 0);

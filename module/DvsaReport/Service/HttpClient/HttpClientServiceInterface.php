@@ -5,54 +5,44 @@ namespace DvsaReport\Service\HttpClient;
 use Laminas\Http\Client;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
-use Laminas\Log\Logger;
+use DvsaLogger\Logger\MotLogger;
+use Laminas\Uri\Http;
 use Traversable;
 
 interface HttpClientServiceInterface
 {
-    /**
-     * @return static
-     */
-    public function setClient(Client $client);
+    public function setClient(Client $client): static;
 
     /**
-     * @return static
      * @psalm-suppress PossiblyUnusedReturnValue BL-22047
      */
-    public function setLogger(Logger $logger);
+    public function setLogger(MotLogger $logger): static;
+
+    public function setRequest(Request $request): static;
 
     /**
-     * @return static
-     */
-    public function setRequest(Request $request);
-
-    /**
-     * @return static
      * @psalm-suppress PossiblyUnusedReturnValue BL-22047
      */
-    public function setUri(string|\Laminas\Uri\Http $uri);
+    public function setUri(string|Http $uri): static;
 
     /**
-     * @return static
      * @psalm-suppress PossiblyUnusedReturnValue BL-22047
      */
-    public function setContent(mixed $content);
+    public function setContent(mixed $content): static;
 
     /**
-     * @return static
      * @psalm-suppress PossiblyUnusedReturnValue BL-22047
      */
-    public function setOptions(array|Traversable $options);
+    public function setOptions(array|Traversable $options): static;
 
     /**
-     * @return static
      * @psalm-suppress PossiblyUnusedReturnValue BL-22047
      */
-    public function setDomainUrl(string $domainUrl);
+    public function setDomainUrl(string $domainUrl): static;
 
     public function getClient(): Client;
 
-    public function getLogger(): Logger;
+    public function getLogger(): MotLogger;
 
     public function getRequest(): Request;
 

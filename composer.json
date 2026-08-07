@@ -10,7 +10,7 @@
         "laminas/laminas-dependency-plugin": "^2.6.0",
         "doctrine/doctrine-module": "^6.3.0",
         "doctrine/doctrine-orm-module": "^6.3.0",
-        "laminas/laminas-log": "^2.17"
+        "dvsa/mot-logger": "^3.3"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5.9",
