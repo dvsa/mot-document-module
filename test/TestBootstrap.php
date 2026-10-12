@@ -22,17 +22,8 @@ final class TestBootstrap
     public static function init(): void
     {
         // Grab the application config
-        $config = array(
-            'modules' => array(
-                'DvsaDocument',
-                'DvsaReport'
-            ),
-            'module_listener_options' => array(
-                'module_paths' => array(
-                    __DIR__ . '/../module'
-                )
-            )
-        );
+        /** @var array<string, mixed> */
+        $config = include __DIR__ . '/../config/application.config.php';
 
         $serviceManagerConfig = (new ServiceManagerConfig())->toArray();
         /** @phpstan-ignore-next-line */
