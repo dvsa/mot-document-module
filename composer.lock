@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ab7b0dbea63dfbc8d813569443a3113e",
+    "content-hash": "03cdda901485f2b27f82b2c321c22bd9",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -1442,16 +1442,16 @@
         },
         {
             "name": "dvsa/mot-logger",
-            "version": "v3.3.0",
+            "version": "v3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dvsa/mot-logger.git",
-                "reference": "c028a81ac6722c5e78871655ccadb160b375c17a"
+                "reference": "e19a4b5f52c00472ffe6c9c54bf6e483705b7b74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dvsa/mot-logger/zipball/c028a81ac6722c5e78871655ccadb160b375c17a",
-                "reference": "c028a81ac6722c5e78871655ccadb160b375c17a",
+                "url": "https://api.github.com/repos/dvsa/mot-logger/zipball/e19a4b5f52c00472ffe6c9c54bf6e483705b7b74",
+                "reference": "e19a4b5f52c00472ffe6c9c54bf6e483705b7b74",
                 "shasum": ""
             },
             "require": {
@@ -1467,10 +1467,10 @@
             "require-dev": {
                 "captainhook/captainhook": "^5.16",
                 "captainhook/plugin-composer": "^5.3",
-                "dvsa/coding-standards": "^2.0",
+                "dvsa/coding-standards": "^2.1",
                 "phpstan/phpstan": "^1.11",
                 "phpunit/phpunit": "^9.6",
-                "squizlabs/php_codesniffer": "^3.10",
+                "squizlabs/php_codesniffer": "^4.0.2.0",
                 "vimeo/psalm": "^5.24"
             },
             "type": "library",
@@ -1495,9 +1495,9 @@
             ],
             "support": {
                 "issues": "https://github.com/dvsa/mot-logger/issues",
-                "source": "https://github.com/dvsa/mot-logger/tree/v3.3.0"
+                "source": "https://github.com/dvsa/mot-logger/tree/v3.3.1"
             },
-            "time": "2026-04-14T10:03:49+00:00"
+            "time": "2026-10-09T10:04:49+00:00"
         },
         {
             "name": "laminas/laminas-authentication",
