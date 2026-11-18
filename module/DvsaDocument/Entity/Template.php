@@ -20,8 +20,9 @@ use DvsaDocument\EntityTrait\CommonIdentityTrait;
  * @ORM\Table(name="jasper_template")
  * @ORM\Entity(readOnly=true)
  * @ORM\Cache(usage="READ_ONLY", region="staticdata")
+ * @psalm-suppress ClassMustBeFinal Intentionally extensible in downstream repos.
  */
-final class Template extends Entity
+class Template extends Entity
 {
     use CommonIdentityTrait;
 
